@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { discoverCapabilities, requireCapabilities } from "../mcp/capability-discovery.js";
@@ -11,6 +11,7 @@ import { TraceWriter } from "../tracing/trace-writer.js";
 import { buildVisualPlan, renderDiagram } from "./visual.js";
 import { applyDeterministicFallback, runImNotAiChangeGate, selectImNotAiRoute } from "./humanize.js";
 import { buildAuditReport } from "./audit.js";
+import { defaultQualityContract } from "./quality.js";
 
 const PROJECT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 
@@ -63,10 +64,6 @@ function integrateDiagram(markdown, visualPlan) {
   return `${markdown.trim()}\n\n## 구조 비교 그림\n\n${figures}\n`;
 }
 
-function writeJson(path, value) {
-  writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`, { encoding: "utf8", mode: 0o600 });
-}
-
 export async function runBlogPipeline({ workspace, fixturePath, request, date = new Date() }) {
   const fixture = JSON.parse(readFileSync(fixturePath, "utf8"));
   const runId = mintRunId({ date, slug: "web-parsing-on-device" });
@@ -93,6 +90,8 @@ export async function runBlogPipeline({ workspace, fixturePath, request, date = 
     diagrams: [],
     evidence_count: 0,
     audit_result: null,
+    quality_profile: null,
+    quality_result: null,
     git_branch: context.branch,
     git_commit: null,
     status: "REQUESTED",
@@ -135,9 +134,12 @@ export async function runBlogPipeline({ workspace, fixturePath, request, date = 
 
   const document = chooseDocumentType(request, pack);
   const outline = buildOutline(request, pack);
+  const qualityContract = defaultQualityContract({ documentType: document.type, profile: "fixture-and-test-only" });
   context.write("outline.md", renderOutlineMarkdown(outline));
+  context.write("outline.json", `${JSON.stringify(outline, null, 2)}\n`);
+  context.write("quality-contract.json", `${JSON.stringify(qualityContract, null, 2)}\n`);
   trace.append("outline_created", { document_type: document.type, section_count: outline.sections.length });
-  transitionManifest(manifestPath, "OUTLINED", { document_type: document.type, document_type_reason: document.reason });
+  transitionManifest(manifestPath, "OUTLINED", { document_type: document.type, document_type_reason: document.reason, quality_profile: qualityContract.profile });
   let draft = renderTechnicalDraft({ request, pack, outline });
   context.write("draft.md", draft);
   trace.append("draft_created", { evidence_comments: (draft.match(/<!-- evidence:/g) ?? []).length });
@@ -145,9 +147,9 @@ export async function runBlogPipeline({ workspace, fixturePath, request, date = 
   commit = commitRunPaths(context, [context.runRelative], "blog(run): add outline and technical draft");
   trace.append("git_commit", { commit, stage: "draft" });
 
-  const visualPlan = buildVisualPlan(pack);
+  const visualPlan = buildVisualPlan(pack, outline);
   context.write("visual-plan.yml", `${JSON.stringify(visualPlan, null, 2)}\n`);
-  trace.append("visual_planned", { count: visualPlan.visuals.length, reason: visualPlan.decision ?? null });
+  trace.append("visual_planned", { count: visualPlan.visuals.length, decisions: visualPlan.decisions });
   transitionManifest(manifestPath, "VISUAL_PLANNED", { diagrams: visualPlan.visuals.map(item => item.diagram_id) });
   const renderedSvgs = {};
   for (const diagram of visualPlan.visuals) {
@@ -185,15 +187,15 @@ export async function runBlogPipeline({ workspace, fixturePath, request, date = 
 
   trace.append("audit_started", { text: true, diagrams: visualPlan.visuals.length });
   const candidate = humanized.replace("status: technical-draft", "status: ready-for-review");
-  const audit = buildAuditReport({ technicalDraft: draft, finalMarkdown: candidate, evidencePack: pack, visualPlan, renderedSvgs, humanization });
+  const audit = buildAuditReport({ technicalDraft: draft, finalMarkdown: candidate, evidencePack: pack, outline, visualPlan, qualityContract, renderedSvgs, humanization });
   context.write("audit.json", `${JSON.stringify(audit, null, 2)}\n`);
   if (audit.result !== "PASS") {
-    trace.append("audit_failed", { text: audit.text, diagrams: audit.diagrams, humanization: audit.humanization });
-    transitionManifest(manifestPath, "AUDITED", { audit_result: "FAIL" });
+    trace.append("audit_failed", { text: audit.text, diagrams: audit.diagrams, quality: audit.quality, humanization: audit.humanization });
+    transitionManifest(manifestPath, "AUDITED", { audit_result: "FAIL", quality_result: audit.quality.result });
     throw new Error("Fidelity audit failed; final.md was not created");
   }
-  trace.append("audit_passed", { unsupported_claims: 0, unsupported_nodes: 0, unsupported_edges: 0 });
-  transitionManifest(manifestPath, "AUDITED", { audit_result: "PASS", git_commit: commit });
+  trace.append("audit_passed", { unsupported_claims: 0, unsupported_nodes: 0, unsupported_edges: 0, quality_blockers: 0, quality_metrics: audit.quality.metrics });
+  transitionManifest(manifestPath, "AUDITED", { audit_result: "PASS", quality_result: audit.quality.result, git_commit: commit });
   context.write("final.md", candidate);
   transitionManifest(manifestPath, "READY_FOR_REVIEW");
   trace.append("run_completed", { status: "READY_FOR_REVIEW", auto_publish: false, auto_merge: false });

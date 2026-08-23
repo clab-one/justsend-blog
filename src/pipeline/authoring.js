@@ -45,6 +45,7 @@ export function buildOutline(request, pack) {
       purpose: "독자가 변경의 가치와 결정 이유를 먼저 이해하게 한다.",
       evidence_ids: idsFor(pack, ["decision", "reason"]),
       visual_candidate: false,
+      visual_reason: "결정 이유는 짧은 산문이 더 정확하다.",
     },
     {
       section_id: "S02",
@@ -52,6 +53,7 @@ export function buildOutline(request, pack) {
       purpose: "변경 전 데이터 흐름과 제약을 설명한다.",
       evidence_ids: idsFor(pack, ["reason", "failure", "tradeoff"]),
       visual_candidate: true,
+      visual_reason: "변경 전 서버 데이터 흐름은 architecture diagram이 더 빠르고 정확하다.",
     },
     {
       section_id: "S03",
@@ -59,6 +61,7 @@ export function buildOutline(request, pack) {
       purpose: "새 실행 위치와 데이터 흐름을 설명한다.",
       evidence_ids: idsFor(pack, ["decision", "fact", "result"]),
       visual_candidate: true,
+      visual_reason: "변경 후 WebKit 실행 위치와 데이터 흐름을 before와 같은 그림에서 비교해야 한다.",
     },
     {
       section_id: "S04",
@@ -66,6 +69,7 @@ export function buildOutline(request, pack) {
       purpose: "상충 기록과 확인하지 못한 효과를 숨기지 않는다.",
       evidence_ids: idsFor(pack, ["timeline-event", "open-question", "tradeoff"]),
       visual_candidate: false,
+      visual_reason: "확인 범위와 질문은 목록이 더 정확하다.",
     },
   ].filter(section => section.evidence_ids.length > 0 || section.section_id === "S04");
   return { audience: request.audience, goal: request.goal, sections };
@@ -74,7 +78,7 @@ export function buildOutline(request, pack) {
 export function renderOutlineMarkdown(outline) {
   const lines = ["# 글 개요", "", `- 독자: ${outline.audience}`, `- 목표: ${outline.goal}`, ""];
   for (const section of outline.sections) {
-    lines.push(`## ${section.section_id}. ${section.title}`, "", `- purpose: ${section.purpose}`, `- evidence_ids: ${section.evidence_ids.join(", ") || "없음"}`, `- visual_candidate: ${section.visual_candidate}`, "");
+    lines.push(`## ${section.section_id}. ${section.title}`, "", `- purpose: ${section.purpose}`, `- evidence_ids: ${section.evidence_ids.join(", ") || "없음"}`, `- visual_candidate: ${section.visual_candidate}`, `- visual_reason: ${section.visual_reason}`, "");
   }
   return `${lines.join("\n")}\n`;
 }

@@ -18,6 +18,14 @@ status: REQUESTED
 - 주제: {{topic}}
 - query terms: {{query_terms}}
 
+## 품질 기준
+
+- 문서 유형: {{document_type}}
+- 같은 언어 corpus 중앙값: {{corpus_median_characters}}
+- 최소 corpus depth ratio: 0.60
+- source artifact·실패·검증 coverage: {{coverage_requirements}}
+- visual candidate: {{visual_candidates}}
+
 ## 가정
 
 {{assumptions}}

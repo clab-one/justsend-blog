@@ -8,7 +8,7 @@ omp plugin doctor
 node scripts/validate-package.js
 ```
 
-`justsend-blog@0.1.0`이 enabled인지, `skills/justsend-blog/SKILL.md`가 linked root 바로 아래 one-level layout인지 확인한다. 기존 session은 plugin cache를 유지할 수 있으므로 새 session을 연다.
+`justsend-blog@0.2.0`이 enabled인지, `skills/justsend-blog/SKILL.md`가 linked root 바로 아래 one-level layout인지 확인한다. 기존 session은 plugin cache를 유지할 수 있으므로 새 session을 연다.
 
 ## JustSend MCP capability가 누락된다
 
@@ -45,6 +45,14 @@ metrics 오류를 숨기지 않는다. route는 standard로 안전하게 낮추�
 ## 변경률이 50% 이상이다
 
 윤문본을 채택하지 않는다. 원문과 보호 token diff를 확인하고 변경 범위를 줄여 다시 실행한다. audit result를 수동 PASS로 바꾸지 않는다.
+
+## quality audit가 작업 카드 요약을 차단한다
+
+정상 동작이다. `audit.json.quality.blockers`에서 `content_depth`, `corpus_depth_ratio`, `source_artifacts`, `code_or_log_evidence`, `direct_evidence_depth`, `evidence_coverage`, `unused_high_value_evidence`를 확인한다. 글자 수만 늘리지 말고 원 기록의 source·로그·실패·철회·검증·제약을 보강한다. threshold 예외는 사용자가 이유를 보고 승인한 `quality-contract.json` exemption만 허용한다.
+
+## 필요한 diagram이 없다고 실패한다
+
+`outline.json`의 section 의미와 `visual_candidate`를 다시 확인한다. candidate를 false로 낮추거나 `omit`으로 남기지 말고 유형에 맞는 diagram을 만든다. 첨부 이미지가 없는 것은 no-diagram 사유가 아니다.
 
 ## diagram audit가 실패한다
 

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://justsend.blog/schemas/quality-contract.schema.json",
+  "title": "JustSend Blog Content Quality Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "profile", "document_type", "corpus", "thresholds", "exemptions"],
+  "properties": {
+    "version": {"const": 1},
+    "profile": {"enum": ["production", "fixture-and-test-only"]},
+    "document_type": {"type": "string", "minLength": 1},
+    "corpus": {
+      "type": ["object", "null"],
+      "required": ["median_characters"],
+      "properties": {"median_characters": {"type": "integer", "minimum": 1}},
+      "additionalProperties": false
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min_characters", "min_h2_sections", "min_h3_sections", "min_artifact_blocks", "min_code_blocks", "min_direct_evidence", "min_evidence_coverage", "min_corpus_depth_ratio", "max_repeated_paragraph_ratio"],
+      "properties": {
+        "min_characters": {"type": "integer", "minimum": 0},
+        "min_h2_sections": {"type": "integer", "minimum": 0},
+        "min_h3_sections": {"type": "integer", "minimum": 0},
+        "min_artifact_blocks": {"type": "integer", "minimum": 0},
+        "min_code_blocks": {"type": "integer", "minimum": 0},
+        "min_direct_evidence": {"type": "integer", "minimum": 0},
+        "min_evidence_coverage": {"type": "number", "minimum": 0, "maximum": 1},
+        "min_corpus_depth_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "max_repeated_paragraph_ratio": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "exemptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "reason", "approved_by"],
+        "properties": {
+          "code": {"type": "string", "minLength": 1},
+          "reason": {"type": "string", "minLength": 20},
+          "approved_by": {"const": "user"}
+        }
+      }
+    }
+  }
+}

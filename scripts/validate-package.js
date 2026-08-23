@@ -6,7 +6,7 @@ const root = resolve(process.argv[2] ?? ".");
 const required = [
   "package.json", "plugin.json", ".omp-plugin/plugin.json", "skills/justsend-blog/SKILL.md",
   "docs/architecture/SOLOMD_TRACEABILITY.md", "docs/adr/0001-solomd-authoring-core.md",
-  "schemas/evidence-pack.schema.json", "schemas/visual-plan.schema.json", "schemas/audit-report.schema.json",
+  "schemas/evidence-pack.schema.json", "schemas/visual-plan.schema.json", "schemas/quality-contract.schema.json", "schemas/audit-report.schema.json",
   "policies/writing-policy.yml", "THIRD_PARTY_NOTICES.md", "upstreams.lock.yml",
   "skills/justsend-blog/references/workflows/research.md",
   "skills/justsend-blog/references/workflows/evidence.md",
@@ -18,6 +18,11 @@ const required = [
   "skills/justsend-blog/vendor/im-not-ai/scripts/prepare_monolith_input.py"
 ];
 const errors = required.filter(path => !existsSync(join(root, path))).map(path => `missing: ${path}`);
+for (const name of ["evidence-pack", "visual-plan", "quality-contract", "audit-report", "run-manifest"]) {
+  const path = join(root, "schemas", `${name}.schema.json`);
+  try { JSON.parse(readFileSync(path, "utf8")); }
+  catch (error) { errors.push(`invalid schema JSON: ${name}: ${error.message}`); }
+}
 const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
 const plugin = JSON.parse(readFileSync(join(root, "plugin.json"), "utf8"));
 const ompPlugin = JSON.parse(readFileSync(join(root, ".omp-plugin/plugin.json"), "utf8"));

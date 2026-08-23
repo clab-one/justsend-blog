@@ -19,6 +19,21 @@ test("only justsend-blog is exposed while workflows and vendors stay internal", 
   }
   assert.ok(existsSync(resolve("skills/justsend-blog/vendor/diagram-design/SKILL.md")));
   assert.ok(existsSync(resolve("skills/justsend-blog/vendor/im-not-ai/scripts/prepare_monolith_input.py")));
+  assert.ok(existsSync(resolve("schemas/quality-contract.schema.json")));
+  const master = read("skills/justsend-blog/SKILL.md");
+  for (const token of ["quality-contract.json", "corpus", "visual_candidate", "첨부 부재"]) assert.ok(master.includes(token), token);
+});
+
+test("quality and visual schemas require the new publication gates", () => {
+  const visual = JSON.parse(read("schemas/visual-plan.schema.json"));
+  const audit = JSON.parse(read("schemas/audit-report.schema.json"));
+  const quality = JSON.parse(read("schemas/quality-contract.schema.json"));
+  assert.deepEqual(visual.required, ["visuals", "decisions"]);
+  assert.ok(visual.properties.decisions);
+  assert.ok(visual.properties.visuals.items.required.includes("covers_section_ids"));
+  assert.ok(audit.required.includes("quality"));
+  assert.ok(audit.properties.diagrams.required.includes("missing_required_visuals"));
+  assert.equal(quality.properties.exemptions.items.properties.approved_by.const, "user");
 });
 
 test("SoloMD traceability names real upstream implementation and adopted contracts", () => {

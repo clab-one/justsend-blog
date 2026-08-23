@@ -13,6 +13,8 @@ JustSend 작업 기록을 Evidence Pack으로 정규화한 뒤 독자 중심 한
 - JustSend record에서 바로 글을 쓰지 않고 `evidence.yml`을 먼저 확정한다.
 - Markdown과 Git이 SSOT다. run은 별도 worktree와 branch에서 진행한다.
 - diagram node·edge와 최종 핵심 claim은 Evidence ID를 가진다.
+- `quality-contract.json`이 content depth, corpus parity, section 깊이, source artifact, direct Evidence 수·coverage, 사용하지 않은 high-value Evidence를 차단한다.
+- architecture·sequence·data flow·state transition·deployment·trust boundary section은 diagram이 필수다. `visual_candidate` 하향·omit·빈 plan은 audit가 차단한다.
 - 실제 OMP run은 기술 구조와 시각화가 확정된 뒤 im-not-ai route·references를 읽은 Main이 직접 윤문하고 `main-direct-im-not-ai-guided` mode를 기록한다.
 - 자동 fixture runner의 고정 치환은 `deterministic-fallback`으로 명시하며 im-not-ai monolith/finalizer 실행으로 보고하지 않는다.
 - text·diagram audit가 통과해도 결과는 `READY_FOR_REVIEW`다. 자동 merge·publish·JustSend write-back은 없다.
@@ -38,7 +40,7 @@ omp plugin list --json
 omp plugin doctor
 ```
 
-검증 결과: `justsend-blog@0.1.0` enabled, doctor `4 ok / 0 warnings / 0 errors`.
+검증 결과: `justsend-blog@0.2.0` enabled, doctor `4 ok / 0 warnings / 0 errors`.
 
 ## JustSend MCP 설정
 
@@ -80,6 +82,8 @@ research-summary.md
 evidence.yml
 evidence.md
 outline.md
+outline.json
+quality-contract.json
 draft.md
 visual-plan.yml
 diagrams/

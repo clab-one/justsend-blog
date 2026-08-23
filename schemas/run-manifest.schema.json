@@ -21,6 +21,8 @@
     "diagrams": {"type": "array"},
     "evidence_count": {"type": "integer", "minimum": 0},
     "audit_result": {"enum": ["PASS", "FAIL", null]},
+    "quality_profile": {"enum": ["production", "fixture-and-test-only", null]},
+    "quality_result": {"enum": ["PASS", "FAIL", null]},
     "git_branch": {"type": ["string", "null"]},
     "git_commit": {"type": ["string", "null"]},
     "status": {"enum": ["REQUESTED", "RESEARCHING", "EVIDENCE_READY", "OUTLINED", "DRAFTED", "VISUAL_PLANNED", "VISUAL_RENDERED", "HUMANIZED", "AUDITED", "READY_FOR_REVIEW", "ACCEPTED", "REJECTED", "BLOCKED"]},

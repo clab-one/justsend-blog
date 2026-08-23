@@ -3,7 +3,7 @@
   "$id": "https://justsend.blog/schemas/audit-report.schema.json",
   "title": "JustSend Blog Fidelity Audit",
   "type": "object",
-  "required": ["text", "diagrams", "humanization", "result"],
+  "required": ["text", "diagrams", "quality", "humanization", "result"],
   "properties": {
     "text": {
       "type": "object",
@@ -20,12 +20,28 @@
     },
     "diagrams": {
       "type": "object",
-      "required": ["unsupported_nodes", "unsupported_edges", "incorrect_labels", "missing_provenance"],
+      "required": ["unsupported_nodes", "unsupported_edges", "incorrect_labels", "missing_provenance", "missing_required_visuals", "misclassified_visual_candidates", "unjustified_omissions"],
       "properties": {
         "unsupported_nodes": {"type": "array"},
         "unsupported_edges": {"type": "array"},
         "incorrect_labels": {"type": "array"},
-        "missing_provenance": {"type": "array"}
+        "missing_provenance": {"type": "array"},
+        "missing_required_visuals": {"type": "array"},
+        "misclassified_visual_candidates": {"type": "array"},
+        "unjustified_omissions": {"type": "array"}
+      },
+      "additionalProperties": false
+    },
+    "quality": {
+      "type": "object",
+      "required": ["profile", "metrics", "visual", "blockers", "exemptions", "result"],
+      "properties": {
+        "profile": {"enum": ["production", "fixture-and-test-only"]},
+        "metrics": {"type": "object"},
+        "visual": {"type": "object"},
+        "blockers": {"type": "array"},
+        "exemptions": {"type": "array"},
+        "result": {"enum": ["PASS", "FAIL"]}
       },
       "additionalProperties": false
     },

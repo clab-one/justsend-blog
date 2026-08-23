@@ -1,5 +1,6 @@
 import { extractProtected } from "./humanize.js";
 import { auditVisual } from "./visual.js";
+import { buildQualityAudit } from "./quality.js";
 
 function difference(before = [], after = []) {
   const counts = new Map();
@@ -78,9 +79,10 @@ export function deterministicTextAudit(before, after) {
   };
 }
 
-export function buildAuditReport({ technicalDraft, finalMarkdown, evidencePack, visualPlan, renderedSvgs = {}, humanization }) {
+export function buildAuditReport({ technicalDraft, finalMarkdown, evidencePack, outline, visualPlan, qualityContract, renderedSvgs = {}, humanization }) {
   const deterministic = deterministicTextAudit(technicalDraft, finalMarkdown);
   const unsupported_claims = claimAudit(finalMarkdown, evidencePack);
+  const quality = buildQualityAudit({ markdown: finalMarkdown, evidencePack, outline, visualPlan, contract: qualityContract });
   const beforeClaims = new Set(comments(technicalDraft));
   const afterClaims = new Set(comments(finalMarkdown));
   const claims_added = [...afterClaims].filter(id => !beforeClaims.has(id));
@@ -91,6 +93,9 @@ export function buildAuditReport({ technicalDraft, finalMarkdown, evidencePack, 
     unsupported_edges: visualReports.flatMap(report => report.unsupported_edges),
     incorrect_labels: visualReports.flatMap(report => report.incorrect_labels),
     missing_provenance: visualReports.flatMap(report => report.missing_provenance),
+    missing_required_visuals: quality.visual.missing_required_visuals,
+    misclassified_visual_candidates: quality.visual.misclassified_visual_candidates,
+    unjustified_omissions: quality.visual.unjustified_omissions,
   };
   const text = { unsupported_claims, ...deterministic, claims_added, claims_removed };
   const blockers = [
@@ -110,10 +115,11 @@ export function buildAuditReport({ technicalDraft, finalMarkdown, evidencePack, 
     diagrams.unsupported_edges,
     diagrams.incorrect_labels,
     diagrams.missing_provenance,
+    quality.blockers,
   ];
   const failed = blockers.some(items => items.length > 0)
     || humanization.meaning_preserved !== true
     || humanization.change_rate >= 0.5
     || humanization.verdict === "FAIL";
-  return { text, diagrams, humanization, result: failed ? "FAIL" : "PASS" };
+  return { text, diagrams, quality, humanization, result: failed ? "FAIL" : "PASS" };
 }

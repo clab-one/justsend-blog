@@ -1,6 +1,6 @@
 {
   "name": "justsend-blog",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Evidence-first JustSend technical blog authoring pack for OMP",
   "type": "module",
   "private": true,
@@ -47,7 +47,7 @@
   ],
   "omp": {
     "name": "JustSend Blog",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "JustSend MCP evidence research, Markdown authoring, diagrams, Korean humanization, and fidelity audit"
   }
 }

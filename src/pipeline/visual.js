@@ -6,16 +6,43 @@ function escapeXml(value) {
   return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[char]);
 }
 
-export function buildVisualPlan(pack) {
+export function buildVisualPlan(pack, outline = { sections: [] }) {
+  const candidates = outline.sections.filter(section => section.visual_candidate === true);
+  const candidateIds = candidates.map(section => section.section_id);
+  const compatibleIds = candidates
+    .filter(section => /WebKit|온디바이스|파싱|실행 위치|데이터 흐름|기존 경로/i.test(`${section.title} ${section.purpose}`))
+    .map(section => section.section_id);
+  const incompatibleIds = candidateIds.filter(id => !compatibleIds.includes(id));
   const decision = pack.evidence.find(item => item.type === "decision" && /WebKit|온디바이스|파싱/i.test(item.statement));
   const implementation = pack.evidence.find(item => item.type === "fact" && /WebKit|문서|파싱/i.test(item.statement));
   if (!decision || !implementation) {
-    return { visuals: [], decision: "문단보다 정확한 근거 기반 관계를 구성할 Evidence가 부족하다." };
+    return {
+      visuals: [],
+      decisions: candidateIds.map(section_id => ({
+        section_id,
+        decision: "omit",
+        diagram_id: null,
+        reason: "필수 관계를 그릴 direct 또는 corroborated Evidence가 부족하다. 이 상태로는 publish candidate가 될 수 없다.",
+      })),
+    };
   }
+  if (compatibleIds.length === 0) {
+    return {
+      visuals: [],
+      decisions: candidateIds.map(section_id => ({
+        section_id,
+        decision: "omit",
+        diagram_id: null,
+        reason: "현재 renderer의 WebKit architecture와 다른 관계다. section 유형에 맞는 별도 diagram을 만들어야 한다.",
+      })),
+    };
+  }
+  const covered = compatibleIds;
   return {
     visuals: [{
       diagram_id: "D001",
       section_id: "S03",
+      covers_section_ids: covered,
       purpose: "서버 파싱에서 iOS WebKit 온디바이스 처리로 바뀐 실행 위치를 비교한다.",
       type_hint: "architecture",
       evidence_ids: [decision.id, implementation.id],
@@ -33,7 +60,21 @@ export function buildVisualPlan(pack) {
       ],
       excluded: ["Evidence에 없는 서버 컴포넌트 제거", "확인되지 않은 성능 개선 수치", "출처 없는 보안 경계"],
       formats: ["html", "svg", "png"]
-    }]
+    }],
+    decisions: [
+      ...covered.map(section_id => ({
+        section_id,
+        decision: "render",
+        diagram_id: "D001",
+        reason: "실행 위치와 데이터 흐름은 산문보다 architecture diagram이 더 빠르고 정확하다.",
+      })),
+      ...incompatibleIds.map(section_id => ({
+        section_id,
+        decision: "omit",
+        diagram_id: null,
+        reason: "WebKit architecture와 다른 관계이므로 section 유형에 맞는 별도 diagram이 필요하다.",
+      })),
+    ],
   };
 }
 

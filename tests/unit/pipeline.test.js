@@ -10,6 +10,7 @@ import { resolveWithin } from "../../src/pipeline/run-context.js";
 import { auditVisual, buildVisualPlan, renderSvg } from "../../src/pipeline/visual.js";
 import { auditProtected, applyDeterministicFallback, runImNotAiChangeGate } from "../../src/pipeline/humanize.js";
 import { buildAuditReport, deterministicTextAudit } from "../../src/pipeline/audit.js";
+import { buildQualityAudit, defaultQualityContract } from "../../src/pipeline/quality.js";
 
 const fixture = JSON.parse(readFileSync(resolve("tests/fixtures/justsend-records.json"), "utf8"));
 
@@ -58,7 +59,15 @@ test("path traversal and symlink escape are blocked", () => {
 
 test("visual node and edge provenance passes only for known Evidence IDs", () => {
   const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
-  const plan = buildVisualPlan(pack);
+  const outline = { sections: [
+    { section_id: "S02", title: "기존 데이터 흐름", purpose: "서버 파싱 흐름", visual_candidate: true },
+    { section_id: "S03", title: "새 데이터 흐름", purpose: "온디바이스 WebKit 흐름", visual_candidate: true },
+    { section_id: "S04", title: "권한 요청 sequence", purpose: "시스템 프롬프트 순서", visual_candidate: true },
+  ] };
+  const plan = buildVisualPlan(pack, outline);
+  assert.deepEqual(plan.visuals[0].covers_section_ids, ["S02", "S03"]);
+  assert.deepEqual(plan.decisions.map(item => item.section_id), ["S02", "S03", "S04"]);
+  assert.deepEqual(plan.decisions.map(item => item.decision), ["render", "render", "omit"]);
   const diagram = plan.visuals[0];
   const report = auditVisual(diagram, pack, renderSvg(diagram));
   assert.deepEqual(report, { unsupported_nodes: [], unsupported_edges: [], incorrect_labels: [], missing_provenance: [] });
@@ -95,7 +104,88 @@ test("im-not-ai change-rate gate enforces 30 and 50 percent thresholds", () => {
 test("unsupported factual claim blocks integrated audit", () => {
   const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
   const text = "서버 처리 성능이 90% 개선됐다.";
-  const report = buildAuditReport({ technicalDraft: text, finalMarkdown: text, evidencePack: pack, visualPlan: { visuals: [] }, humanization: { mode: "deterministic-fallback", route: "standard", change_rate: 0, meaning_preserved: true, verdict: "PASS" } });
+  const report = buildAuditReport({ technicalDraft: text, finalMarkdown: text, evidencePack: pack, outline: { sections: [] }, visualPlan: { visuals: [], decisions: [] }, qualityContract: defaultQualityContract({ profile: "fixture-and-test-only" }), humanization: { mode: "deterministic-fallback", route: "standard", change_rate: 0, meaning_preserved: true, verdict: "PASS" } });
   assert.equal(report.result, "FAIL");
   assert.equal(report.text.unsupported_claims.length, 1);
+});
+
+test("thin work-card summary fails production depth and coverage gates", () => {
+  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const thin = `# 작업 요약\n\n${[1, 2, 3, 4, 5, 6].map(index => `## 항목 ${index}\n\n서버와 앱의 변경을 짧게 정리했다.\n<!-- evidence: JS-E001 -->`).join("\n\n")}\n\n| 문제 | 결과 |\n|---|---|\n| 서버 | 앱 |`;
+  const outline = { sections: [1, 2, 3, 4, 5, 6].map(index => ({ section_id: `S0${index}`, title: `항목 ${index}`, purpose: "짧은 요약", visual_candidate: false })) };
+  const contract = defaultQualityContract({ documentType: "engineering-story", corpusMedianCharacters: 8_203 });
+  const report = buildQualityAudit({ markdown: thin, evidencePack: pack, outline, visualPlan: { visuals: [], decisions: [] }, contract });
+  const codes = new Set(report.blockers.map(item => item.code));
+  assert.equal(report.result, "FAIL");
+  for (const code of ["content_depth", "subsection_depth", "source_artifacts", "code_or_log_evidence", "direct_evidence_depth", "evidence_coverage", "corpus_depth_ratio"]) assert.ok(codes.has(code), code);
+});
+
+test("repeated padding cannot satisfy the depth gate", () => {
+  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const repeated = `${("같은 근거 없는 문단을 길이만 채우려고 반복한다. ".repeat(8) + "\n\n").repeat(12)}<!-- evidence: JS-E001 -->`;
+  const contract = defaultQualityContract({ documentType: "engineering-story" });
+  Object.assign(contract.thresholds, { min_characters: 0, min_h2_sections: 0, min_h3_sections: 0, min_artifact_blocks: 0, min_code_blocks: 0, min_direct_evidence: 0, min_evidence_coverage: 0 });
+  const report = buildQualityAudit({ markdown: repeated, evidencePack: pack, outline: { sections: [] }, visualPlan: { visuals: [], decisions: [] }, contract });
+  assert.ok(report.blockers.some(item => item.code === "repetitive_padding"));
+});
+
+test("quality exemption requires an explicit user approval", () => {
+  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const contract = defaultQualityContract({ profile: "fixture-and-test-only" });
+  Object.assign(contract.thresholds, { min_characters: 5_000, min_h2_sections: 0, min_direct_evidence: 0, min_evidence_coverage: 0 });
+  contract.exemptions = [{ code: "content_depth", reason: "API reference 표 자체가 완결된 계약이라 장문 산문이 불필요하다고 사용자가 승인했다.", approved_by: "user" }];
+  const report = buildQualityAudit({ markdown: "설명\n<!-- evidence: JS-E001 -->", evidencePack: pack, outline: { sections: [] }, visualPlan: { visuals: [], decisions: [] }, contract });
+  assert.equal(report.result, "PASS");
+  assert.deepEqual(report.exemptions.map(item => item.code), ["content_depth"]);
+  contract.exemptions[0].approved_by = "agent";
+  const refused = buildQualityAudit({ markdown: "설명\n<!-- evidence: JS-E001 -->", evidencePack: pack, outline: { sections: [] }, visualPlan: { visuals: [], decisions: [] }, contract });
+  assert.ok(refused.blockers.some(item => item.code === "content_depth"));
+});
+
+test("rich source-backed article with a required diagram passes production quality", () => {
+  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const ids = pack.evidence.filter(item => item.sensitivity === "public-safe").map(item => item.id);
+  const paragraph = index => `섹션 ${index}에서 서버 경로와 온디바이스 경로를 실제 source와 실패 기록으로 대조했고, 변경 조건과 검증 결과를 같은 기준에서 설명한다. `.repeat(12);
+  const sections = [1, 2, 3, 4, 5].map(index => `## 상세 ${index}\n\n${paragraph(index)}\n<!-- evidence: ${ids[index % ids.length]} -->`);
+  const rich = `# 전체 기술 기록\n\n${sections.join("\n\n")}\n\n### 실패한 접근\n\n${paragraph(6)}\n<!-- evidence: ${ids[0]} -->\n\n### 남은 제약\n\n${paragraph(7)}\n<!-- evidence: ${ids[1]} -->\n\n| 전 | 후 |\n|---|---|\n| 서버 | WebKit |\n\n> 실제 실패 로그를 기준으로 결정했다.\n\n\`\`\`swift\nlet parser = WebKitParser()\n\`\`\``;
+  const outline = { sections: [
+    { section_id: "S02", title: "기존 데이터 흐름", purpose: "서버 파싱 architecture", visual_candidate: true },
+    { section_id: "S03", title: "새 데이터 흐름", purpose: "온디바이스 WebKit architecture", visual_candidate: true },
+  ] };
+  const plan = buildVisualPlan(pack, outline);
+  const contract = defaultQualityContract({ documentType: "engineering-story", corpusMedianCharacters: 6_000 });
+  const report = buildQualityAudit({ markdown: rich, evidencePack: pack, outline, visualPlan: plan, contract });
+  assert.equal(report.result, "PASS", JSON.stringify(report.blockers));
+});
+
+test("empty visual plan passes only when outline has no visual candidate", () => {
+  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const contract = defaultQualityContract({ profile: "fixture-and-test-only" });
+  Object.assign(contract.thresholds, { min_characters: 0, min_h2_sections: 0, min_direct_evidence: 0, min_evidence_coverage: 0 });
+  const outline = { sections: [{ section_id: "S01", title: "남은 질문", purpose: "확인하지 못한 항목 목록", visual_candidate: false }] };
+  const report = buildQualityAudit({ markdown: "설명\n<!-- evidence: JS-E001 -->", evidencePack: pack, outline, visualPlan: { visuals: [], decisions: [] }, contract });
+  assert.deepEqual(report.visual, { misclassified_visual_candidates: [], missing_required_visuals: [], unjustified_omissions: [] });
+  assert.equal(report.result, "PASS");
+});
+
+test("semantic visual signal cannot be downgraded to false", () => {
+  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const contract = defaultQualityContract({ profile: "fixture-and-test-only" });
+  Object.assign(contract.thresholds, { min_characters: 0, min_h2_sections: 0, min_direct_evidence: 0, min_evidence_coverage: 0 });
+  const outline = { sections: [{ section_id: "S01", title: "MCP 아키텍처와 상태 전이", purpose: "도구 호출 흐름", visual_candidate: false }] };
+  const report = buildQualityAudit({ markdown: "설명", evidencePack: pack, outline, visualPlan: { visuals: [], decisions: [] }, contract });
+  assert.deepEqual(report.visual.misclassified_visual_candidates, ["S01"]);
+  assert.ok(report.blockers.some(item => item.code === "misclassified_visual_candidates"));
+});
+
+test("visual candidate omission blocks publication", () => {
+  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const contract = defaultQualityContract({ profile: "fixture-and-test-only" });
+  Object.assign(contract.thresholds, { min_characters: 0, min_h2_sections: 0, min_direct_evidence: 0, min_evidence_coverage: 0 });
+  const outline = { sections: [{ section_id: "S01", title: "데이터 흐름", purpose: "서버에서 앱으로 이동", visual_candidate: true }] };
+  const plan = { visuals: [], decisions: [{ section_id: "S01", decision: "omit", diagram_id: null, reason: "근거를 찾지 못해 그림을 생략했지만 publish 전에는 보강해야 한다." }] };
+  const report = buildQualityAudit({ markdown: "설명", evidencePack: pack, outline, visualPlan: plan, contract });
+  assert.deepEqual(report.visual.missing_required_visuals, ["S01"]);
+  assert.deepEqual(report.visual.unjustified_omissions, ["S01"]);
+  assert.equal(report.result, "FAIL");
 });
