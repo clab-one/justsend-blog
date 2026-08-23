@@ -3,5 +3,7 @@
   "version": "0.1.0",
   "description": "Evidence-first JustSend technical blog authoring pack",
   "license": "MIT",
+  "repository": "https://github.com/clab-one/justsend-blog",
+  "homepage": "https://github.com/clab-one/justsend-blog#readme",
   "skills": "./skills/"
 }

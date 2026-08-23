@@ -1,5 +1,7 @@
 # justsend-blog
 
+Repository: <https://github.com/clab-one/justsend-blog>
+
 JustSend 작업 기록을 Evidence Pack으로 정규화한 뒤 독자 중심 한국어 기술 글, 근거 기반 다이어그램, im-not-ai 지표·규칙을 적용한 Main 직접 윤문, Fidelity Audit과 Git diff를 거쳐 출판 후보 Markdown을 만드는 OMP 플러그인 팩이다.
 
 ## 핵심 보장

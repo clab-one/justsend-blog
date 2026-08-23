@@ -6,6 +6,8 @@
   "author": {
     "name": "justsend-blog contributors"
   },
+  "repository": "https://github.com/clab-one/justsend-blog",
+  "homepage": "https://github.com/clab-one/justsend-blog#readme",
   "license": "MIT",
   "keywords": ["justsend", "blog", "evidence", "markdown", "diagram", "korean"]
 }

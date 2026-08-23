@@ -5,6 +5,11 @@
   "type": "module",
   "private": true,
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clab-one/justsend-blog.git"
+  },
+  "homepage": "https://github.com/clab-one/justsend-blog#readme",
   "engines": {
     "node": ">=22"
   },
