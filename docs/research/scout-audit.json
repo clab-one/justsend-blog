@@ -1,0 +1,11 @@
+{
+  "captured_at": "2026-08-23",
+  "spawned_agent_types": ["scout"],
+  "agents": [
+    {"name": "OmpSourceScout", "agent_type": "scout", "mode": "read-only", "state_changes": false, "recursive_spawns": false, "status": "completed"},
+    {"name": "SoloMdSourceScout", "agent_type": "scout", "mode": "read-only", "state_changes": false, "recursive_spawns": false, "status": "completed"},
+    {"name": "ImNotAiSourceScout", "agent_type": "scout", "mode": "read-only", "state_changes": false, "recursive_spawns": false, "status": "completed"},
+    {"name": "DiagramSourceScout", "agent_type": "scout", "mode": "read-only", "state_changes": false, "recursive_spawns": false, "status": "completed"},
+    {"name": "TossWritingScout", "agent_type": "scout", "mode": "read-only", "state_changes": false, "recursive_spawns": false, "status": "completed"}
+  ]
+}

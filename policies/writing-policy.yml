@@ -1,0 +1,48 @@
+version: 1
+language: ko
+
+reader_contract:
+  require_goal: true
+  require_audience: true
+  lead_with_reader_value: true
+  state_expected_understanding_or_action: true
+
+structure:
+  one_message_per_section: true
+  problem_before_solution: true
+  headings_predict_flow: true
+  details_after_decision: true
+  preserve_constraints_and_tradeoffs: true
+  require_section_evidence_ids: true
+
+sentences:
+  explicit_actor: preferred
+  active_voice: preferred
+  prefer_verbs_over_nominalizations: true
+  remove_empty_metadiscourse: true
+  concrete_actions_and_results: true
+  consistent_terms: required
+  expand_acronym_on_first_use: true
+
+claims:
+  exaggeration_without_evidence: forbidden
+  unsupported_success_effect: forbidden
+  uncertain_as_certain: forbidden
+  required_provenance: direct-or-corroborated
+  prohibited_marketing_terms:
+    - 혁신적
+    - 획기적
+    - 압도적
+
+review_questions:
+  - 독자가 첫 두 문단에서 변화와 가치를 식별할 수 있는가?
+  - 각 section은 하나의 판단이나 동작만 설명하는가?
+  - 수치와 결과는 실제 Evidence에 연결되는가?
+  - 실패, 제약, trade-off가 성공 서사에서 사라지지 않았는가?
+  - 같은 개념을 끝까지 같은 이름으로 부르는가?
+
+provenance:
+  research_source: toss-technical-writing
+  usage: general-principles-only
+  copied_text: false
+  distributed_upstream_content: false

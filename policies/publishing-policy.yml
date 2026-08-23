@@ -1,0 +1,18 @@
+version: 1
+default_status: READY_FOR_REVIEW
+auto_publish: false
+auto_merge: false
+auto_justsend_writeback: false
+write_cap: 50
+required_before_review:
+  - evidence-valid
+  - text-audit-pass
+  - diagram-audit-pass
+  - humanization-meaning-preserved
+  - git-diff-available
+accept:
+  requires_explicit_user_decision: true
+  merge_performed: false
+reject:
+  preserve_run_artifacts: true
+  delete_branch: false

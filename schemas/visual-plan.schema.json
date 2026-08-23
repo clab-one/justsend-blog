@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://justsend.blog/schemas/visual-plan.schema.json",
+  "title": "JustSend Blog Visual Plan",
+  "type": "object",
+  "required": ["visuals"],
+  "properties": {
+    "visuals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["diagram_id", "section_id", "purpose", "type_hint", "evidence_ids", "nodes", "edges", "excluded", "formats"],
+        "properties": {
+          "diagram_id": {"type": "string", "pattern": "^D[0-9]{3,}$"},
+          "section_id": {"type": "string", "pattern": "^S[0-9]{2,}$"},
+          "purpose": {"type": "string", "minLength": 1},
+          "type_hint": {"type": "string", "minLength": 1},
+          "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^JS-E[0-9]{3,}$"}},
+          "nodes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["id", "label", "evidence_ids"],
+              "properties": {
+                "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+                "label": {"type": "string", "minLength": 1},
+                "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+              },
+              "additionalProperties": false
+            }
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["from", "to", "label", "evidence_ids"],
+              "properties": {
+                "from": {"type": "string"},
+                "to": {"type": "string"},
+                "label": {"type": "string"},
+                "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+              },
+              "additionalProperties": false
+            }
+          },
+          "excluded": {"type": "array", "items": {"type": "string"}},
+          "formats": {"type": "array", "items": {"enum": ["html", "svg", "png"]}, "contains": {"const": "html"}}
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,19 @@
+version: 1
+minimize_external_context: true
+never_emit:
+  - api-key
+  - access-token
+  - cookie
+  - password
+  - encryption-key
+  - personal-phone
+  - personal-email
+  - internal-ip
+  - private-endpoint
+  - repository-credential
+  - unrelated-personal-data
+trace:
+  store_secret_value: false
+  store_redaction_category: true
+  store_redaction_count: true
+internal_review_requires_user_approval: true

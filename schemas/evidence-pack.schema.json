@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://justsend.blog/schemas/evidence-pack.schema.json",
+  "title": "JustSend Blog Evidence Pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["topic", "generated_at", "scope", "evidence", "inferences", "conflicts", "unknowns"],
+  "properties": {
+    "topic": {"type": "string", "minLength": 1},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "scope": {
+      "type": "object",
+      "required": ["date_from", "date_to", "query_terms"],
+      "properties": {
+        "date_from": {"type": "string"},
+        "date_to": {"type": "string"},
+        "query_terms": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type", "statement", "occurred_at", "source", "confidence", "sensitivity"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^JS-E[0-9]{3,}$"},
+          "type": {"enum": ["fact", "decision", "reason", "result", "failure", "tradeoff", "measurement", "timeline-event", "quote", "open-question"]},
+          "statement": {"type": "string", "minLength": 1},
+          "occurred_at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}"},
+          "source": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["provider", "record_id", "attachment_ids"],
+            "properties": {
+              "provider": {"const": "justsend"},
+              "record_id": {"type": "string", "minLength": 1},
+              "attachment_ids": {"type": "array", "items": {"type": "string"}}
+            }
+          },
+          "confidence": {"enum": ["direct", "corroborated", "inferred", "uncertain"]},
+          "sensitivity": {"enum": ["public-safe", "redacted", "internal-review"]}
+        }
+      }
+    },
+    "inferences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "statement", "supported_by", "confidence"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^JS-I[0-9]{3,}$"},
+          "statement": {"type": "string", "minLength": 1},
+          "supported_by": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^JS-E[0-9]{3,}$"}},
+          "confidence": {"enum": ["inferred", "uncertain"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "conflicts": {"type": "array", "items": {"type": "object"}},
+    "unknowns": {"type": "array"},
+    "duplicates": {"type": "array"}
+  }
+}

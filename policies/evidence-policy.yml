@@ -1,0 +1,18 @@
+version: 1
+provider: justsend
+default_access: read-only
+required_confidence_for_factual_claim:
+  - direct
+  - corroborated
+uncertain_handling:
+  assert_as_fact: false
+  allowed_forms:
+    - explicit_uncertainty
+    - open_question
+    - omission
+conflict_handling:
+  auto_resolve: false
+  publish_conflicted_value: false
+redaction_before_normalization: true
+require_source_record_id: true
+require_core_claim_provenance: true

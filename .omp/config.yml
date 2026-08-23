@@ -1,0 +1,17 @@
+skills:
+  enableSkillCommands: true
+
+task:
+  maxRecursionDepth: 1
+  disabledAgents:
+    - task
+    - reviewer
+    - security-reviewer
+    - planner
+    - builder
+    - designer
+    - librarian
+    - advisor
+    - sonic
+    - explorer
+    - writer

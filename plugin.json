@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "justsend-blog",
+  "version": "0.1.0",
+  "description": "Evidence-first JustSend technical blog authoring pack for OMP",
+  "author": {
+    "name": "justsend-blog contributors"
+  },
+  "license": "MIT",
+  "keywords": ["justsend", "blog", "evidence", "markdown", "diagram", "korean"]
+}

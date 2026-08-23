@@ -1,0 +1,7 @@
+{
+  "name": "justsend-blog",
+  "version": "0.1.0",
+  "description": "Evidence-first JustSend technical blog authoring pack",
+  "license": "MIT",
+  "skills": "./skills/"
+}

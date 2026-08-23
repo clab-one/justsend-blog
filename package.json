@@ -1,0 +1,48 @@
+{
+  "name": "justsend-blog",
+  "version": "0.1.0",
+  "description": "Evidence-first JustSend technical blog authoring pack for OMP",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "justsend-blog": "./scripts/run-pipeline.js"
+  },
+  "scripts": {
+    "doctor": "node scripts/doctor.js",
+    "validate": "node scripts/validate-package.js",
+    "test": "node --test tests/unit/*.test.js tests/integration/*.test.js tests/e2e/*.test.js",
+    "test:unit": "node --test tests/unit/*.test.js",
+    "test:integration": "node --test tests/integration/*.test.js",
+    "test:e2e": "node --test tests/e2e/*.test.js"
+  },
+  "files": [
+    ".omp/",
+    ".omp-plugin/",
+    ".diagram-design",
+    ".justsend-blog/profiles/justsend.md",
+    "skills/",
+    "src/",
+    "schemas/",
+    "policies/",
+    "templates/",
+    "scripts/",
+    "vendor/",
+    "vault/",
+    "docs/",
+    "plugin.json",
+    "README.md",
+    "AGENTS.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "upstreams.lock.yml"
+  ],
+  "omp": {
+    "name": "JustSend Blog",
+    "version": "0.1.0",
+    "description": "JustSend MCP evidence research, Markdown authoring, diagrams, Korean humanization, and fidelity audit"
+  }
+}

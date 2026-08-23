@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://justsend.blog/schemas/audit-report.schema.json",
+  "title": "JustSend Blog Fidelity Audit",
+  "type": "object",
+  "required": ["text", "diagrams", "humanization", "result"],
+  "properties": {
+    "text": {
+      "type": "object",
+      "required": ["unsupported_claims", "numbers_changed", "dates_changed", "proper_nouns_changed", "claims_added", "claims_removed"],
+      "additionalProperties": {"type": "array"},
+      "properties": {
+        "unsupported_claims": {"type": "array"},
+        "numbers_changed": {"type": "array"},
+        "dates_changed": {"type": "array"},
+        "proper_nouns_changed": {"type": "array"},
+        "claims_added": {"type": "array"},
+        "claims_removed": {"type": "array"}
+      }
+    },
+    "diagrams": {
+      "type": "object",
+      "required": ["unsupported_nodes", "unsupported_edges", "incorrect_labels", "missing_provenance"],
+      "properties": {
+        "unsupported_nodes": {"type": "array"},
+        "unsupported_edges": {"type": "array"},
+        "incorrect_labels": {"type": "array"},
+        "missing_provenance": {"type": "array"}
+      },
+      "additionalProperties": false
+    },
+    "humanization": {
+      "type": "object",
+      "required": ["route", "change_rate", "meaning_preserved"],
+      "properties": {
+        "route": {"enum": ["light", "standard", "heavy"]},
+        "change_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "meaning_preserved": {"type": "boolean"},
+        "verdict": {"enum": ["PASS", "WARN", "FAIL"]},
+        "exit_code": {"type": "integer"},
+        "protected_differences": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "result": {"enum": ["PASS", "FAIL"]}
+  },
+  "additionalProperties": false
+}

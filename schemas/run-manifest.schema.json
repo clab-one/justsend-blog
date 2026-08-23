@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://justsend.blog/schemas/run-manifest.schema.json",
+  "title": "JustSend Blog Run Manifest",
+  "type": "object",
+  "required": ["run_id", "request", "created_at", "omp_version", "plugin_version", "upstreams", "document_type", "language", "status"],
+  "properties": {
+    "run_id": {"type": "string", "pattern": "^[0-9]{8}-[0-9]{6}-[a-z0-9][a-z0-9-]{0,63}$"},
+    "request": {"type": "object"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "omp_version": {"type": "string"},
+    "plugin_version": {"type": "string"},
+    "upstreams": {"type": "object"},
+    "justsend_server": {"type": ["string", "null"]},
+    "logical_capabilities": {"type": "array", "items": {"type": "string"}},
+    "document_type": {"type": "string"},
+    "document_type_reason": {"type": "string"},
+    "language": {"const": "ko"},
+    "humanization_route": {"enum": ["light", "standard", "heavy", null]},
+    "diagrams": {"type": "array"},
+    "evidence_count": {"type": "integer", "minimum": 0},
+    "audit_result": {"enum": ["PASS", "FAIL", null]},
+    "git_branch": {"type": ["string", "null"]},
+    "git_commit": {"type": ["string", "null"]},
+    "status": {"enum": ["REQUESTED", "RESEARCHING", "EVIDENCE_READY", "OUTLINED", "DRAFTED", "VISUAL_PLANNED", "VISUAL_RENDERED", "HUMANIZED", "AUDITED", "READY_FOR_REVIEW", "ACCEPTED", "REJECTED", "BLOCKED"]},
+    "assumptions": {"type": "array"},
+    "missing_capabilities": {"type": "array"}
+  },
+  "additionalProperties": true
+}

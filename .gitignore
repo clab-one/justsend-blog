@@ -1,0 +1,20 @@
+.upstream/
+node_modules/
+coverage/
+*.log
+*.py[cod]
+__pycache__/
+.DS_Store
+
+# Runtime data: keep directory placeholders, ignore generated runs and worktrees.
+.justsend-blog/runs/*
+!.justsend-blog/runs/.gitkeep
+.justsend-blog/worktrees/*
+!.justsend-blog/worktrees/.gitkeep
+.justsend-blog/cache/*
+!.justsend-blog/cache/.gitkeep
+
+# User-specific profiles may contain local paths or brand customizations.
+.justsend-blog/profiles/*
+!.justsend-blog/profiles/.gitkeep
+!.justsend-blog/profiles/justsend.md

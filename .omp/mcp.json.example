@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
+  "mcpServers": {
+    "<JUSTSEND_SERVER_ID>": {
+      "type": "stdio",
+      "command": "<ABSOLUTE_PATH_TO_JUSTSEND_MCP>",
+      "args": []
+    }
+  }
+}

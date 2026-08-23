@@ -1,0 +1,30 @@
+upstreams:
+  omp:
+    url: https://github.com/can1357/oh-my-pi.git
+    commit: "160ed439ac0df594347e7d7018b813a7ffdb5e81"
+    role: runtime-source-of-truth
+    license: MIT
+
+  solomd:
+    url: https://github.com/zhitongblog/solomd.git
+    commit: "65027dac77866d45c15f56de8999bbf6fc617e22"
+    role: primary-authoring-architecture
+    license: MIT
+
+  im-not-ai:
+    url: https://github.com/epoko77-ai/im-not-ai.git
+    commit: "0ac1e84f92334f9696e69184478f91c1c6f1dc5e"
+    role: korean-humanization
+    license: MIT
+
+  toss-technical-writing:
+    url: https://github.com/toss/technical-writing.git
+    commit: "68ba335cbe35c877775f092e98177b60da5f3d95"
+    role: research-only
+    license: CC-BY-NC-SA-4.0
+
+  diagram-design:
+    url: https://github.com/cathrynlavery/diagram-design.git
+    commit: "648c2a597839301e06df1e7434a08bde9f42eed3"
+    role: editorial-diagrams
+    license: MIT
