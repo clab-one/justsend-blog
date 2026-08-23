@@ -10,3 +10,4 @@
 {"at": "2026-08-23T22:40:00.000Z", "stage": "AUDITED", "event": "per-post-fidelity-pass", "detail": "8/8 text, research, quality, diagram and humanization audits PASS"}
 {"at": "2026-08-23T22:41:00.000Z", "stage": "READY_FOR_REVIEW", "event": "publish-candidates-created", "detail": "8 final.md and audit.json files created; merge, publish and JustSend write-back remain blocked pending user approval"}
 {"at": "2026-08-23T22:45:00.000Z", "stage": "READY_FOR_REVIEW", "event": "research-provenance-corrected", "detail": "old invalidated outline had been inspected for scope and gate limitations; summaries and manifest now state this explicitly; no old draft or Evidence content reused"}
+{"at": "2026-08-23T22:50:00.000Z", "stage": "READY_FOR_REVIEW", "event": "run-content-committed", "detail": "content commit 61dcfaf35667f95424c2976f11ddd21111c4159a; only the new run path was staged"}

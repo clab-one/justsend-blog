@@ -43,7 +43,7 @@
   "quality_profile": "production",
   "quality_result": "PASS",
   "git_branch": "justsend-blog/20260823/rewrite-eight-researched",
-  "git_commit": null,
+  "git_commit": "61dcfaf35667f95424c2976f11ddd21111c4159a",
   "status": "READY_FOR_REVIEW",
   "assumptions": [
     "기존 29편 한국어 corpus 중앙값 8203자를 baseline으로 사용한다.",
