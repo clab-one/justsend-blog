@@ -6,6 +6,7 @@ export const EVIDENCE_TYPES = new Set([
   "measurement", "timeline-event", "quote", "open-question",
 ]);
 export const CONFIDENCE = new Set(["direct", "corroborated", "inferred", "uncertain"]);
+export const SOURCE_PROVIDERS = new Set(["justsend", "repository", "official-docs", "web", "runtime", "corpus", "user"]);
 
 function normalizeText(value) {
   return String(value ?? "").normalize("NFC").replace(/\s+/g, " ").trim();
@@ -82,7 +83,14 @@ function evidenceId(index) {
   return `JS-E${String(index + 1).padStart(3, "0")}`;
 }
 
-export function buildEvidencePack(records, { topic, generatedAt, dateFrom, dateTo, queryTerms = [] } = {}) {
+export function buildEvidencePack(records, { topic, generatedAt, dateFrom, dateTo, queryTerms = [], researchPack } = {}) {
+  if (!researchPack?.sources?.length) throw new TypeError("researchPack with selected sources is required");
+  const researchById = new Map(researchPack.sources.filter(source => source.selected === true).map(source => [source.id, source]));
+  const justsendSourceByRecord = new Map(
+    researchPack.sources
+      .filter(source => source.selected === true && source.provider === "justsend")
+      .map(source => [source.source_id, source]),
+  );
   const { unique, duplicates } = deduplicateRecords(records);
   const conflicts = detectConflicts(unique);
   const evidence = [];
@@ -92,16 +100,36 @@ export function buildEvidencePack(records, { topic, generatedAt, dateFrom, dateT
   for (const record of unique) {
     const type = EVIDENCE_TYPES.has(record.type) ? record.type : "fact";
     const redacted = redactText(normalizeText(record.content));
+    const claimKeys = Array.isArray(record.claim_keys)
+      ? record.claim_keys.map(String)
+      : [String(record.claim_key ?? `record:${record.id}`)];
     const item = {
       id: evidenceId(evidence.length),
       type,
       statement: redacted.text,
       occurred_at: String(record.occurred_at ?? ""),
-      source: {
-        provider: "justsend",
-        record_id: String(record.id),
-        attachment_ids: Array.isArray(record.attachments) ? record.attachments.map(String) : [],
-      },
+      claim_keys: claimKeys,
+      sources: (() => {
+        const requested = Array.isArray(record.research_source_ids)
+          ? record.research_source_ids.map(id => researchById.get(String(id))).filter(Boolean)
+          : [
+              justsendSourceByRecord.get(String(record.id)),
+              ...researchPack.sources.filter(source =>
+                source.selected === true
+                && source.provider !== "justsend"
+                && (source.claim_keys ?? []).some(key => claimKeys.includes(String(key)))),
+            ].filter(Boolean);
+        if (requested.length === 0) throw new TypeError(`record ${record.id} has no selected research source`);
+        return requested.map(source => ({
+          research_source_id: source.id,
+          provider: source.provider,
+          source_id: source.source_id,
+          locator: source.locator,
+          attachment_ids: source.provider === "justsend" && Array.isArray(record.attachments)
+            ? record.attachments.map(String)
+            : [],
+        }));
+      })(),
       confidence: record.confidence && CONFIDENCE.has(record.confidence) ? record.confidence : "direct",
       sensitivity: redacted.redacted > 0 || /\[REDACTED:[a-z-]+\]/i.test(redacted.text) ? "redacted" : "public-safe",
     };
@@ -147,9 +175,18 @@ export function validateEvidencePack(pack) {
     if (!EVIDENCE_TYPES.has(item.type)) errors.push(`${prefix}.type is invalid`);
     if (!normalizeText(item.statement)) errors.push(`${prefix}.statement is required`);
     if (!/^\d{4}-\d{2}-\d{2}/.test(item.occurred_at ?? "")) errors.push(`${prefix}.occurred_at is invalid`);
+    if (!Array.isArray(item.claim_keys) || item.claim_keys.length === 0 || item.claim_keys.some(key => !normalizeText(key))) errors.push(`${prefix}.claim_keys is invalid`);
     if (!CONFIDENCE.has(item.confidence)) errors.push(`${prefix}.confidence is invalid`);
-    if (!item.source || item.source.provider !== "justsend" || !item.source.record_id) errors.push(`${prefix}.source is invalid`);
-    if (!Array.isArray(item.source?.attachment_ids)) errors.push(`${prefix}.source.attachment_ids must be an array`);
+    if (!Array.isArray(item.sources) || item.sources.length === 0) errors.push(`${prefix}.sources is required`);
+    for (const [sourceIndex, source] of (item.sources ?? []).entries()) {
+      const sourcePrefix = `${prefix}.sources[${sourceIndex}]`;
+      if (!/^RS-\d{3,}$/.test(source.research_source_id ?? "")) errors.push(`${sourcePrefix}.research_source_id is invalid`);
+      if (!SOURCE_PROVIDERS.has(source.provider)) errors.push(`${sourcePrefix}.provider is invalid`);
+      if (!normalizeText(source.source_id)) errors.push(`${sourcePrefix}.source_id is required`);
+      if (!normalizeText(source.locator)) errors.push(`${sourcePrefix}.locator is required`);
+      if (!Array.isArray(source.attachment_ids)) errors.push(`${sourcePrefix}.attachment_ids must be an array`);
+    }
+    if (item.confidence === "corroborated" && new Set((item.sources ?? []).map(source => `${source.provider}:${source.source_id}`)).size < 2) errors.push(`${prefix}.corroborated requires two independent sources`);
     if (!["public-safe", "redacted", "internal-review"].includes(item.sensitivity)) errors.push(`${prefix}.sensitivity is invalid`);
   }
   for (const [index, item] of (pack.inferences ?? []).entries()) {

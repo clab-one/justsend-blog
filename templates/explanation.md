@@ -22,6 +22,11 @@ status: technical-draft
 ```
 <!-- evidence: {{source_evidence_ids}} -->
 
+## 외부 플랫폼의 공식 계약
+
+{{official_primary_research}}
+<!-- evidence: {{official_evidence_ids}} -->
+
 ## 핵심 개념
 
 {{concepts}}
@@ -39,10 +44,12 @@ status: technical-draft
 {{worked_example_and_failure_path}}
 <!-- evidence: {{example_evidence_ids}} -->
 
-## 검증된 범위
+## 검증된 범위와 Runtime observation
 
 {{verification}}
-<!-- evidence: {{verification_evidence_ids}} -->
+
+{{runtime_observations}}
+<!-- evidence: {{verification_evidence_ids}}, {{runtime_evidence_ids}} -->
 
 ## 적용 경계·비용·미확인 항목
 

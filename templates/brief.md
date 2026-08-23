@@ -18,6 +18,15 @@ status: REQUESTED
 - 주제: {{topic}}
 - query terms: {{query_terms}}
 
+## Research source 계획
+
+- JustSend seed: {{justsend_sources}}
+- repository source·test·config: {{repository_sources}}
+- official primary docs: {{official_sources}}
+- runtime observations: {{runtime_sources}}
+- existing corpus: {{corpus_sources}}
+- claim keys: {{research_claim_keys}}
+
 ## 품질 기준
 
 - 문서 유형: {{document_type}}

@@ -6,6 +6,7 @@ import { join, resolve } from "node:path";
 import { discoverCapabilities } from "../../src/mcp/capability-discovery.js";
 import { redactText } from "../../src/mcp/redaction.js";
 import { buildEvidencePack, deduplicateRecords, validateEvidencePack } from "../../src/pipeline/evidence.js";
+import { buildJustSendResearchPack, enrichResearchPack, researchCoverage, validateResearchPack } from "../../src/pipeline/research.js";
 import { resolveWithin } from "../../src/pipeline/run-context.js";
 import { auditVisual, buildVisualPlan, renderSvg } from "../../src/pipeline/visual.js";
 import { auditProtected, applyDeterministicFallback, runImNotAiChangeGate } from "../../src/pipeline/humanize.js";
@@ -14,6 +15,12 @@ import { buildQualityAudit, defaultQualityContract } from "../../src/pipeline/qu
 
 const fixture = JSON.parse(readFileSync(resolve("tests/fixtures/justsend-records.json"), "utf8"));
 
+function packFor(records, options = {}) {
+  const generatedAt = options.generatedAt ?? "2026-08-23T00:00:00Z";
+  const researchPack = buildJustSendResearchPack(records, [], { topic: options.topic ?? "웹 파싱", generatedAt });
+  return buildEvidencePack(records, { ...options, researchPack });
+}
+
 test("capability discovery maps read descriptions and rejects write tool", () => {
   const result = discoverCapabilities(fixture.tools);
   assert.deepEqual(Object.keys(result.capabilities).sort(), ["get_attachments", "get_record", "get_related_records", "list_records_by_range", "search_records"]);
@@ -21,9 +28,36 @@ test("capability discovery maps read descriptions and rejects write tool", () =>
 });
 
 test("Evidence schema validation accepts normalized pack", () => {
-  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00.000Z", dateFrom: "2026-07-01", dateTo: "2026-07-31", queryTerms: ["WebKit"] });
+  const pack = packFor(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00.000Z", dateFrom: "2026-07-01", dateTo: "2026-07-31", queryTerms: ["WebKit"] });
   assert.deepEqual(validateEvidencePack(pack), { valid: true, errors: [] });
   assert.equal(pack.evidence[0].confidence, "direct");
+});
+
+test("research pack requires selected excerpts and claim mapping", () => {
+  const records = fixture.records.slice(0, 2).map(record => ({ ...record }));
+  let research = buildJustSendResearchPack(records, [], { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  research = enrichResearchPack(research, [
+    { kind: "repository-source", provider: "repository", source_id: "reader.swift", locator: "Sources/Reader.swift:10-80", title: "Reader source", artifact_kind: "code", excerpt: "WebKit 문서를 읽고 로컬에서 정규화하는 실제 구현 source입니다.", claim_keys: ["implementation"], reason: "실제 구현 근거를 확인하기 위해 선택했다." },
+  ], { retrievedAt: "2026-08-23T00:00:00Z" });
+  assert.deepEqual(validateResearchPack(research), { valid: true, errors: [] });
+  assert.equal(researchCoverage(research).repository_sources, 1);
+  const invalid = structuredClone(research);
+  invalid.sources.at(-1).excerpt = null;
+  assert.ok(validateResearchPack(invalid).errors.some(error => error.includes("excerpt")));
+});
+
+test("corroborated Evidence requires two independent research sources", () => {
+  const records = fixture.records.slice(0, 1).map(record => ({ ...record, confidence: "corroborated" }));
+  let research = buildJustSendResearchPack(records, [], { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  records[0].research_source_ids = [research.sources[0].id];
+  const oneSource = buildEvidencePack(records, { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z", researchPack: research });
+  assert.ok(validateEvidencePack(oneSource).errors.some(error => error.includes("two independent sources")));
+  research = enrichResearchPack(research, [
+    { kind: "official-doc", provider: "official-docs", source_id: "webkit-doc", locator: "https://developer.apple.com/documentation/webkit", title: "WebKit docs", artifact_kind: "standard", excerpt: "Apple WebKit 공식 문서가 같은 실행 위치 계약을 설명합니다.", claim_keys: ["parsing-location"], reason: "독립된 공식 1차 문서로 같은 계약을 확인했다." },
+  ], { retrievedAt: "2026-08-23T00:00:00Z" });
+  records[0].research_source_ids = research.sources.map(source => source.id);
+  const corroborated = buildEvidencePack(records, { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z", researchPack: research });
+  assert.equal(validateEvidencePack(corroborated).valid, true);
 });
 
 test("duplicate records are removed by normalized content", () => {
@@ -34,7 +68,7 @@ test("duplicate records are removed by normalized content", () => {
 
 test("direct evidence and inferred items stay separate", () => {
   const records = [fixture.records[0], { id: "rec-inf-1", occurred_at: "2026-07-09", content: "설계 방향과 일치한다.", type: "inference", confidence: "inferred", supported_by: ["JS-E001"] }];
-  const pack = buildEvidencePack(records, { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const pack = packFor(records, { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
   assert.equal(pack.evidence.length, 1);
   assert.equal(pack.inferences.length, 1);
   assert.deepEqual(pack.inferences[0].supported_by, ["JS-E001"]);
@@ -58,7 +92,7 @@ test("path traversal and symlink escape are blocked", () => {
 });
 
 test("visual node and edge provenance passes only for known Evidence IDs", () => {
-  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const pack = packFor(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
   const outline = { sections: [
     { section_id: "S02", title: "기존 데이터 흐름", purpose: "서버 파싱 흐름", visual_candidate: true },
     { section_id: "S03", title: "새 데이터 흐름", purpose: "온디바이스 WebKit 흐름", visual_candidate: true },
@@ -102,7 +136,7 @@ test("im-not-ai change-rate gate enforces 30 and 50 percent thresholds", () => {
 });
 
 test("unsupported factual claim blocks integrated audit", () => {
-  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const pack = packFor(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
   const text = "서버 처리 성능이 90% 개선됐다.";
   const report = buildAuditReport({ technicalDraft: text, finalMarkdown: text, evidencePack: pack, outline: { sections: [] }, visualPlan: { visuals: [], decisions: [] }, qualityContract: defaultQualityContract({ profile: "fixture-and-test-only" }), humanization: { mode: "deterministic-fallback", route: "standard", change_rate: 0, meaning_preserved: true, verdict: "PASS" } });
   assert.equal(report.result, "FAIL");
@@ -110,18 +144,18 @@ test("unsupported factual claim blocks integrated audit", () => {
 });
 
 test("thin work-card summary fails production depth and coverage gates", () => {
-  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const pack = packFor(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
   const thin = `# 작업 요약\n\n${[1, 2, 3, 4, 5, 6].map(index => `## 항목 ${index}\n\n서버와 앱의 변경을 짧게 정리했다.\n<!-- evidence: JS-E001 -->`).join("\n\n")}\n\n| 문제 | 결과 |\n|---|---|\n| 서버 | 앱 |`;
   const outline = { sections: [1, 2, 3, 4, 5, 6].map(index => ({ section_id: `S0${index}`, title: `항목 ${index}`, purpose: "짧은 요약", visual_candidate: false })) };
   const contract = defaultQualityContract({ documentType: "engineering-story", corpusMedianCharacters: 8_203 });
   const report = buildQualityAudit({ markdown: thin, evidencePack: pack, outline, visualPlan: { visuals: [], decisions: [] }, contract });
   const codes = new Set(report.blockers.map(item => item.code));
   assert.equal(report.result, "FAIL");
-  for (const code of ["content_depth", "subsection_depth", "source_artifacts", "code_or_log_evidence", "direct_evidence_depth", "evidence_coverage", "corpus_depth_ratio"]) assert.ok(codes.has(code), code);
+  for (const code of ["content_depth", "subsection_depth", "source_artifacts", "code_or_log_evidence", "direct_evidence_depth", "evidence_coverage", "corpus_depth_ratio", "research_source_depth", "research_source_diversity", "repository_research", "external_primary_research", "runtime_research", "research_claim_coverage"]) assert.ok(codes.has(code), code);
 });
 
 test("repeated padding cannot satisfy the depth gate", () => {
-  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const pack = packFor(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
   const repeated = `${("같은 근거 없는 문단을 길이만 채우려고 반복한다. ".repeat(8) + "\n\n").repeat(12)}<!-- evidence: JS-E001 -->`;
   const contract = defaultQualityContract({ documentType: "engineering-story" });
   Object.assign(contract.thresholds, { min_characters: 0, min_h2_sections: 0, min_h3_sections: 0, min_artifact_blocks: 0, min_code_blocks: 0, min_direct_evidence: 0, min_evidence_coverage: 0 });
@@ -130,7 +164,7 @@ test("repeated padding cannot satisfy the depth gate", () => {
 });
 
 test("quality exemption requires an explicit user approval", () => {
-  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const pack = packFor(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
   const contract = defaultQualityContract({ profile: "fixture-and-test-only" });
   Object.assign(contract.thresholds, { min_characters: 5_000, min_h2_sections: 0, min_direct_evidence: 0, min_evidence_coverage: 0 });
   contract.exemptions = [{ code: "content_depth", reason: "API reference 표 자체가 완결된 계약이라 장문 산문이 불필요하다고 사용자가 승인했다.", approved_by: "user" }];
@@ -142,8 +176,19 @@ test("quality exemption requires an explicit user approval", () => {
   assert.ok(refused.blockers.some(item => item.code === "content_depth"));
 });
 
-test("rich source-backed article with a required diagram passes production quality", () => {
-  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+test("SoloMD-style enriched source dossier passes production quality", () => {
+  const records = fixture.records.slice(0, 3).map(record => ({ ...record }));
+  records[0].claim_keys = ["parsing-location", "privacy-reason"];
+  records[1].claim_keys = ["privacy-reason", "server-scope"];
+  records[2].claim_keys = ["rollout-date", "implementation", "runtime-result"];
+  let researchPack = buildJustSendResearchPack(records, [], { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  researchPack = enrichResearchPack(researchPack, [
+    { kind: "repository-source", provider: "repository", source_id: "reader.swift", locator: "Sources/Reader.swift:10-80", title: "Reader implementation", artifact_kind: "code", excerpt: "WebKit 문서를 읽고 로컬에서 정규화하는 구현 source입니다.", claim_keys: ["parsing-location", "rollout-date"], reason: "실제 구현 경로와 호출 관계를 확인하기 위해 선택했다." },
+    { kind: "repository-source", provider: "repository", source_id: "reader-tests.swift", locator: "Tests/ReaderTests.swift:20-90", title: "Reader tests", artifact_kind: "test", excerpt: "서버 호출 없이 WebKit 결과가 남는 회귀 테스트 source입니다.", claim_keys: ["rollout-date"], reason: "회귀 테스트의 입력과 관찰 결과를 확인하기 위해 선택했다." },
+    { kind: "official-doc", provider: "official-docs", source_id: "webkit-doc", locator: "https://developer.apple.com/documentation/webkit", title: "Apple WebKit documentation", artifact_kind: "standard", excerpt: "Apple의 WebKit 공식 API와 실행 모델을 설명하는 1차 문서입니다.", claim_keys: ["parsing-location"], reason: "외부 플랫폼의 공식 API 계약을 확인하기 위해 선택했다." },
+    { kind: "runtime-observation", provider: "runtime", source_id: "offline-smoke", locator: "artifact://offline-smoke", title: "Offline smoke", artifact_kind: "runtime", excerpt: "네트워크를 끈 실행에서 로컬 파싱 결과가 생성된 관측입니다.", claim_keys: ["rollout-date"], reason: "실제 실행 조건과 결과를 확인하기 위해 선택했다." },
+  ], { retrievedAt: "2026-08-23T00:00:00Z" });
+  const pack = buildEvidencePack(records, { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z", researchPack });
   const ids = pack.evidence.filter(item => item.sensitivity === "public-safe").map(item => item.id);
   const paragraph = index => `섹션 ${index}에서 서버 경로와 온디바이스 경로를 실제 source와 실패 기록으로 대조했고, 변경 조건과 검증 결과를 같은 기준에서 설명한다. `.repeat(12);
   const sections = [1, 2, 3, 4, 5].map(index => `## 상세 ${index}\n\n${paragraph(index)}\n<!-- evidence: ${ids[index % ids.length]} -->`);
@@ -154,12 +199,12 @@ test("rich source-backed article with a required diagram passes production quali
   ] };
   const plan = buildVisualPlan(pack, outline);
   const contract = defaultQualityContract({ documentType: "engineering-story", corpusMedianCharacters: 6_000 });
-  const report = buildQualityAudit({ markdown: rich, evidencePack: pack, outline, visualPlan: plan, contract });
+  const report = buildQualityAudit({ markdown: rich, evidencePack: pack, researchPack, outline, visualPlan: plan, contract });
   assert.equal(report.result, "PASS", JSON.stringify(report.blockers));
 });
 
 test("empty visual plan passes only when outline has no visual candidate", () => {
-  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const pack = packFor(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
   const contract = defaultQualityContract({ profile: "fixture-and-test-only" });
   Object.assign(contract.thresholds, { min_characters: 0, min_h2_sections: 0, min_direct_evidence: 0, min_evidence_coverage: 0 });
   const outline = { sections: [{ section_id: "S01", title: "남은 질문", purpose: "확인하지 못한 항목 목록", visual_candidate: false }] };
@@ -169,7 +214,7 @@ test("empty visual plan passes only when outline has no visual candidate", () =>
 });
 
 test("semantic visual signal cannot be downgraded to false", () => {
-  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const pack = packFor(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
   const contract = defaultQualityContract({ profile: "fixture-and-test-only" });
   Object.assign(contract.thresholds, { min_characters: 0, min_h2_sections: 0, min_direct_evidence: 0, min_evidence_coverage: 0 });
   const outline = { sections: [{ section_id: "S01", title: "MCP 아키텍처와 상태 전이", purpose: "도구 호출 흐름", visual_candidate: false }] };
@@ -179,7 +224,7 @@ test("semantic visual signal cannot be downgraded to false", () => {
 });
 
 test("visual candidate omission blocks publication", () => {
-  const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const pack = packFor(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
   const contract = defaultQualityContract({ profile: "fixture-and-test-only" });
   Object.assign(contract.thresholds, { min_characters: 0, min_h2_sections: 0, min_direct_evidence: 0, min_evidence_coverage: 0 });
   const outline = { sections: [{ section_id: "S01", title: "데이터 흐름", purpose: "서버에서 앱으로 이동", visual_candidate: true }] };

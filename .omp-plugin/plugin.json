@@ -1,7 +1,7 @@
 {
   "name": "justsend-blog",
-  "version": "0.2.0",
-  "description": "Evidence-first JustSend technical blog authoring pack",
+  "version": "0.3.0",
+  "description": "Research-enriched, evidence-first JustSend technical blog authoring pack",
   "license": "MIT",
   "repository": "https://github.com/clab-one/justsend-blog",
   "homepage": "https://github.com/clab-one/justsend-blog#readme",

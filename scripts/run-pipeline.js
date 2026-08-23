@@ -28,7 +28,7 @@ if (options["prepare-only"]) {
   process.exit(0);
 }
 if (!options.workspace || !options.fixture) {
-  console.error("사용법: node scripts/run-pipeline.js --workspace <git-root> --fixture <mock-records.json> [--request <request.json>] [--date <ISO-8601>]");
+  console.error("사용법: node scripts/run-pipeline.js --workspace <git-root> --fixture <mock-records.json> [--research-sources <sources.json>] [--request <request.json>] [--date <ISO-8601>]");
   console.error("실제 JustSend MCP 실행은 /skill:justsend-blog가 현재 OMP tool description을 발견해 직접 수행합니다.");
   process.exit(2);
 }
@@ -50,7 +50,11 @@ const defaultRequest = {
 
 try {
   const request = options.request ? JSON.parse(await readFile(resolve(options.request), "utf8")) : defaultRequest;
-  const result = await runBlogPipeline({ workspace: resolve(options.workspace), fixturePath: resolve(options.fixture), request, date: options.date ? new Date(options.date) : new Date() });
+  const researchSources = options["research-sources"]
+    ? JSON.parse(await readFile(resolve(options["research-sources"]), "utf8"))
+    : [];
+  if (!Array.isArray(researchSources)) throw new TypeError("research-sources must be a JSON array");
+  const result = await runBlogPipeline({ workspace: resolve(options.workspace), fixturePath: resolve(options.fixture), request, researchSources, date: options.date ? new Date(options.date) : new Date() });
   console.log(JSON.stringify({ run_dir: result.runDir, branch: result.branch, commit: result.commit, audit: result.audit.result, status: "READY_FOR_REVIEW" }, null, 2));
 } catch (error) {
   console.error(error instanceof Error ? error.stack : String(error));

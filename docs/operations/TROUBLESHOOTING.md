@@ -8,7 +8,7 @@ omp plugin doctor
 node scripts/validate-package.js
 ```
 
-`justsend-blog@0.2.0`이 enabled인지, `skills/justsend-blog/SKILL.md`가 linked root 바로 아래 one-level layout인지 확인한다. 기존 session은 plugin cache를 유지할 수 있으므로 새 session을 연다.
+`justsend-blog@0.3.0`이 enabled인지, `skills/justsend-blog/SKILL.md`가 linked root 바로 아래 one-level layout인지 확인한다. 기존 session은 plugin cache를 유지할 수 있으므로 새 session을 연다.
 
 ## JustSend MCP capability가 누락된다
 
@@ -20,7 +20,7 @@ node scripts/validate-package.js
 node scripts/validate-evidence.js /path/to/evidence.yml
 ```
 
-이 프로젝트가 생성하는 `.yml`은 YAML 1.2와 호환되는 JSON 표현이다. ID 중복, 잘못된 type/confidence, source record ID 누락, inference의 빈 `supported_by`를 고친다.
+이 프로젝트가 생성하는 `.yml`은 YAML 1.2와 호환되는 JSON 표현이다. ID 중복, 잘못된 type/confidence, Research Source ID·provider·source_id·locator 누락, inference의 빈 `supported_by`를 고친다.
 
 ## run branch가 이미 존재한다
 
@@ -45,6 +45,15 @@ metrics 오류를 숨기지 않는다. route는 standard로 안전하게 낮추�
 ## 변경률이 50% 이상이다
 
 윤문본을 채택하지 않는다. 원문과 보호 token diff를 확인하고 변경 범위를 줄여 다시 실행한다. audit result를 수동 PASS로 바꾸지 않는다.
+
+## research audit가 JustSend-only 글을 차단한다
+
+정상 동작이다. JustSend record는 사건 seed이지 완성된 research dossier가 아니다. `research-pack.yml`에 repository source·test·config 두 개 이상, official primary docs, runtime observation, existing corpus를 추가하고 각 source의 locator·excerpt·claim_keys를 Evidence `sources[]`에 연결한다. source 수만 채우는 무관한 research는 실제 사용 Evidence와 연결되지 않아 집계되지 않는다.
+
+```bash
+node scripts/validate-research.js /path/to/research-pack.yml
+node scripts/validate-evidence.js /path/to/evidence.yml
+```
 
 ## quality audit가 작업 카드 요약을 차단한다
 

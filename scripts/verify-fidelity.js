@@ -15,8 +15,8 @@ try {
     try { return await read(name); }
     catch (error) { if (error?.code === "ENOENT") return null; throw error; }
   };
-  const [draft, final, evidenceText, planText, humanizationText, outlineText, qualityText] = await Promise.all([
-    read("draft.md"), read("humanized.md"), read("evidence.yml"), read("visual-plan.yml"), read("humanization.json"),
+  const [draft, final, evidenceText, researchText, planText, humanizationText, outlineText, qualityText] = await Promise.all([
+    read("draft.md"), read("humanized.md"), read("evidence.yml"), read("research-pack.yml"), read("visual-plan.yml"), read("humanization.json"),
     optional("outline.json"), optional("quality-contract.json")
   ]);
   const plan = JSON.parse(planText);
@@ -24,7 +24,7 @@ try {
   const qualityContract = qualityText ? JSON.parse(qualityText) : defaultQualityContract();
   const renderedSvgs = {};
   for (const diagram of plan.visuals) renderedSvgs[diagram.diagram_id] = await readFile(join(runDir, "diagrams", `${diagram.diagram_id.toLowerCase()}.svg`), "utf8");
-  const report = buildAuditReport({ technicalDraft: draft, finalMarkdown: final, evidencePack: JSON.parse(evidenceText), outline, visualPlan: plan, qualityContract, renderedSvgs, humanization: JSON.parse(humanizationText) });
+  const report = buildAuditReport({ technicalDraft: draft, finalMarkdown: final, evidencePack: JSON.parse(evidenceText), researchPack: JSON.parse(researchText), outline, visualPlan: plan, qualityContract, renderedSvgs, humanization: JSON.parse(humanizationText) });
   console.log(JSON.stringify(report, null, 2));
   process.exit(report.result === "PASS" ? 0 : 1);
 } catch (error) {

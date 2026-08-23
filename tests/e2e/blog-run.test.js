@@ -36,10 +36,19 @@ test("mock records produce an audited publish candidate without merge or publish
     query_terms: ["웹 파싱", "WebKit", "온디바이스"],
     assumptions: ["지난 한 달은 2026년 7월로 해석했다."]
   };
-  const result = await runBlogPipeline({ workspace, fixturePath: resolve("tests/fixtures/justsend-records.json"), request, date: new Date("2026-08-23T12:34:56Z") });
-  const required = ["request.md", "manifest.json", "research-summary.md", "evidence.yml", "evidence.md", "outline.md", "outline.json", "quality-contract.json", "draft.md", "visual-plan.yml", "humanized.md", "audit.json", "trace.jsonl", "final.md"];
+  const researchSources = [
+    { kind: "repository-source", provider: "repository", source_id: "reader.swift", locator: "Sources/Reader.swift:10-80", title: "Reader implementation", artifact_kind: "code", excerpt: "WebKit 문서를 읽고 로컬에서 정규화하는 실제 구현 source입니다.", claim_keys: ["parsing-location", "rollout-date"], reason: "실제 구현 경로와 호출 관계를 확인하기 위해 선택했다." },
+    { kind: "repository-source", provider: "repository", source_id: "reader-tests.swift", locator: "Tests/ReaderTests.swift:20-90", title: "Reader tests", artifact_kind: "test", excerpt: "서버 호출 없이 WebKit 결과가 남는 회귀 테스트 source입니다.", claim_keys: ["rollout-date"], reason: "회귀 테스트의 입력과 관찰 결과를 확인하기 위해 선택했다." },
+    { kind: "official-doc", provider: "official-docs", source_id: "webkit-doc", locator: "https://developer.apple.com/documentation/webkit", title: "WebKit docs", artifact_kind: "standard", excerpt: "Apple의 WebKit 공식 API와 실행 모델을 설명하는 1차 문서입니다.", claim_keys: ["parsing-location"], reason: "외부 플랫폼의 공식 API 계약을 확인하기 위해 선택했다." },
+    { kind: "runtime-observation", provider: "runtime", source_id: "offline-smoke", locator: "artifact://offline-smoke", title: "Offline smoke", artifact_kind: "runtime", excerpt: "네트워크를 끈 실행에서 로컬 파싱 결과가 생성된 관측입니다.", claim_keys: ["rollout-date"], reason: "실제 실행 조건과 결과를 확인하기 위해 선택했다." },
+  ];
+  const result = await runBlogPipeline({ workspace, fixturePath: resolve("tests/fixtures/justsend-records.json"), request, researchSources, date: new Date("2026-08-23T12:34:56Z") });
+  const required = ["request.md", "manifest.json", "research-summary.md", "research-pack.yml", "evidence.yml", "evidence.md", "outline.md", "outline.json", "quality-contract.json", "draft.md", "visual-plan.yml", "humanized.md", "audit.json", "trace.jsonl", "final.md"];
   for (const name of required) assert.ok(existsSync(join(result.runDir, name)), `${name} must exist`);
   for (const ext of ["html", "svg", "png"]) assert.ok(existsSync(join(result.runDir, "diagrams", `d001.${ext}`)), `diagram ${ext} must exist`);
+  const researchPack = JSON.parse(readFileSync(join(result.runDir, "research-pack.yml"), "utf8"));
+  assert.ok(researchPack.sources.some(source => source.selected));
+  assert.deepEqual([...new Set(researchPack.sources.filter(source => source.selected).map(source => source.provider))], ["justsend", "repository", "official-docs", "runtime"]);
   const visualPlan = JSON.parse(readFileSync(join(result.runDir, "visual-plan.yml"), "utf8"));
   assert.deepEqual(visualPlan.visuals[0].covers_section_ids, ["S02", "S03"]);
   assert.deepEqual(visualPlan.decisions.map(item => item.decision), ["render", "render"]);
@@ -58,6 +67,8 @@ test("mock records produce an audited publish candidate without merge or publish
   assert.deepEqual(audit.text.dates_changed, []);
   const manifest = JSON.parse(readFileSync(join(result.runDir, "manifest.json"), "utf8"));
   assert.equal(manifest.status, "READY_FOR_REVIEW");
+  assert.equal(manifest.research_result, "PASS");
+  assert.deepEqual(manifest.research_providers, ["justsend", "repository", "official-docs", "runtime"]);
   assert.equal(manifest.audit_result, "PASS");
   assert.equal(manifest.quality_profile, "fixture-and-test-only");
   assert.equal(manifest.quality_result, "PASS");

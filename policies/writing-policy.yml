@@ -34,6 +34,34 @@ claims:
     - 획기적
     - 압도적
 
+research_gate:
+  source_of_truth_order:
+    - justsend-work-record
+    - repository-source
+    - official-primary-source
+    - runtime-observation
+    - existing-corpus
+  production_minimum:
+    total_selected_sources: 5
+    source_kinds: 3
+    repository_sources: 2
+    official_primary_sources: 1
+    runtime_observations: 1
+    claim_keys: 5
+  source_requirements:
+    selected_excerpt_required: true
+    locator_required: true
+    claim_mapping_required: true
+    rejected_source_reason_required: true
+    external_search_required_for_external_platform_claims: true
+    code_intelligence_required_for_implementation_claims: true
+    runtime_evidence_required_for_result_claims: true
+  prohibited:
+    - justsend-only-production-article
+    - search-snippet-as-evidence
+    - unlinked-research-padding
+    - secondary-source-when-primary-exists
+
 quality_gate:
   profile: production
   corpus_parity:

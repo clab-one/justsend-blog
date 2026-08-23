@@ -6,6 +6,9 @@
 | --- | --- | --- | --- | --- |
 | Plain Markdown vault | `app/src-tauri/src/workspace_index.rs:1-11,399-486`; `mcp-server/src/workspace.rs:1-31,50-191` | Adopted | `vault/`; `.justsend-blog/runs/*/*.md`; `src/pipeline/run-context.js` | Markdown을 사람이 직접 읽고 Git으로 검토 가능한 SSOT로 유지한다. 앱 인덱스/cache는 필요하지 않다. |
 | Frontmatter metadata | `app/src-tauri/src/commands.rs:569-718,757-944`; `mcp-server/src/workspace.rs:233-252` | Adapted | `templates/*.md`; `src/pipeline/authoring.js` | run template에 최소 YAML frontmatter를 쓰되 Tauri 편집 UI와 범용 YAML mutation은 이식하지 않는다. |
+| Auto-blog source dossier | `app/src-tauri/src/auto_blog.rs:95-164`; `app/src/lib/auto-blog.ts:135-193` | Strengthened | `schemas/research-pack.schema.json`; `src/pipeline/research.js`; `skills/justsend-blog/references/workflows/research.md` | SoloMD는 `research/*.md`와 writing Skill만 모델에 주고 source-only second pass를 수행한다. 이 팩은 dossier를 자동으로 가정하지 않고 JustSend seed 뒤 repository·official·runtime source를 수집·검증한다. |
+| Panel read-only research loop | `app/src/components/AgentPanel.vue:181-243`; `app/src-tauri/src/ai_proxy.rs:468-608` | Adopted | Master Skill Research 단계; OMP read tools | SoloMD panel은 `tools: null`로 read-only tools를 열고 workspace index·active note를 system context에 넣는다. 풍부한 글의 선행 조사 원리를 Main의 CodeGraph/LSP/read/web_search/runtime 조사로 명시한다. |
+| Auto-blog strict review pass | `app/src/lib/auto-blog.ts:165-193` | Adopted | Evidence/Fidelity Audit | candidate를 source Markdown 하나와 다시 대조해 unsupported title·heading·number·causality를 삭제하는 원리를 multi-source Evidence Audit으로 확장한다. |
 | MCP workspace 접근 | `mcp-server/src/main.rs:75-230`; `mcp-server/src/tools.rs:30-122,379-458` | Adapted | `src/mcp/capability-discovery.js`; `src/mcp/justsend-adapter.js`; `.omp/mcp.json.example` | MCP server를 번들하지 않고 OMP가 연결한 JustSend tool description을 실행 시 매핑한다. |
 | Agent run 저장 | `app/src-tauri/src/agent_run.rs:1-24,190-389` | Adopted | `src/pipeline/run-context.js`; `src/tracing/trace-writer.js`; `.justsend-blog/runs/` | run별 manifest·Markdown·JSONL을 독립 디렉터리에 남긴다. |
 | Recipe | `app/src-tauri/src/recipes.rs:1-24,410-525` | Adapted | `skills/justsend-blog/SKILL.md`; `schemas/run-manifest.schema.json`; `policies/*.yml` | OMP Skill이 선언형 recipe 역할을 맡는다. 별도 scheduler·watcher는 범위 밖이다. |
@@ -25,3 +28,5 @@
 ## 핵심 차이
 
 SoloMD 원본 branch sandbox는 현재 working tree를 일시 전환하고 dirty workspace면 실행을 거부한다. `justsend-blog`는 clean/dirty 여부와 무관하게 원 workspace를 보존하도록 HEAD에서 nested ignored worktree를 만든다. 이는 SoloMD의 격리 의도를 유지하면서 데이터 손실 위험을 줄이는 강화된 Adaptation이다.
+
+SoloMD auto-blog 자체는 research를 수행하지 않는다. `research/*.md`의 source Markdown과 writing Skill을 read-only model call에 넣고, candidate를 같은 source로 한 번 더 편집한다. 실제로 풍부했던 JustSend 연작은 panel agent가 Plane·실제 앱·클러스터를 먼저 읽어 211개 source가 있는 research dossier를 만든 뒤 작성했다. 따라서 `justsend-blog`도 JustSend MCP 결과를 곧바로 draft로 보내지 않고 `research-pack.yml`의 repository·official primary·runtime·corpus source를 먼저 요구한다.

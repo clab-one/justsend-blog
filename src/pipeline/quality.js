@@ -1,3 +1,5 @@
+import { researchCoverage } from "./research.js";
+
 const LONG_FORM_TYPES = new Set([
   "engineering-story",
   "architecture-decision",
@@ -54,6 +56,12 @@ export function defaultQualityContract({ documentType = "engineering-story", pro
           min_evidence_coverage: 0.5,
           min_corpus_depth_ratio: 0,
           max_repeated_paragraph_ratio: 1,
+          min_total_research_sources: 0,
+          min_research_source_kinds: 0,
+          min_repository_sources: 0,
+          min_official_sources: 0,
+          min_runtime_sources: 0,
+          min_research_claim_keys: 0,
         }
       : {
           min_characters: longForm ? 4_500 : 3_000,
@@ -65,6 +73,12 @@ export function defaultQualityContract({ documentType = "engineering-story", pro
           min_evidence_coverage: 0.65,
           min_corpus_depth_ratio: 0.6,
           max_repeated_paragraph_ratio: 0.2,
+          min_total_research_sources: 5,
+          min_research_source_kinds: 3,
+          min_repository_sources: 2,
+          min_official_sources: 1,
+          min_runtime_sources: 1,
+          min_research_claim_keys: 5,
         },
     exemptions: [],
   };
@@ -87,6 +101,7 @@ export function contentMetrics(markdown, pack) {
     blockquotes: (value.match(/^>\s+/gm) ?? []).length,
     images: (value.match(/!\[[^\]]*\]\([^\)]+\)/g) ?? []).length,
     direct_evidence_used: usedDirect.length,
+    used_evidence_ids: usedDirect,
     evidence_coverage: available.length ? usedDirect.length / available.length : 0,
     unused_high_value_evidence: highValue.filter(id => !used.has(id)),
     repeated_paragraph_ratio: repeatedParagraphRatio(value),
@@ -125,9 +140,24 @@ function exemption(contract, code) {
     item.code === code && item.approved_by === "user" && String(item.reason ?? "").trim().length >= 20);
 }
 
-export function buildQualityAudit({ markdown, evidencePack, outline, visualPlan, contract }) {
+export function buildQualityAudit({ markdown, evidencePack, researchPack, outline, visualPlan, contract }) {
   const active = contract ?? defaultQualityContract();
   const metrics = contentMetrics(markdown, evidencePack);
+  const usedIds = new Set(metrics.used_evidence_ids);
+  const usedEvidence = (evidencePack?.evidence ?? []).filter(item => usedIds.has(item.id));
+  const linkedResearchIds = new Set(
+    usedEvidence.flatMap(item => (item.sources ?? []).map(source => source.research_source_id)),
+  );
+  const linkedResearchPack = {
+    sources: (researchPack?.sources ?? []).filter(source => linkedResearchIds.has(source.id)),
+  };
+  const research = researchCoverage(linkedResearchPack);
+  const evidenceClaimKeys = [...new Set(usedEvidence.flatMap(item => item.claim_keys ?? []))];
+  const researchClaimKeys = new Set(research.claim_keys);
+  Object.assign(metrics, research, {
+    evidence_claim_keys: evidenceClaimKeys,
+    unmapped_research_claim_keys: evidenceClaimKeys.filter(key => !researchClaimKeys.has(key)),
+  });
   const thresholds = active.thresholds;
   const corpusMedian = active.corpus?.median_characters ?? null;
   metrics.corpus_depth_ratio = corpusMedian ? metrics.characters / corpusMedian : null;
@@ -142,6 +172,13 @@ export function buildQualityAudit({ markdown, evidencePack, outline, visualPlan,
     ["evidence_coverage", metrics.evidence_coverage < thresholds.min_evidence_coverage, { actual: metrics.evidence_coverage, minimum: thresholds.min_evidence_coverage }],
     ["corpus_depth_ratio", metrics.corpus_depth_ratio !== null && metrics.corpus_depth_ratio < thresholds.min_corpus_depth_ratio, { actual: metrics.corpus_depth_ratio, minimum: thresholds.min_corpus_depth_ratio }],
     ["repetitive_padding", metrics.repeated_paragraph_ratio > thresholds.max_repeated_paragraph_ratio, { actual: metrics.repeated_paragraph_ratio, maximum: thresholds.max_repeated_paragraph_ratio }],
+    ["research_source_depth", metrics.total_sources < thresholds.min_total_research_sources, { actual: metrics.total_sources, minimum: thresholds.min_total_research_sources }],
+    ["research_source_diversity", metrics.source_kinds.length < thresholds.min_research_source_kinds, { actual: metrics.source_kinds, minimum: thresholds.min_research_source_kinds }],
+    ["repository_research", metrics.repository_sources < thresholds.min_repository_sources, { actual: metrics.repository_sources, minimum: thresholds.min_repository_sources }],
+    ["external_primary_research", metrics.official_sources < thresholds.min_official_sources, { actual: metrics.official_sources, minimum: thresholds.min_official_sources }],
+    ["runtime_research", metrics.runtime_sources < thresholds.min_runtime_sources, { actual: metrics.runtime_sources, minimum: thresholds.min_runtime_sources }],
+    ["research_claim_coverage", metrics.claim_keys.length < thresholds.min_research_claim_keys, { actual: metrics.claim_keys.length, minimum: thresholds.min_research_claim_keys }],
+    ["research_claim_mapping", thresholds.min_research_claim_keys > 0 && metrics.unmapped_research_claim_keys.length > 0, { claim_keys: metrics.unmapped_research_claim_keys }],
     ["unused_high_value_evidence", metrics.unused_high_value_evidence.length > 0, { evidence_ids: metrics.unused_high_value_evidence }],
     ["missing_required_visuals", visual.missing_required_visuals.length > 0, { section_ids: visual.missing_required_visuals }],
     ["misclassified_visual_candidates", visual.misclassified_visual_candidates.length > 0, { section_ids: visual.misclassified_visual_candidates }],

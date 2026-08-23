@@ -5,6 +5,7 @@ import { spawnSync } from "node:child_process";
 import { discoverCapabilities, requireCapabilities } from "../mcp/capability-discovery.js";
 import { JustSendAdapter } from "../mcp/justsend-adapter.js";
 import { buildEvidencePack, selectRelevantRecords, serializeEvidenceYaml, validateEvidencePack } from "./evidence.js";
+import { buildJustSendResearchPack, enrichResearchPack, validateResearchPack } from "./research.js";
 import { buildOutline, chooseDocumentType, renderOutlineMarkdown, renderTechnicalDraft, transitionManifest } from "./authoring.js";
 import { commitRunPaths, mintRunId, prepareIsolatedRun, runDiff } from "./run-context.js";
 import { TraceWriter } from "../tracing/trace-writer.js";
@@ -39,7 +40,7 @@ function requestMarkdown(request) {
 
 function evidenceMarkdown(pack) {
   const lines = ["# Evidence Pack", ""];
-  for (const item of pack.evidence) lines.push(`## ${item.id} · ${item.type}`, "", item.statement, "", `- occurred_at: ${item.occurred_at}`, `- record_id: ${item.source.record_id}`, `- confidence: ${item.confidence}`, `- sensitivity: ${item.sensitivity}`, "");
+  for (const item of pack.evidence) lines.push(`## ${item.id} · ${item.type}`, "", item.statement, "", `- occurred_at: ${item.occurred_at}`, `- sources: ${item.sources.map(source => `${source.research_source_id}:${source.provider}:${source.source_id}`).join(", ")}`, `- confidence: ${item.confidence}`, `- sensitivity: ${item.sensitivity}`, "");
   if (pack.conflicts.length) lines.push("## Conflicts", "", ...pack.conflicts.map(conflict => `- ${conflict.claim}: ${conflict.variants.map(item => item.value).join(" / ")} (${conflict.resolution})`), "");
   return `${lines.join("\n")}\n`;
 }
@@ -64,7 +65,7 @@ function integrateDiagram(markdown, visualPlan) {
   return `${markdown.trim()}\n\n## 구조 비교 그림\n\n${figures}\n`;
 }
 
-export async function runBlogPipeline({ workspace, fixturePath, request, date = new Date() }) {
+export async function runBlogPipeline({ workspace, fixturePath, request, researchSources = [], date = new Date() }) {
   const fixture = JSON.parse(readFileSync(fixturePath, "utf8"));
   const runId = mintRunId({ date, slug: "web-parsing-on-device" });
   const context = prepareIsolatedRun({ workspace, runId, slug: "web-parsing-on-device" });
@@ -89,6 +90,8 @@ export async function runBlogPipeline({ workspace, fixturePath, request, date = 
     humanization_mode: null,
     diagrams: [],
     evidence_count: 0,
+    research_result: null,
+    research_providers: [],
     audit_result: null,
     quality_profile: null,
     quality_result: null,
@@ -117,10 +120,21 @@ export async function runBlogPipeline({ workspace, fixturePath, request, date = 
   const rejected = fixture.records.filter(record => !selected.some(candidate => candidate.id === record.id));
   selected.forEach(record => trace.append("record_selected", { record_id: record.id }));
   rejected.forEach(record => trace.append("record_rejected", { record_id: record.id, reason: "outside topic or date scope" }));
+  let researchPack = buildJustSendResearchPack(selected, rejected, { topic: request.topic, generatedAt: date.toISOString() });
+  researchPack = enrichResearchPack(researchPack, researchSources, { retrievedAt: date.toISOString() });
+  const researchValidation = validateResearchPack(researchPack);
+  if (!researchValidation.valid) throw new Error(researchValidation.errors.join("; "));
+  context.write("research-pack.yml", `${JSON.stringify(researchPack, null, 2)}\n`);
+  trace.append("research_pack_created", {
+    selected_sources: researchPack.sources.filter(source => source.selected).length,
+    rejected_sources: researchPack.sources.filter(source => !source.selected).length,
+    providers: [...new Set(researchPack.sources.map(source => source.provider))],
+    redacted_sources: researchPack.sources.filter(source => source.sensitivity === "redacted").length,
+  });
   const records = [];
   for (const record of selected) records.push(await adapter.getRecord({ record_id: record.id }));
 
-  const pack = buildEvidencePack(records, { topic: request.topic, generatedAt: date.toISOString(), dateFrom: request.date_range.date_from, dateTo: request.date_range.date_to, queryTerms: request.query_terms });
+  const pack = buildEvidencePack(records, { topic: request.topic, generatedAt: date.toISOString(), dateFrom: request.date_range.date_from, dateTo: request.date_range.date_to, queryTerms: request.query_terms, researchPack });
   const validation = validateEvidencePack(pack);
   if (!validation.valid) throw new Error(validation.errors.join("; "));
   const research = `# 조사 요약\n\n- server: ${fixture.server}\n- selected: ${selected.map(record => record.id).join(", ")}\n- rejected: ${rejected.map(record => record.id).join(", ")}\n- duplicates: ${pack.duplicates.map(item => `${item.record_id}->${item.duplicate_of}`).join(", ") || "없음"}\n- conflicts: ${pack.conflicts.map(item => item.claim).join(", ") || "없음"}\n- redacted evidence: ${pack.evidence.filter(item => item.sensitivity === "redacted").length}\n`;
@@ -128,7 +142,7 @@ export async function runBlogPipeline({ workspace, fixturePath, request, date = 
   context.write("evidence.yml", serializeEvidenceYaml(pack));
   context.write("evidence.md", evidenceMarkdown(pack));
   trace.append("evidence_created", { evidence_count: pack.evidence.length, inference_count: pack.inferences.length, conflict_count: pack.conflicts.length, duplicate_count: pack.duplicates.length });
-  transitionManifest(manifestPath, "EVIDENCE_READY", { evidence_count: pack.evidence.length, logical_capabilities: Object.keys(discovery.capabilities), missing_capabilities: [...discovery.missing, ...discovery.ambiguous.map(item => item.logical)] });
+  transitionManifest(manifestPath, "EVIDENCE_READY", { evidence_count: pack.evidence.length, research_result: "PASS", research_providers: [...new Set(researchPack.sources.filter(source => source.selected).map(source => source.provider))], logical_capabilities: Object.keys(discovery.capabilities), missing_capabilities: [...discovery.missing, ...discovery.ambiguous.map(item => item.logical)] });
   let commit = commitRunPaths(context, [context.runRelative], "blog(run): capture request and evidence");
   trace.append("git_commit", { commit, stage: "evidence" });
 
@@ -187,7 +201,7 @@ export async function runBlogPipeline({ workspace, fixturePath, request, date = 
 
   trace.append("audit_started", { text: true, diagrams: visualPlan.visuals.length });
   const candidate = humanized.replace("status: technical-draft", "status: ready-for-review");
-  const audit = buildAuditReport({ technicalDraft: draft, finalMarkdown: candidate, evidencePack: pack, outline, visualPlan, qualityContract, renderedSvgs, humanization });
+  const audit = buildAuditReport({ technicalDraft: draft, finalMarkdown: candidate, evidencePack: pack, researchPack, outline, visualPlan, qualityContract, renderedSvgs, humanization });
   context.write("audit.json", `${JSON.stringify(audit, null, 2)}\n`);
   if (audit.result !== "PASS") {
     trace.append("audit_failed", { text: audit.text, diagrams: audit.diagrams, quality: audit.quality, humanization: audit.humanization });

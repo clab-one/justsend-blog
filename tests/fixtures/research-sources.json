@@ -1,0 +1,46 @@
+[
+  {
+    "kind": "repository-source",
+    "provider": "repository",
+    "source_id": "reader.swift",
+    "locator": "Sources/Reader.swift:10-80",
+    "title": "Reader implementation",
+    "artifact_kind": "code",
+    "excerpt": "WebKit 문서를 읽고 로컬에서 정규화하는 실제 구현 source입니다.",
+    "claim_keys": ["parsing-location", "rollout-date"],
+    "reason": "실제 구현 경로와 호출 관계를 확인하기 위해 선택했다."
+  },
+  {
+    "kind": "repository-source",
+    "provider": "repository",
+    "source_id": "reader-tests.swift",
+    "locator": "Tests/ReaderTests.swift:20-90",
+    "title": "Reader tests",
+    "artifact_kind": "test",
+    "excerpt": "서버 호출 없이 WebKit 결과가 남는 회귀 테스트 source입니다.",
+    "claim_keys": ["rollout-date"],
+    "reason": "회귀 테스트의 입력과 관찰 결과를 확인하기 위해 선택했다."
+  },
+  {
+    "kind": "official-doc",
+    "provider": "official-docs",
+    "source_id": "webkit-doc",
+    "locator": "https://developer.apple.com/documentation/webkit",
+    "title": "WebKit docs",
+    "artifact_kind": "standard",
+    "excerpt": "Apple의 WebKit 공식 API와 실행 모델을 설명하는 1차 문서입니다.",
+    "claim_keys": ["parsing-location"],
+    "reason": "외부 플랫폼의 공식 API 계약을 확인하기 위해 선택했다."
+  },
+  {
+    "kind": "runtime-observation",
+    "provider": "runtime",
+    "source_id": "offline-smoke",
+    "locator": "artifact://offline-smoke",
+    "title": "Offline smoke",
+    "artifact_kind": "runtime",
+    "excerpt": "네트워크를 끈 실행에서 로컬 파싱 결과가 생성된 관측입니다.",
+    "claim_keys": ["rollout-date"],
+    "reason": "실제 실행 조건과 결과를 확인하기 위해 선택했다."
+  }
+]

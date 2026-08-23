@@ -37,6 +37,11 @@ status: technical-draft
 ```
 <!-- evidence: {{artifact_evidence_ids}} -->
 
+## 외부 플랫폼의 공식 계약
+
+{{official_primary_research}}
+<!-- evidence: {{official_evidence_ids}} -->
+
 ## 선택한 구조와 이유
 
 {{decision}}
@@ -44,10 +49,12 @@ status: technical-draft
 
 {{required_architecture_or_decision_diagram}}
 
-## 이관과 검증
+## 이관과 Runtime 검증
 
 {{migration_and_verification}}
-<!-- evidence: {{verification_evidence_ids}} -->
+
+{{runtime_observations}}
+<!-- evidence: {{verification_evidence_ids}}, {{runtime_evidence_ids}} -->
 
 ## 결과·비용·미확인 범위
 

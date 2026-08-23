@@ -42,6 +42,11 @@ status: technical-draft
 ```
 <!-- evidence: {{artifact_evidence_ids}} -->
 
+## 외부 플랫폼의 공식 계약
+
+{{official_primary_research}}
+<!-- evidence: {{official_evidence_ids}} -->
+
 ## 결정한 구조
 
 {{decision}}
@@ -49,10 +54,12 @@ status: technical-draft
 
 {{evidence_backed_diagram_or_explicit_non_candidate_reason}}
 
-## 검증 시나리오
+## 검증 시나리오와 Runtime observation
 
 {{verification_scenarios}}
-<!-- evidence: {{verification_evidence_ids}} -->
+
+{{runtime_observations}}
+<!-- evidence: {{verification_evidence_ids}}, {{runtime_evidence_ids}} -->
 
 ## 확인된 결과
 

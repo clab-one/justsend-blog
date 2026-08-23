@@ -18,7 +18,7 @@
     "thresholds": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["min_characters", "min_h2_sections", "min_h3_sections", "min_artifact_blocks", "min_code_blocks", "min_direct_evidence", "min_evidence_coverage", "min_corpus_depth_ratio", "max_repeated_paragraph_ratio"],
+      "required": ["min_characters", "min_h2_sections", "min_h3_sections", "min_artifact_blocks", "min_code_blocks", "min_direct_evidence", "min_evidence_coverage", "min_corpus_depth_ratio", "max_repeated_paragraph_ratio", "min_total_research_sources", "min_research_source_kinds", "min_repository_sources", "min_official_sources", "min_runtime_sources", "min_research_claim_keys"],
       "properties": {
         "min_characters": {"type": "integer", "minimum": 0},
         "min_h2_sections": {"type": "integer", "minimum": 0},
@@ -28,7 +28,13 @@
         "min_direct_evidence": {"type": "integer", "minimum": 0},
         "min_evidence_coverage": {"type": "number", "minimum": 0, "maximum": 1},
         "min_corpus_depth_ratio": {"type": "number", "minimum": 0, "maximum": 1},
-        "max_repeated_paragraph_ratio": {"type": "number", "minimum": 0, "maximum": 1}
+        "max_repeated_paragraph_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "min_total_research_sources": {"type": "integer", "minimum": 0},
+        "min_research_source_kinds": {"type": "integer", "minimum": 0},
+        "min_repository_sources": {"type": "integer", "minimum": 0},
+        "min_official_sources": {"type": "integer", "minimum": 0},
+        "min_runtime_sources": {"type": "integer", "minimum": 0},
+        "min_research_claim_keys": {"type": "integer", "minimum": 0}
       }
     },
     "exemptions": {

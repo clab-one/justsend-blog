@@ -4,7 +4,7 @@ import { redactValue } from "../mcp/redaction.js";
 export const TRACE_EVENTS = new Set([
   "run_started", "assumption_recorded", "scout_requested", "scout_completed",
   "mcp_discovered", "mcp_call_started", "mcp_call_completed", "record_selected",
-  "record_rejected", "evidence_created", "outline_created", "draft_created",
+  "record_rejected", "research_pack_created", "evidence_created", "outline_created", "draft_created",
   "visual_planned", "diagram_rendered", "humanize_started", "humanize_completed",
   "audit_started", "audit_failed", "audit_passed", "git_commit", "run_completed",
   "state_transition", "redaction_applied", "run_blocked",

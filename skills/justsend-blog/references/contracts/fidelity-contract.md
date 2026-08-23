@@ -8,6 +8,14 @@
 - `proper_nouns_changed.length > 0` when the change affects identity
 - protected code, URL, path, API, quote, record ID, Evidence ID mismatch
 
+## Research blockers
+
+- production Evidence가 JustSend work-record provider만 사용
+- `research_source_depth`, `research_source_diversity`, `repository_research`, `external_primary_research`, `runtime_research`, `research_claim_coverage` blocker 발생
+- selected source에 locator·20자 excerpt·claim key가 없음
+- 구현 claim에 repository source가, 외부 플랫폼 claim에 official primary source가, result claim에 runtime observation이 연결되지 않음
+- final이 사용하지 않는 source를 수치 채우기용으로 research pack에 추가
+
 ## Content quality blockers
 
 - `quality.blockers.length > 0`

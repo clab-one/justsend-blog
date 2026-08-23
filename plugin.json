@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "justsend-blog",
-  "version": "0.2.0",
-  "description": "Evidence-first JustSend technical blog authoring pack for OMP",
+  "version": "0.3.0",
+  "description": "Research-enriched, evidence-first JustSend technical blog authoring pack for OMP",
   "author": {
     "name": "justsend-blog contributors"
   },

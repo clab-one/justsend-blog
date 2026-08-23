@@ -23,20 +23,27 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "type", "statement", "occurred_at", "source", "confidence", "sensitivity"],
+        "required": ["id", "type", "statement", "occurred_at", "claim_keys", "sources", "confidence", "sensitivity"],
         "properties": {
           "id": {"type": "string", "pattern": "^JS-E[0-9]{3,}$"},
           "type": {"enum": ["fact", "decision", "reason", "result", "failure", "tradeoff", "measurement", "timeline-event", "quote", "open-question"]},
           "statement": {"type": "string", "minLength": 1},
           "occurred_at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}"},
-          "source": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["provider", "record_id", "attachment_ids"],
-            "properties": {
-              "provider": {"const": "justsend"},
-              "record_id": {"type": "string", "minLength": 1},
-              "attachment_ids": {"type": "array", "items": {"type": "string"}}
+          "claim_keys": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "sources": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["research_source_id", "provider", "source_id", "locator", "attachment_ids"],
+              "properties": {
+                "research_source_id": {"type": "string", "pattern": "^RS-[0-9]{3,}$"},
+                "provider": {"enum": ["justsend", "repository", "official-docs", "web", "runtime", "corpus", "user"]},
+                "source_id": {"type": "string", "minLength": 1},
+                "locator": {"type": "string", "minLength": 1},
+                "attachment_ids": {"type": "array", "items": {"type": "string"}}
+              }
             }
           },
           "confidence": {"enum": ["direct", "corroborated", "inferred", "uncertain"]},

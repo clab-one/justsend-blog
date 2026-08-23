@@ -19,20 +19,30 @@ test("only justsend-blog is exposed while workflows and vendors stay internal", 
   }
   assert.ok(existsSync(resolve("skills/justsend-blog/vendor/diagram-design/SKILL.md")));
   assert.ok(existsSync(resolve("skills/justsend-blog/vendor/im-not-ai/scripts/prepare_monolith_input.py")));
+  assert.ok(existsSync(resolve("schemas/research-pack.schema.json")));
   assert.ok(existsSync(resolve("schemas/quality-contract.schema.json")));
   const master = read("skills/justsend-blog/SKILL.md");
-  for (const token of ["quality-contract.json", "corpus", "visual_candidate", "첨부 부재"]) assert.ok(master.includes(token), token);
+  for (const token of ["research-pack.yml", "web_search", "repository source", "quality-contract.json", "corpus", "visual_candidate", "첨부 부재"]) assert.ok(master.includes(token), token);
 });
 
 test("quality and visual schemas require the new publication gates", () => {
+  const research = JSON.parse(read("schemas/research-pack.schema.json"));
+  const evidence = JSON.parse(read("schemas/evidence-pack.schema.json"));
   const visual = JSON.parse(read("schemas/visual-plan.schema.json"));
   const audit = JSON.parse(read("schemas/audit-report.schema.json"));
   const quality = JSON.parse(read("schemas/quality-contract.schema.json"));
+  assert.ok(research.properties.sources.items.required.includes("claim_keys"));
+  assert.ok(research.properties.sources.items.required.includes("excerpt"));
+  assert.ok(evidence.properties.evidence.items.required.includes("sources"));
+  assert.ok(!evidence.properties.evidence.items.required.includes("source"));
   assert.deepEqual(visual.required, ["visuals", "decisions"]);
   assert.ok(visual.properties.decisions);
   assert.ok(visual.properties.visuals.items.required.includes("covers_section_ids"));
   assert.ok(audit.required.includes("quality"));
   assert.ok(audit.properties.diagrams.required.includes("missing_required_visuals"));
+  assert.ok(quality.properties.thresholds.required.includes("min_repository_sources"));
+  assert.ok(quality.properties.thresholds.required.includes("min_official_sources"));
+  assert.ok(quality.properties.thresholds.required.includes("min_runtime_sources"));
   assert.equal(quality.properties.exemptions.items.properties.approved_by.const, "user");
 });
 

@@ -37,15 +37,22 @@ status: technical-draft
 ```
 <!-- evidence: {{cause_evidence_ids}} -->
 
+## 외부 플랫폼의 공식 계약
+
+{{official_primary_research}}
+<!-- evidence: {{official_evidence_ids}} -->
+
 ## 대응과 상태 전이
 
 {{response}}
 <!-- evidence: {{response_evidence_ids}} -->
 
-## 검증
+## 검증과 Runtime observation
 
 {{verification_scenarios_and_results}}
-<!-- evidence: {{verification_evidence_ids}} -->
+
+{{runtime_observations}}
+<!-- evidence: {{verification_evidence_ids}}, {{runtime_evidence_ids}} -->
 
 ## 재발 방지·비용·미확인 항목
 

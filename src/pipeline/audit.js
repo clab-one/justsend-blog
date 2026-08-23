@@ -79,10 +79,10 @@ export function deterministicTextAudit(before, after) {
   };
 }
 
-export function buildAuditReport({ technicalDraft, finalMarkdown, evidencePack, outline, visualPlan, qualityContract, renderedSvgs = {}, humanization }) {
+export function buildAuditReport({ technicalDraft, finalMarkdown, evidencePack, researchPack, outline, visualPlan, qualityContract, renderedSvgs = {}, humanization }) {
   const deterministic = deterministicTextAudit(technicalDraft, finalMarkdown);
   const unsupported_claims = claimAudit(finalMarkdown, evidencePack);
-  const quality = buildQualityAudit({ markdown: finalMarkdown, evidencePack, outline, visualPlan, contract: qualityContract });
+  const quality = buildQualityAudit({ markdown: finalMarkdown, evidencePack, researchPack, outline, visualPlan, contract: qualityContract });
   const beforeClaims = new Set(comments(technicalDraft));
   const afterClaims = new Set(comments(finalMarkdown));
   const claims_added = [...afterClaims].filter(id => !beforeClaims.has(id));

@@ -7,6 +7,7 @@ import { spawnSync } from "node:child_process";
 import { discoverCapabilities } from "../../src/mcp/capability-discovery.js";
 import { JustSendAdapter } from "../../src/mcp/justsend-adapter.js";
 import { buildEvidencePack, selectRelevantRecords, validateEvidencePack } from "../../src/pipeline/evidence.js";
+import { buildJustSendResearchPack, validateResearchPack } from "../../src/pipeline/research.js";
 import { prepareIsolatedRun } from "../../src/pipeline/run-context.js";
 
 const fixture = JSON.parse(readFileSync(resolve("tests/fixtures/justsend-records.json"), "utf8"));
@@ -30,7 +31,11 @@ test("mock JustSend MCP creates redacted deduplicated conflict-aware Evidence Pa
   const adapter = new JustSendAdapter({ discovery, invoke, trace: (event, details) => trace.push({ event, details }) });
   const candidates = await adapter.searchRecords({ query: "웹 파싱 WebKit 온디바이스" });
   const full = await Promise.all(candidates.map(record => adapter.getRecord({ record_id: record.id })));
-  const pack = buildEvidencePack(full, { topic: "웹 파싱 이전", generatedAt: "2026-08-23T00:00:00Z", dateFrom: "2026-07-01", dateTo: "2026-07-31", queryTerms: ["웹 파싱", "WebKit", "온디바이스"] });
+  const researchPack = buildJustSendResearchPack(full, [], { topic: "웹 파싱 이전", generatedAt: "2026-08-23T00:00:00Z" });
+  assert.equal(validateResearchPack(researchPack).valid, true);
+  assert.doesNotMatch(JSON.stringify(researchPack), /sk_live_SUPERSECRET|parser\.internal|dev\.private@example/);
+  assert.ok(researchPack.sources.some(source => source.sensitivity === "redacted"));
+  const pack = buildEvidencePack(full, { topic: "웹 파싱 이전", generatedAt: "2026-08-23T00:00:00Z", dateFrom: "2026-07-01", dateTo: "2026-07-31", queryTerms: ["웹 파싱", "WebKit", "온디바이스"], researchPack });
   assert.equal(validateEvidencePack(pack).valid, true);
   assert.equal(pack.duplicates.length, 1);
   assert.equal(pack.conflicts.length, 1);
