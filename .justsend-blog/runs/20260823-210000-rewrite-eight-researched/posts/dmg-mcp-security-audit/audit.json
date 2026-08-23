@@ -1,0 +1,105 @@
+{
+  "text": {
+    "unsupported_claims": [],
+    "numbers_changed": [],
+    "dates_changed": [],
+    "urls_changed": [],
+    "record_ids_changed": [],
+    "evidence_ids_changed": [],
+    "code_blocks_changed": [],
+    "inline_code_changed": [],
+    "file_paths_changed": [],
+    "proper_nouns_changed": [],
+    "quoted_strings_changed": [],
+    "claims_added": [],
+    "claims_removed": []
+  },
+  "diagrams": {
+    "unsupported_nodes": [],
+    "unsupported_edges": [],
+    "incorrect_labels": [],
+    "missing_provenance": [],
+    "missing_required_visuals": [],
+    "misclassified_visual_candidates": [],
+    "unjustified_omissions": []
+  },
+  "quality": {
+    "profile": "production",
+    "metrics": {
+      "characters": 6439,
+      "h2_sections": 7,
+      "h3_sections": 3,
+      "tables": 2,
+      "code_blocks": 2,
+      "blockquotes": 0,
+      "images": 1,
+      "direct_evidence_used": 7,
+      "used_evidence_ids": [
+        "JS-E001",
+        "JS-E007",
+        "JS-E002",
+        "JS-E003",
+        "JS-E004",
+        "JS-E005",
+        "JS-E006"
+      ],
+      "evidence_coverage": 1,
+      "unused_high_value_evidence": [],
+      "repeated_paragraph_ratio": 0,
+      "artifact_blocks": 5,
+      "total_sources": 6,
+      "justsend_sources": 1,
+      "repository_sources": 2,
+      "official_sources": 1,
+      "web_sources": 0,
+      "runtime_sources": 1,
+      "corpus_sources": 1,
+      "source_kinds": [
+        "work-record",
+        "repository-source",
+        "official-doc",
+        "runtime-observation",
+        "existing-corpus"
+      ],
+      "claim_keys": [
+        "public-threat-model",
+        "intent-authorization",
+        "runtime-reaudit",
+        "staged-path",
+        "ssrf-policy",
+        "parser-divergence",
+        "corpus-depth",
+        "seed-not-source"
+      ],
+      "evidence_claim_keys": [
+        "public-threat-model",
+        "intent-authorization",
+        "staged-path",
+        "ssrf-policy",
+        "parser-divergence",
+        "runtime-reaudit",
+        "corpus-depth"
+      ],
+      "unmapped_research_claim_keys": [],
+      "corpus_depth_ratio": 0.784956723150067
+    },
+    "visual": {
+      "misclassified_visual_candidates": [],
+      "missing_required_visuals": [],
+      "unjustified_omissions": []
+    },
+    "blockers": [],
+    "exemptions": [],
+    "result": "PASS"
+  },
+  "humanization": {
+    "mode": "main-direct-im-not-ai-guided",
+    "route": "light",
+    "reason": "prepare_monolith_input.py route_hint를 따르고 quick-rules의 번역투·메타 담화만 국소 수정했다.",
+    "change_rate": 0.001,
+    "meaning_preserved": true,
+    "protected_tokens_preserved": true,
+    "verdict": "PASS"
+  },
+  "result": "PASS"
+}

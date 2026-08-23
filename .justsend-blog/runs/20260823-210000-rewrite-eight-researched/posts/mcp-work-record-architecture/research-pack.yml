@@ -1,0 +1,122 @@
+{
+  "topic": "JustSend MCP 재설계: 비동기 집행 앞에서 노트를 잃지 않는 앵커 계약",
+  "generated_at": "2026-08-23T21:00:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "60A796EF-047B-41E0-B1C3-52427D96BBEB",
+      "locator": "justsend:60A796EF-047B-41E0-B1C3-52427D96BBEB",
+      "title": "MACPROD-19 MCP 아키텍처 재설계",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "기록 생성을 비동기로 미루면서 동기 후속 노트 계약을 얹어 67건이 큐에도 들어가지 못한 실패, 계정 복원 전 owner mismatch, 재설계와 배포 결과를 기록했다.",
+      "claim_keys": [
+        "async-anchor-loss",
+        "owner-recovery",
+        "runtime-self-test"
+      ],
+      "content_hash": "ebcde2c044c78d62b6127cd2fca55596f1766ab20c951c3fec35c02beaa23aff",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:MCPToolDispatch.workStart",
+      "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:891-1093",
+      "title": "workStart의 선발급 앵커 계약",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "workStart는 item id를 집행 전에 발급하고 openWork로 앵커와 의도를 한 트랜잭션에 세운다. 그래서 즉시 뒤따르는 노트가 목적지를 알고 큐에 들어간다.",
+      "claim_keys": [
+        "preallocated-id",
+        "atomic-openwork",
+        "async-anchor-loss"
+      ],
+      "content_hash": "0fa5b797bc8c8e1ada624a0953c3e7c33d36753076e45717c9be069ec86caaac",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:AgentSidecarStore.openWork",
+      "locator": "mac-prod/Sources/AgentBridge/AgentBridge.swift:896-940",
+      "title": "사이드카 멱등 큐와 원자적 openWork",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "AgentSidecarStore는 같은 idempotency_key를 재사용하고, 앵커와 anchor 의도를 한 트랜잭션에 저장해 provisional anchor만 남는 창을 닫는다.",
+      "claim_keys": [
+        "atomic-openwork",
+        "owner-recovery"
+      ],
+      "content_hash": "939309e93bda1f3c54d018b397b6264e15232b27628e012eef5f4c024ca7789d",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "mcp-tools-2025-06-18",
+      "locator": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "title": "MCP Tools specification",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "api-contract",
+      "excerpt": "MCP servers declare the tools capability, expose tools through tools/list with an inputSchema, and receive invocations through tools/call. The schema and result are the protocol contract.",
+      "claim_keys": [
+        "toolspec-validation",
+        "preallocated-id"
+      ],
+      "content_hash": "6afb9ad33784719e853209cb53eae927036af9c31c59454df935beb621bd0e1e",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:MACPROD-19-self-record",
+      "locator": "justsend:60A796EF-047B-41E0-B1C3-52427D96BBEB#notes:login-before-queue",
+      "title": "로그인 전 큐 보존과 자기 기록 검증",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "로그인 전에 도착한 노트가 owner mismatch로 영구 실패하지 않고 큐에 남았으며, 계정 복원 뒤 같은 작업 앵커에 적용되는 것을 이 작업 기록 자체로 확인했다.",
+      "claim_keys": [
+        "runtime-self-test",
+        "owner-recovery"
+      ],
+      "content_hash": "f3c8c28f7301c6c078205d9837c2b890d2455e538135526f7ea49cade1a25302",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:mcp-work-record-architecture:ko",
+      "locator": "web/content/blog/mcp-work-record-architecture/ko.md:1-",
+      "title": "기존 한국어 글: JustSend MCP 재설계: 비동기 집행 앞에서 노트를 잃지 않는 앵커 계약",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "작업 기록을 시작한 직후 진행 노트를 붙이면 기록이 사라지는 실패가 반복됐습니다. 도구는 시작 요청을 성공으로 돌려줬지만 실제 기록 앵커는 비동기 집행기가 나중에 만들었습니다. 앵커가 생기기 전에 도착한 노트는 연결할 ID가 없었습니다.",
+      "claim_keys": [
+        "corpus-depth",
+        "seed-not-source"
+      ],
+      "content_hash": "0a6ef1b0296b93b6a8ba3265ef7a4ee8afb847e85c3de68fd52bf1f965d62436",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

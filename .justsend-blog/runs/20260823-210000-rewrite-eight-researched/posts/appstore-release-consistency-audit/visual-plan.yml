@@ -1,0 +1,119 @@
+{
+  "visuals": [
+    {
+      "diagram_id": "D001",
+      "section_id": "S02",
+      "covers_section_ids": [
+        "S02",
+        "S03"
+      ],
+      "purpose": "빌드·메타데이터·서버 계약을 한 제출 단위로 모아 심사 경로를 검증하는 과정",
+      "type_hint": "process",
+      "evidence_ids": [
+        "JS-E001",
+        "JS-E003",
+        "JS-E004",
+        "JS-E005",
+        "JS-E006"
+      ],
+      "nodes": [
+        {
+          "id": "source",
+          "label": "수정된 소스",
+          "evidence_ids": [
+            "JS-E001"
+          ]
+        },
+        {
+          "id": "build",
+          "label": "제출 빌드 178",
+          "evidence_ids": [
+            "JS-E006"
+          ]
+        },
+        {
+          "id": "metadata",
+          "label": "메타데이터·Privacy",
+          "evidence_ids": [
+            "JS-E003"
+          ]
+        },
+        {
+          "id": "server",
+          "label": "구독·공유 계약",
+          "evidence_ids": [
+            "JS-E004"
+          ]
+        },
+        {
+          "id": "gate",
+          "label": "재제출 게이트",
+          "evidence_ids": [
+            "JS-E005",
+            "JS-E006"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "source",
+          "to": "build",
+          "label": "아카이브",
+          "evidence_ids": [
+            "JS-E001"
+          ]
+        },
+        {
+          "from": "build",
+          "to": "metadata",
+          "label": "같은 버전",
+          "evidence_ids": [
+            "JS-E003",
+            "JS-E006"
+          ]
+        },
+        {
+          "from": "metadata",
+          "to": "server",
+          "label": "사실 대조",
+          "evidence_ids": [
+            "JS-E004"
+          ]
+        },
+        {
+          "from": "server",
+          "to": "gate",
+          "label": "실제 경로",
+          "evidence_ids": [
+            "JS-E005",
+            "JS-E006"
+          ]
+        }
+      ],
+      "excluded": [
+        "근거 없는 내부 컴포넌트",
+        "검증되지 않은 성능 수치",
+        "본문 범위를 벗어난 배포 세부사항"
+      ],
+      "formats": [
+        "html",
+        "svg",
+        "png"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "section_id": "S02",
+      "decision": "render",
+      "diagram_id": "D001",
+      "reason": "핵심 관계와 방향을 산문보다 빠르게 비교할 수 있어 Evidence 기반 diagram으로 렌더한다."
+    },
+    {
+      "section_id": "S03",
+      "decision": "render",
+      "diagram_id": "D001",
+      "reason": "핵심 관계와 방향을 산문보다 빠르게 비교할 수 있어 Evidence 기반 diagram으로 렌더한다."
+    }
+  ]
+}

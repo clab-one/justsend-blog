@@ -1,0 +1,122 @@
+{
+  "topic": "Mac App Store 대신 Developer ID를 택한 뒤 앱 DMG와 MCP helper를 분리한 이유",
+  "generated_at": "2026-08-23T21:00:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+      "locator": "justsend:8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+      "title": "MACPROD-12 Developer ID 전환",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "TestFlight 자격과 helper 실행 자격의 충돌, Developer ID 전환, Apple 웹 OAuth와 공증 DMG 포장 결과를 기록했다. 이후 helper는 앱 번들 밖 별도 ZIP 정본으로 분리됐다.",
+      "claim_keys": [
+        "channel-conflict",
+        "oauth-boundary",
+        "runtime-artifact"
+      ],
+      "content_hash": "c7748c6834300e795f4b6e9ce5dfbc18271ec57e2679c413a6cff0260bcefbcb",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:PLAN-DIRECT-DISTRIBUTION",
+      "locator": "mac-prod/PLAN-DIRECT-DISTRIBUTION.md:1-300",
+      "title": "직접 배포 결정과 현재 경계",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "document",
+      "excerpt": "앱은 공증 DMG로, helper는 홈페이지 universal ZIP으로 배포한다. Developer ID에서 Apple native sign-in entitlement가 없어 Services ID 웹 OAuth를 사용하고 검증 게이트를 분리한다.",
+      "claim_keys": [
+        "helper-separation",
+        "oauth-boundary",
+        "channel-conflict"
+      ],
+      "content_hash": "9b4a11e631cff72ff3af8f78581ffb1311460bd177ee50b86af3eb9d75596bc3",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:package-dmg.sh",
+      "locator": "mac-prod/scripts/package-dmg.sh:1-180",
+      "title": "재현 가능한 DMG 포장 파이프라인",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "package-dmg.sh는 아카이브와 export 뒤 앱 공증·스테이플, 신원 검증, DMG 생성·서명·공증·스테이플, sha256 sidecar 생성을 순서대로 수행한다.",
+      "claim_keys": [
+        "package-pipeline",
+        "notarization-contract"
+      ],
+      "content_hash": "b4dbade88699a74135c660dafd3ac8ec97280d18e1dda1b0f34718b22ac49e84",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "apple-notarizing-macos",
+      "locator": "https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution",
+      "title": "Apple notarization documentation",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "standard",
+      "excerpt": "Apple describes notarization as an automated malware and code-signing check, generates a ticket when accepted, and allows the ticket to be stapled so Gatekeeper can verify software at first launch.",
+      "claim_keys": [
+        "notarization-contract",
+        "package-pipeline"
+      ],
+      "content_hash": "856f61e6a9a9803a085683feb77e87318d06856c399d30b9319dab77372bc30e",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:MACPROD-12-dmg",
+      "locator": "justsend:8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50#notes:dmg-result",
+      "title": "공증 DMG 설치와 helper 분리 관측",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "공증·스테이플된 DMG의 Gatekeeper 판정, 마운트, Applications 설치와 앱 실행을 확인했고, helper는 번들 밖 배포 경로에서 initialize와 justsend_me 응답을 확인했다.",
+      "claim_keys": [
+        "runtime-artifact",
+        "helper-separation"
+      ],
+      "content_hash": "3d434c75ecefeef7ca6e7fe40d415256739642c75c64f0980773f6a143f24c11",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:mac-developer-id-dmg:ko",
+      "locator": "web/content/blog/mac-developer-id-dmg/ko.md:1-",
+      "title": "기존 한국어 글: Mac App Store 대신 Developer ID를 택한 뒤 앱 DMG와 MCP helper를 분리한 이유",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "Mac 앱 번들 안에는 stdio MCP helper가 들어갑니다. 앱은 실행됐지만 helper에 필요한 자격과 App Store 업로드 계약을 동시에 만족시키지 못했습니다. helper를 빼면 제품 기능이 사라지고, 그대로 두면 배포 채널이 막혔습니다.",
+      "claim_keys": [
+        "corpus-depth",
+        "seed-not-source"
+      ],
+      "content_hash": "da17549268ba2c75c9922e6f7d995fe5f51254cf35b5f3a00720b6efb383b6e0",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

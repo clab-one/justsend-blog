@@ -1,0 +1,95 @@
+{
+  "visuals": [
+    {
+      "diagram_id": "D001",
+      "section_id": "S03",
+      "covers_section_ids": [
+        "S03"
+      ],
+      "purpose": "기능 동작에서 시스템 프롬프트와 권한 상태·복구로 이어지는 소유권 흐름",
+      "type_hint": "data-flow",
+      "evidence_ids": [
+        "JS-E002",
+        "JS-E004",
+        "JS-E006"
+      ],
+      "nodes": [
+        {
+          "id": "feature",
+          "label": "기능 동작",
+          "evidence_ids": [
+            "JS-E002"
+          ]
+        },
+        {
+          "id": "prompt",
+          "label": "시스템 프롬프트",
+          "evidence_ids": [
+            "JS-E002",
+            "JS-E004"
+          ]
+        },
+        {
+          "id": "state",
+          "label": "권한 상태",
+          "evidence_ids": [
+            "JS-E004"
+          ]
+        },
+        {
+          "id": "recovery",
+          "label": "실행 또는 설정 복구",
+          "evidence_ids": [
+            "JS-E004",
+            "JS-E006"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "feature",
+          "to": "prompt",
+          "label": "필요한 순간",
+          "evidence_ids": [
+            "JS-E002"
+          ]
+        },
+        {
+          "from": "prompt",
+          "to": "state",
+          "label": "사용자 선택",
+          "evidence_ids": [
+            "JS-E002",
+            "JS-E004"
+          ]
+        },
+        {
+          "from": "state",
+          "to": "recovery",
+          "label": "상태별 분기",
+          "evidence_ids": [
+            "JS-E004"
+          ]
+        }
+      ],
+      "excluded": [
+        "근거 없는 내부 컴포넌트",
+        "검증되지 않은 성능 수치",
+        "본문 범위를 벗어난 배포 세부사항"
+      ],
+      "formats": [
+        "html",
+        "svg",
+        "png"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "section_id": "S03",
+      "decision": "render",
+      "diagram_id": "D001",
+      "reason": "핵심 관계와 방향을 산문보다 빠르게 비교할 수 있어 Evidence 기반 diagram으로 렌더한다."
+    }
+  ]
+}

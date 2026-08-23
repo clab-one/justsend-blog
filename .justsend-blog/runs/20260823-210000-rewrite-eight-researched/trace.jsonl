@@ -1,0 +1,12 @@
+{"at": "2026-08-23T21:00:00.000Z", "stage": "REQUESTED", "event": "fresh-run-created", "detail": "base 4447f67; prior 0.2.0 run invalidated"}
+{"at": "2026-08-23T21:00:00.000Z", "stage": "RESEARCHING", "event": "capabilities-discovered", "detail": "JustSend seed + repository + official docs + runtime + corpus"}
+{"at": "2026-08-23T21:00:00.000Z", "stage": "RESEARCHING", "event": "per-post-source-expansion", "detail": "6 selected sources per post; no old draft/evidence reuse"}
+{"at": "2026-08-23T21:20:00.000Z", "stage": "EVIDENCE_READY", "event": "research-and-evidence-validated", "detail": "8 research packs PASS: 6 selected sources and 5 providers each; 8 evidence packs PASS: 57 evidence items total"}
+{"at": "2026-08-23T21:30:00.000Z", "stage": "OUTLINED", "event": "per-post-outlines-created", "detail": "8 outline.json and outline.md files map section purpose, evidence IDs, and visual candidates"}
+{"at": "2026-08-23T22:00:00.000Z", "stage": "DRAFTED", "event": "long-form-drafts-created", "detail": "8 fresh drafts created from current source dossiers; body lengths 4962-7784 characters; old invalidated drafts not reused"}
+{"at": "2026-08-23T22:10:00.000Z", "stage": "VISUAL_PLANNED", "event": "per-post-visual-plans-created", "detail": "8 Evidence-backed diagrams cover every explicit and inferred visual candidate"}
+{"at": "2026-08-23T22:20:00.000Z", "stage": "VISUAL_RENDERED", "event": "html-svg-png-rendered", "detail": "8 self-contained HTML/SVG/PNG sets; diagram self-check OK and geometry 0 findings"}
+{"at": "2026-08-23T22:30:00.000Z", "stage": "HUMANIZED", "event": "main-direct-im-not-ai-guided", "detail": "prepare_monolith route hints applied; protected tokens preserved; change rates 0.1%-0.7%"}
+{"at": "2026-08-23T22:40:00.000Z", "stage": "AUDITED", "event": "per-post-fidelity-pass", "detail": "8/8 text, research, quality, diagram and humanization audits PASS"}
+{"at": "2026-08-23T22:41:00.000Z", "stage": "READY_FOR_REVIEW", "event": "publish-candidates-created", "detail": "8 final.md and audit.json files created; merge, publish and JustSend write-back remain blocked pending user approval"}
+{"at": "2026-08-23T22:45:00.000Z", "stage": "READY_FOR_REVIEW", "event": "research-provenance-corrected", "detail": "old invalidated outline had been inspected for scope and gate limitations; summaries and manifest now state this explicitly; no old draft or Evidence content reused"}

@@ -1,0 +1,9 @@
+{
+  "mode": "main-direct-im-not-ai-guided",
+  "route": "light",
+  "reason": "prepare_monolith_input.py route_hint를 따르고 quick-rules의 번역투·메타 담화만 국소 수정했다.",
+  "change_rate": 0.002,
+  "meaning_preserved": true,
+  "protected_tokens_preserved": true,
+  "verdict": "PASS"
+}

@@ -1,0 +1,185 @@
+{
+  "topic": "DMG와 MCP 플러그인 보안 감사: 바이너리가 전부 공개돼도 안전한 경계 만들기",
+  "generated_at": "2026-08-23T21:00:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "DMG와",
+      "MCP",
+      "플러그인",
+      "보안",
+      "감사",
+      "바이너리가",
+      "전부",
+      "공개돼도"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E001",
+      "type": "decision",
+      "statement": "공격자가 DMG와 MCP 플러그인의 코드·리소스·프로토콜을 모두 읽을 수 있다는 공개 구현 위협 모델을 감사 기준으로 삼았다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "public-threat-model"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "EFE6757E-D426-4EB2-BAAE-6C8BB08928FF",
+          "locator": "justsend:EFE6757E-D426-4EB2-BAAE-6C8BB08928FF",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "mcp-security-best-practices",
+          "locator": "https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E002",
+      "type": "failure",
+      "statement": "인가되지 않은 사이드카 의도는 사용자가 만든 기록 삭제 같은 실제 앱 쓰기로 이어질 수 있었다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "intent-authorization"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "EFE6757E-D426-4EB2-BAAE-6C8BB08928FF",
+          "locator": "justsend:EFE6757E-D426-4EB2-BAAE-6C8BB08928FF",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:AgentIntentTrustTests",
+          "locator": "mac-prod/MacTests/AgentIntentTrustTests.swift:167-198",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "mcp-security-best-practices",
+          "locator": "https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E003",
+      "type": "fact",
+      "statement": "AgentIntentTrustTests는 staging root 밖 파일과 외부를 가리키는 symlink가 읽히거나 삭제되지 않고 기록도 만들지 못하는지 검사한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "staged-path"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:AgentIntentTrustTests",
+          "locator": "mac-prod/MacTests/AgentIntentTrustTests.swift:167-198",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E004",
+      "type": "decision",
+      "statement": "ContentFetchHostPolicy를 링크 HTML·대표 이미지·favicon·JS 렌더·Markdown 이미지 앞에 두어 내용이 정한 사설·루프백 주소를 차단했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "ssrf-policy"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:ContentFetchHostPolicy@11b36db",
+          "locator": "git:mac-prod:11b36db:patches/0066-contentfetchhostpolicy.patch",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E005",
+      "type": "failure",
+      "statement": "0177.0.0.1은 Network와 inet_aton이 다르게 해석하므로 한 parser 결과만 믿으면 loopback 우회가 생긴다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "parser-divergence"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:ContentFetchHostPolicy@11b36db",
+          "locator": "git:mac-prod:11b36db:patches/0066-contentfetchhostpolicy.patch",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E006",
+      "type": "result",
+      "statement": "수정 전 실패를 잡은 보안 테스트가 통과한 뒤 코드를 담은 DMG를 다시 공증하고 같은 위협 모델로 재감사했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "runtime-reaudit"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:security-audit-178",
+          "locator": "justsend:EFE6757E-D426-4EB2-BAAE-6C8BB08928FF#notes:reaudit",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E007",
+      "type": "measurement",
+      "statement": "기존 배포 글은 Markdown 원문 1423자로, 같은 한국어 corpus 중앙값 8203자의 60% 기준에 크게 못 미쳤다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:dmg-mcp-security-audit:ko",
+          "locator": "web/content/blog/dmg-mcp-security-audit/ko.md:1-",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}

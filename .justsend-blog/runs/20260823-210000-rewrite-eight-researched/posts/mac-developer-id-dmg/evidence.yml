@@ -1,0 +1,192 @@
+{
+  "topic": "Mac App Store 대신 Developer ID를 택한 뒤 앱 DMG와 MCP helper를 분리한 이유",
+  "generated_at": "2026-08-23T21:00:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "Mac",
+      "App",
+      "Store",
+      "대신",
+      "Developer",
+      "ID를",
+      "택한",
+      "뒤"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E001",
+      "type": "reason",
+      "statement": "TestFlight/App Store 자격과 MCP helper 실행 자격을 동시에 만족시키지 못한 실측이 배포 채널 재검토를 촉발했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "channel-conflict"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+          "locator": "justsend:8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:PLAN-DIRECT-DISTRIBUTION",
+          "locator": "mac-prod/PLAN-DIRECT-DISTRIBUTION.md:1-300",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E002",
+      "type": "decision",
+      "statement": "현재 배포 계약은 앱을 공증 DMG로, helper를 번들 밖 universal ZIP으로 각각 배포하는 것이다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "helper-separation"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+          "locator": "justsend:8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:PLAN-DIRECT-DISTRIBUTION",
+          "locator": "mac-prod/PLAN-DIRECT-DISTRIBUTION.md:1-300",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:MACPROD-12-dmg",
+          "locator": "justsend:8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50#notes:dmg-result",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E003",
+      "type": "decision",
+      "statement": "Developer ID에서 네이티브 Apple 로그인 entitlement를 쓸 수 없어 Services ID 기반 웹 OAuth를 기존 서버 인증 경로에 연결했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "oauth-boundary"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+          "locator": "justsend:8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:PLAN-DIRECT-DISTRIBUTION",
+          "locator": "mac-prod/PLAN-DIRECT-DISTRIBUTION.md:1-300",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E004",
+      "type": "fact",
+      "statement": "package-dmg.sh는 앱 공증과 스테이플, 신원 검증, DMG 생성·공증·스테이플, 체크섬 생성을 중간 실패 시 중단하는 순서로 고정한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "package-pipeline"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:package-dmg.sh",
+          "locator": "mac-prod/scripts/package-dmg.sh:1-180",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E005",
+      "type": "fact",
+      "statement": "Apple notarization은 악성 요소와 코드 서명 문제를 자동 검사하고 성공 시 Gatekeeper가 확인할 ticket을 생성한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "notarization-contract"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "apple-notarizing-macos",
+          "locator": "https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E006",
+      "type": "result",
+      "statement": "실제 DMG의 Gatekeeper 판정·마운트·설치·앱 실행과 별도 helper의 initialize 응답을 확인했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "runtime-artifact"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:MACPROD-12-dmg",
+          "locator": "justsend:8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50#notes:dmg-result",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E007",
+      "type": "measurement",
+      "statement": "기존 배포 글은 Markdown 원문 1343자로, 같은 한국어 corpus 중앙값 8203자의 60% 기준에 크게 못 미쳤다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:mac-developer-id-dmg:ko",
+          "locator": "web/content/blog/mac-developer-id-dmg/ko.md:1-",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}

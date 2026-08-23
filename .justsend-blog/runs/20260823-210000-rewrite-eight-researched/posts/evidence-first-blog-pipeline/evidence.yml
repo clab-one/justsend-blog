@@ -1,0 +1,221 @@
+{
+  "topic": "작업 기록을 기술 글로 바꾸기 전에 Research Pack을 강제한 이유",
+  "generated_at": "2026-08-23T21:00:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "작업",
+      "기록을",
+      "기술",
+      "글로",
+      "바꾸기",
+      "전에",
+      "Research",
+      "Pack을"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E001",
+      "type": "failure",
+      "statement": "작업 기록만 요약하면 사건의 시간축은 남아도 실제 source·공식 계약·runtime 검증이 빠져 글이 얕아진다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "seed-not-source"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+          "locator": "justsend:248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "justsend-blog:research.js",
+          "locator": "justsend-blog/src/pipeline/research.js:36-149",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:evidence-first-blog-pipeline:ko",
+          "locator": "web/content/blog/evidence-first-blog-pipeline/ko.md:1-",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E002",
+      "type": "decision",
+      "statement": "Evidence보다 먼저 research-pack.yml을 만들고 JustSend seed를 repository·official·runtime source로 확장하도록 파이프라인을 바꿨다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "research-pack",
+        "seed-not-source"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+          "locator": "justsend:248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "justsend-blog:research.js",
+          "locator": "justsend-blog/src/pipeline/research.js:36-149",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:justsend-blog-0.3.1-tests",
+          "locator": "justsend-blog@4447f67:npm-test-and-doctor",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E003",
+      "type": "fact",
+      "statement": "selected research source는 locator, 20자 이상 excerpt, claim_keys, kind/provider 일치를 통과해야 한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "research-pack"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "justsend-blog:research.js",
+          "locator": "justsend-blog/src/pipeline/research.js:36-149",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E004",
+      "type": "fact",
+      "statement": "quality audit는 글이 실제 사용한 Evidence의 source만 세고 Evidence claim key가 research claim key에 연결되지 않으면 차단한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "evidence-mapping",
+        "quality-gate"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "justsend-blog:quality.js",
+          "locator": "justsend-blog/src/pipeline/quality.js:40-195",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E005",
+      "type": "decision",
+      "statement": "production 기본값은 source 5개, kind 3개, repository 2개, official 1개, runtime 1개, claim key 5개다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "quality-gate"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "justsend-blog:quality.js",
+          "locator": "justsend-blog/src/pipeline/quality.js:40-195",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E006",
+      "type": "fact",
+      "statement": "Git worktree로 새 branch와 working tree를 분리해 원 작업공간의 미완성 변경과 publish candidate를 섞지 않는다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "worktree-isolation"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+          "locator": "justsend:248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "git-worktree-docs",
+          "locator": "https://git-scm.com/docs/git-worktree",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E007",
+      "type": "result",
+      "statement": "research-only 실패와 enriched dossier 성공을 포함한 unit·integration·E2E 및 package validation이 통과했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "runtime-tests"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:justsend-blog-0.3.1-tests",
+          "locator": "justsend-blog@4447f67:npm-test-and-doctor",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E008",
+      "type": "measurement",
+      "statement": "기존 배포 글은 Markdown 원문 1804자로, 같은 한국어 corpus 중앙값 8203자의 60% 기준에 크게 못 미쳤다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:evidence-first-blog-pipeline:ko",
+          "locator": "web/content/blog/evidence-first-blog-pipeline/ko.md:1-",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}

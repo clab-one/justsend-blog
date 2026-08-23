@@ -1,0 +1,122 @@
+{
+  "topic": "에이전트 작업 기록에 대표 이미지를 붙이면서 데이터 계약부터 고친 과정",
+  "generated_at": "2026-08-23T21:00:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "EB3D1968-9E6A-4379-AEE1-9328B20F8DFB",
+      "locator": "justsend:EB3D1968-9E6A-4379-AEE1-9328B20F8DFB",
+      "title": "에이전트 기록 대표 이미지 구현",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "image_path를 의도 큐와 첨부 저장으로 연결하고, 목록 썸네일과 상세 상단에서 같은 첨부를 표시한 뒤 중복 본문 참조와 helper 교체 실패를 기록했다.",
+      "claim_keys": [
+        "image-input",
+        "no-inline-duplicate",
+        "runtime-ui"
+      ],
+      "content_hash": "5d6f65bcabd1ceaa6979f58aab2f6feca0052bd4622827e3c04388d3f97fc69d",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:MCPToolDispatch.image_path",
+      "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:891-1056",
+      "title": "대표 이미지 staging과 앵커 원자성",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "workStart는 image_path를 먼저 검증한 뒤 staged file과 attachment id를 anchor intent에 넣는다. 본문에는 jsattach 참조를 넣지 않아 상세 hero와 인라인 이미지의 중복을 막는다.",
+      "claim_keys": [
+        "image-input",
+        "atomic-staging",
+        "no-inline-duplicate"
+      ],
+      "content_hash": "42b40fb6035b23285c4ef9acfb4daca5beea57564cd74653256de4d885e19e07",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:HomeViewModel.thumbPath",
+      "locator": "mac-prod/.port/new/app/JustSend/Sources/Home/HomeViewModel.swift:68-69,480-497",
+      "title": "목록 썸네일의 첨부 정본",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "HomeViewModel은 item별 leadingThumbPath를 보관하고 photo 또는 video 첨부 중 첫 localPath를 썸네일 정본으로 선택한다. 첨부가 없으면 경로도 없다.",
+      "claim_keys": [
+        "thumb-source",
+        "authoring-boundary"
+      ],
+      "content_hash": "d07095e2baa3c7f4842b306d5f715aec06a84b1f7688858c083a13328746da38",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "mcp-tools-input-schema",
+      "locator": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools#listing-tools",
+      "title": "MCP tool input schema contract",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "api-contract",
+      "excerpt": "MCP tools expose a name, description and JSON inputSchema through tools/list; image_path is therefore an explicit caller-to-server contract rather than a renderer convention hidden in prose.",
+      "claim_keys": [
+        "image-input",
+        "authoring-boundary"
+      ],
+      "content_hash": "9df26dc8ea63dca9b70dc4a9ee6343992889d25fe8ac3b7cb9c945f5c181be37",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:agent-hero-live",
+      "locator": "justsend:EB3D1968-9E6A-4379-AEE1-9328B20F8DFB#notes:installed-app",
+      "title": "실앱 목록과 상세의 대표 이미지 관측",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "정식 서명 설치본과 실제 계정에서 첨부 바이트를 확인하고, 목록 오른쪽 56pt 썸네일과 상세 상단의 같은 이미지, 첨부 없는 행의 빈 자리 부재를 관측했다.",
+      "claim_keys": [
+        "runtime-ui",
+        "thumb-source"
+      ],
+      "content_hash": "7c8c0cce4221b48ca10a399380e53a115696f315c765fcfe8497d1010e2e3257",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:agent-work-record-hero-image:ko",
+      "locator": "web/content/blog/agent-work-record-hero-image/ko.md:1-",
+      "title": "기존 한국어 글: 에이전트 작업 기록에 대표 이미지를 붙이면서 데이터 계약부터 고친 과정",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "에이전트 작업 기록은 제목과 긴 실행 로그만 남았습니다. 사용자는 목록에서 어떤 작업인지 구분하기 어려웠고, 완료 결과도 노트 아래에 흩어졌습니다. 기록을 일반 메모와 같은 사용자 표면으로 올리기 위해 대표 이미지와 완료 본문 계약을 추가했습니다.",
+      "claim_keys": [
+        "corpus-depth",
+        "seed-not-source"
+      ],
+      "content_hash": "8a6aea93ac1f36f08e7766bd2f236ea251f01ab5750c51f8d5471fd25ff9d6fe",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

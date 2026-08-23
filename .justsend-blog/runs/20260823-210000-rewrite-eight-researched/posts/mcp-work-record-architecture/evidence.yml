@@ -1,0 +1,199 @@
+{
+  "topic": "JustSend MCP 재설계: 비동기 집행 앞에서 노트를 잃지 않는 앵커 계약",
+  "generated_at": "2026-08-23T21:00:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "JustSend",
+      "MCP",
+      "재설계",
+      "비동기",
+      "집행",
+      "앞에서",
+      "노트를",
+      "잃지"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E001",
+      "type": "failure",
+      "statement": "기록 생성을 비동기 집행기에 맡긴 상태에서 즉시 후속 노트를 받자 앵커가 없어 67건이 큐에도 들어가지 못하고 유실됐다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "async-anchor-loss"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "60A796EF-047B-41E0-B1C3-52427D96BBEB",
+          "locator": "justsend:60A796EF-047B-41E0-B1C3-52427D96BBEB",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:MCPToolDispatch.workStart",
+          "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:891-1093",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E002",
+      "type": "decision",
+      "statement": "work_start가 집행 전에 item_id를 발급하고 호출자에게 즉시 반환하도록 계약을 바꿨다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "preallocated-id"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:MCPToolDispatch.workStart",
+          "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:891-1093",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "mcp-tools-2025-06-18",
+          "locator": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E003",
+      "type": "fact",
+      "statement": "openWork는 provisional anchor와 anchor intent를 같은 SQLite 트랜잭션에 저장해 앵커만 남는 중간 상태를 막는다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "atomic-openwork"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:MCPToolDispatch.workStart",
+          "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:891-1093",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:AgentSidecarStore.openWork",
+          "locator": "mac-prod/Sources/AgentBridge/AgentBridge.swift:896-940",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E004",
+      "type": "fact",
+      "statement": "계정 복원 전 owner mismatch는 잘못된 입력이 아니라 일시 상태로 분류해 의도를 보존하고 재시도한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "owner-recovery"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "60A796EF-047B-41E0-B1C3-52427D96BBEB",
+          "locator": "justsend:60A796EF-047B-41E0-B1C3-52427D96BBEB",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:AgentSidecarStore.openWork",
+          "locator": "mac-prod/Sources/AgentBridge/AgentBridge.swift:896-940",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E005",
+      "type": "fact",
+      "statement": "MCP tools 계약은 tools/list의 inputSchema와 tools/call 호출로 노출되며 구현은 ToolSpec에서 access와 parameter를 검증한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "toolspec-validation"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:MCPToolDispatch.workStart",
+          "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:891-1093",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "mcp-tools-2025-06-18",
+          "locator": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E006",
+      "type": "result",
+      "statement": "로그인 전에 받은 노트가 큐에 남고 계정 복원 뒤 같은 앵커에 붙는 경로를 실제 작업 기록으로 확인했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "runtime-self-test"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:MACPROD-19-self-record",
+          "locator": "justsend:60A796EF-047B-41E0-B1C3-52427D96BBEB#notes:login-before-queue",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E007",
+      "type": "measurement",
+      "statement": "기존 배포 글은 Markdown 원문 1320자로, 같은 한국어 corpus 중앙값 8203자의 60% 기준에 크게 못 미쳤다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:mcp-work-record-architecture:ko",
+          "locator": "web/content/blog/mcp-work-record-architecture/ko.md:1-",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}

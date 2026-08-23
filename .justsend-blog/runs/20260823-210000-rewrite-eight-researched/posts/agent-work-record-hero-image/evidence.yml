@@ -1,0 +1,194 @@
+{
+  "topic": "에이전트 작업 기록에 대표 이미지를 붙이면서 데이터 계약부터 고친 과정",
+  "generated_at": "2026-08-23T21:00:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "에이전트",
+      "작업",
+      "기록에",
+      "대표",
+      "이미지를",
+      "붙이면서",
+      "데이터",
+      "계약부터"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E001",
+      "type": "decision",
+      "statement": "대표 이미지는 work_start의 image_path라는 명시적 입력으로 받고 무엇을 그릴지는 작업 문맥을 아는 호출자가 결정한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "image-input",
+        "authoring-boundary"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "EB3D1968-9E6A-4379-AEE1-9328B20F8DFB",
+          "locator": "justsend:EB3D1968-9E6A-4379-AEE1-9328B20F8DFB",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:MCPToolDispatch.image_path",
+          "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:891-1056",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "mcp-tools-input-schema",
+          "locator": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools#listing-tools",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E002",
+      "type": "fact",
+      "statement": "workStart는 이미지 바이트를 staging directory에 원자적으로 쓰고 attachment id·filename·path를 anchor intent에 함께 저장한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "atomic-staging"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:MCPToolDispatch.image_path",
+          "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:891-1056",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E003",
+      "type": "failure",
+      "statement": "첨부 hero가 상세 상단에 이미 표시되는데 본문에 jsattach 참조까지 주입해 같은 그림이 두 번 렌더링됐다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "no-inline-duplicate"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "EB3D1968-9E6A-4379-AEE1-9328B20F8DFB",
+          "locator": "justsend:EB3D1968-9E6A-4379-AEE1-9328B20F8DFB",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:MCPToolDispatch.image_path",
+          "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:891-1056",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E004",
+      "type": "decision",
+      "statement": "대표 이미지는 본문 참조가 아니라 첨부 자체를 정본으로 삼고 목록과 상세가 같은 첨부를 읽도록 고쳤다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "thumb-source",
+        "no-inline-duplicate"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:MCPToolDispatch.image_path",
+          "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:891-1056",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:HomeViewModel.thumbPath",
+          "locator": "mac-prod/.port/new/app/JustSend/Sources/Home/HomeViewModel.swift:68-69,480-497",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E005",
+      "type": "fact",
+      "statement": "HomeViewModel은 photo 또는 video 첨부 중 첫 localPath를 leadingThumbPath로 선택하고 첨부가 없으면 썸네일 경로를 만들지 않는다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "thumb-source"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:HomeViewModel.thumbPath",
+          "locator": "mac-prod/.port/new/app/JustSend/Sources/Home/HomeViewModel.swift:68-69,480-497",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E006",
+      "type": "result",
+      "statement": "정식 서명 설치본에서 목록의 56pt 썸네일, 상세 상단 이미지, 첨부 없는 행의 빈 자리 부재를 실제 계정으로 확인했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "runtime-ui"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:agent-hero-live",
+          "locator": "justsend:EB3D1968-9E6A-4379-AEE1-9328B20F8DFB#notes:installed-app",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E007",
+      "type": "measurement",
+      "statement": "기존 배포 글은 Markdown 원문 1348자로, 같은 한국어 corpus 중앙값 8203자의 60% 기준에 크게 못 미쳤다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:agent-work-record-hero-image:ko",
+          "locator": "web/content/blog/agent-work-record-hero-image/ko.md:1-",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}

@@ -1,0 +1,195 @@
+{
+  "topic": "App Store 재제출 전 감사: 빌드·메타데이터·서버 계약을 한 판에 맞추는 법",
+  "generated_at": "2026-08-23T21:00:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "App",
+      "Store",
+      "재제출",
+      "전",
+      "감사",
+      "빌드·메타데이터·서버",
+      "계약을",
+      "한"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E001",
+      "type": "failure",
+      "statement": "수정된 바이너리만 준비된 상태에서는 Review Notes, 권한 문구, App Privacy, 구독과 공유 정책이 서로 다른 제품 상태를 설명할 수 있었다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "build-metadata",
+        "privacy-contract"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "73D9E71A-74AF-44BF-A4DA-C87E81F65456",
+          "locator": "justsend:73D9E71A-74AF-44BF-A4DA-C87E81F65456",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E002",
+      "type": "fact",
+      "statement": "권한 목적 문자열은 project.yml의 배포 설정에 있으며 앱 코드와 독립적으로 제출 산출물에 들어간다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "privacy-contract"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:project.yml-purpose-strings",
+          "locator": "mac-prod/project.yml:311-318",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E003",
+      "type": "fact",
+      "statement": "Apple은 개인정보 정보·설명·스크린샷·미리보기가 앱 핵심 경험을 정확히 반영하고 새 버전에 맞게 갱신되도록 요구한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "accurate-metadata",
+        "build-metadata"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "apple-app-review-guidelines",
+          "locator": "https://developer.apple.com/app-store/review/guidelines/#accurate-metadata",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E004",
+      "type": "fact",
+      "statement": "공개 공유 신고 테스트는 신고의 멱등성과 링크 폐기를 함께 검사해 문서 정책을 실행 가능한 서버 계약으로 만든다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "report-moderation"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "platform:share-report-test",
+          "locator": "platform/backend/internal/api/share_report_test.go:103-190",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "apple-app-review-guidelines",
+          "locator": "https://developer.apple.com/app-store/review/guidelines/#accurate-metadata",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E005",
+      "type": "decision",
+      "statement": "재제출 게이트를 빌드 업로드가 아니라 빌드·메타데이터·권한·개인정보·구독·공유 경로가 같은 사실을 말하는 상태로 정의했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "build-metadata",
+        "quota-consistency"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "73D9E71A-74AF-44BF-A4DA-C87E81F65456",
+          "locator": "justsend:73D9E71A-74AF-44BF-A4DA-C87E81F65456",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:project.yml-purpose-strings",
+          "locator": "mac-prod/project.yml:311-318",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "platform:share-report-test",
+          "locator": "platform/backend/internal/api/share_report_test.go:103-190",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "apple-app-review-guidelines",
+          "locator": "https://developer.apple.com/app-store/review/guidelines/#accurate-metadata",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E006",
+      "type": "result",
+      "statement": "검증 harness의 입력 방식이 만든 크래시를 제품 결함과 분리한 뒤 빌드 178과 구독 2종을 함께 제출했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "runtime-submission"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:build-178-submission",
+          "locator": "justsend:73D9E71A-74AF-44BF-A4DA-C87E81F65456#notes:submission-178",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E007",
+      "type": "measurement",
+      "statement": "기존 배포 글은 Markdown 원문 1415자로, 같은 한국어 corpus 중앙값 8203자의 60% 기준에 크게 못 미쳤다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:appstore-release-consistency-audit:ko",
+          "locator": "web/content/blog/appstore-release-consistency-audit/ko.md:1-",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}

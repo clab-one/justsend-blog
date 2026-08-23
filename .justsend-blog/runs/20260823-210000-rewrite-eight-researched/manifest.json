@@ -1,0 +1,57 @@
+{
+  "run_id": "20260823-210000-rewrite-eight-researched",
+  "request": {
+    "goal": "현재 배포된 얕은 신규 글 8편을 0.3.1 source dossier 기반 production quality로 전면 재작성",
+    "post_count": 8,
+    "publication_target": "justsend-web-review"
+  },
+  "created_at": "2026-08-23T21:00:00.000Z",
+  "omp_version": "18.0.0",
+  "plugin_version": "0.3.1",
+  "upstreams": {},
+  "justsend_server": "connected-session-mcp",
+  "logical_capabilities": [
+    "search_records:justsend_search",
+    "get_record:justsend_get_record",
+    "list_notes:justsend_list_notes"
+  ],
+  "document_type": "editorial-bundle",
+  "document_type_reason": "8편은 incident-review·architecture-decision·engineering-story 묶음이다.",
+  "language": "ko",
+  "humanization_route": "standard",
+  "humanization_mode": "main-direct-im-not-ai-guided",
+  "diagrams": [
+    "posts/appstore-permission-preprompt/diagrams/d001.svg",
+    "posts/appstore-release-consistency-audit/diagrams/d001.svg",
+    "posts/mcp-work-record-architecture/diagrams/d001.svg",
+    "posts/mac-developer-id-dmg/diagrams/d001.svg",
+    "posts/dmg-mcp-security-audit/diagrams/d001.svg",
+    "posts/agent-work-record-hero-image/diagrams/d001.svg",
+    "posts/api-v2-consumer-audit/diagrams/d001.svg",
+    "posts/evidence-first-blog-pipeline/diagrams/d001.svg"
+  ],
+  "evidence_count": 57,
+  "research_result": "PASS",
+  "research_providers": [
+    "justsend",
+    "repository",
+    "official-docs",
+    "runtime",
+    "corpus"
+  ],
+  "audit_result": "PASS",
+  "quality_profile": "production",
+  "quality_result": "PASS",
+  "git_branch": "justsend-blog/20260823/rewrite-eight-researched",
+  "git_commit": null,
+  "status": "READY_FOR_REVIEW",
+  "assumptions": [
+    "기존 29편 한국어 corpus 중앙값 8203자를 baseline으로 사용한다.",
+    "현재 배포된 8편의 URL과 slug는 유지한다.",
+    "무효화된 0.2.0 run의 manifest·request·파일 목록·outline은 범위와 이전 gate 확인에만 읽었고, draft·Evidence 내용은 재사용하지 않는다."
+  ],
+  "missing_capabilities": [
+    "get_related_records",
+    "get_attachments"
+  ]
+}

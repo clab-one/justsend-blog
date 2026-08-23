@@ -1,0 +1,122 @@
+{
+  "topic": "App Store 재제출 전 감사: 빌드·메타데이터·서버 계약을 한 판에 맞추는 법",
+  "generated_at": "2026-08-23T21:00:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "73D9E71A-74AF-44BF-A4DA-C87E81F65456",
+      "locator": "justsend:73D9E71A-74AF-44BF-A4DA-C87E81F65456",
+      "title": "빌드 173 이후 App Store 최종 검수 기록",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "제출 빌드, Review Notes, App Privacy, 구독, 권한 문구와 실제 심사자 경로를 한 제출 단위로 재검수하고 시뮬레이터 실측 오류도 정정한 작업 기록이다.",
+      "claim_keys": [
+        "build-metadata",
+        "privacy-contract",
+        "runtime-submission"
+      ],
+      "content_hash": "1dafcf27a575ae5c0cbdc111551be3d1413c31dc1e0b9948fcfd1179fafe270f",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:project.yml-purpose-strings",
+      "locator": "mac-prod/project.yml:311-318",
+      "title": "권한 목적 문자열 정본",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "config",
+      "excerpt": "project.yml은 Face ID, 카메라, 마이크, 캘린더, 로컬 네트워크 목적 문자열을 배포 설정에 고정한다. 목적 문자열은 코드와 별개인 제출 계약이다.",
+      "claim_keys": [
+        "privacy-contract",
+        "build-metadata"
+      ],
+      "content_hash": "9cabba570fa3bb2ce60f1c72bf7eb307a1c7c42217e8b274415b10d174d77539",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "platform:share-report-test",
+      "locator": "platform/backend/internal/api/share_report_test.go:103-190",
+      "title": "공개 공유 신고 계약 테스트",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "test",
+      "excerpt": "public share report 테스트는 신고 요청의 멱등성과 공개 링크 폐기를 함께 검증해, 스토어의 사용자 생성 콘텐츠 정책이 실제 서버 동작으로 이어지는지 검사한다.",
+      "claim_keys": [
+        "report-moderation",
+        "quota-consistency"
+      ],
+      "content_hash": "c6d1f6aa432c144cf702de42809c73a7bd46c39ccd707b3c84158bb1d3eae8fc",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "apple-app-review-guidelines",
+      "locator": "https://developer.apple.com/app-store/review/guidelines/#accurate-metadata",
+      "title": "Apple App Review Guidelines",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "standard",
+      "excerpt": "Guideline 2.3 requires privacy information, descriptions, screenshots and previews to accurately reflect the core experience, and 1.2 requires reporting and timely response mechanisms for user-generated content.",
+      "claim_keys": [
+        "accurate-metadata",
+        "report-moderation",
+        "build-metadata"
+      ],
+      "content_hash": "0e560ef72c144bc3f8727b42713ce80d757778f20ebeb25f2f61c7b32b43299a",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:build-178-submission",
+      "locator": "justsend:73D9E71A-74AF-44BF-A4DA-C87E81F65456#notes:submission-178",
+      "title": "빌드 178 제출과 심사자 경로 실측",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "같은 Release 바이너리와 시뮬레이터에서 입력 방식만 바꿔 harness 유발 크래시를 분리했고, 빌드 178과 구독 2종을 WAITING_FOR_REVIEW 상태로 제출한 관측을 남겼다.",
+      "claim_keys": [
+        "runtime-submission",
+        "build-metadata"
+      ],
+      "content_hash": "821c8ecc153701b6d68686689f433fafbd1683685f9413b4b158635a67e16414",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:appstore-release-consistency-audit:ko",
+      "locator": "web/content/blog/appstore-release-consistency-audit/ko.md:1-",
+      "title": "기존 한국어 글: App Store 재제출 전 감사: 빌드·메타데이터·서버 계약을 한 판에 맞추는 법",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "심사 반려를 고친 새 빌드가 준비됐습니다. 곧바로 재제출하지 않았습니다. App Store Connect가 가리키는 빌드와 Review Notes의 화면 경로가 달랐고, 권한 목적 문구와 실제 저장·동기화도 어긋났습니다. 무료 공유 한도 역시 스토어 설명과 앱·서버가 같은 숫자를 쓰지 않았습니다.",
+      "claim_keys": [
+        "corpus-depth",
+        "seed-not-source"
+      ],
+      "content_hash": "3cbc208f9c4e994b1f5b506817ae7a34ebc0424b373fb477c059fe16b925ba2f",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

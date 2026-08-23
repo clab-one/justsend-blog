@@ -1,0 +1,121 @@
+{
+  "topic": "App Store 권한 심사 대응: 설명 화면을 걷어내고 기능 순간에 묻기까지",
+  "generated_at": "2026-08-23T21:00:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "A552BAB0-E7AF-4F89-98AD-384A5DF5E104",
+      "locator": "justsend:A552BAB0-E7AF-4F89-98AD-384A5DF5E104",
+      "title": "IOSPROD-215 권한 요청 흐름 반려 대응",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "App Store 5.1.1(iv) 반려 뒤 권한 요청 API를 전수 감사했고, 첫 실행 SetupScreen의 선행 안내가 시스템 권한 프롬프트로 항상 이어지지 않는 위반 지점임을 기록했다.",
+      "claim_keys": [
+        "rejection-cause",
+        "api-inventory",
+        "setup-removal"
+      ],
+      "content_hash": "f8484c46149b270beee7152c935320195d2e46284fa464609ebab3c51dfbc090",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:SetupScreen.swift",
+      "locator": "mac-prod/.port/new/app/JustSend/Sources/Setup/SetupScreen.swift:1-20,196-216",
+      "title": "SetupScreen의 기능 시점 권한 계약",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "권한은 미리 묻지 않는다. 캘린더·마이크·카메라는 해당 기능을 쓰는 자리에서 iOS가 묻는다. footer는 setup.finish.done 한 동작만 남긴다.",
+      "claim_keys": [
+        "permission-timing",
+        "setup-removal"
+      ],
+      "content_hash": "82b02e7ddc1f605a287c2d6a2cf60746464a627183db4277ea8e8755e6ba58f8",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:SetupPermission.swift",
+      "locator": "mac-prod/.port/new/app/JustSend/Sources/Setup/SetupPermission.swift:1-42",
+      "title": "SetupPermission 상태와 복구 경계",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "SetupPermission은 상태 조회와 설정 앱 이동만 소유한다. notDetermined, granted, blocked를 구분하며 권한 요청은 기능 자리의 소유자가 한다.",
+      "claim_keys": [
+        "blocked-recovery",
+        "api-inventory"
+      ],
+      "content_hash": "1374f543b5a26c01d84d14b3cec69b23ba4c9171dcaa25d18fc152cb802b8fda",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "apple-uikit-protecting-privacy",
+      "locator": "https://developer.apple.com/documentation/uikit/protecting-the-user-s-privacy#Request-Access-Only-When-Your-App-Needs-the-Data",
+      "title": "Apple UIKit: Protecting the User’s Privacy",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "standard",
+      "excerpt": "Request access to sensitive user or device data at the time your app needs the data, provide a purpose string, and provide reasonable fallback behavior when access is not granted.",
+      "claim_keys": [
+        "permission-timing",
+        "blocked-recovery"
+      ],
+      "content_hash": "f3731f922f6609403254ca63850e7a72a763d03e18e9c2f932f8029774b3bc4d",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:IOSPROD-215-simulator",
+      "locator": "justsend:A552BAB0-E7AF-4F89-98AD-384A5DF5E104#notes:runtime-verification",
+      "title": "수정 전후 권한 화면과 설치 관측",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "수정 전에는 setup 화면에 calendar, microphone, camera 행이 보였고, 수정 뒤에는 권한 섹션 없이 완료 동작으로 홈에 진입하는 흐름과 실제 기기 설치·실행을 관측했다.",
+      "claim_keys": [
+        "runtime-verification",
+        "setup-removal"
+      ],
+      "content_hash": "491c93b6a1b20785587bd924a72a9a1c31b55a0729e9e92d5749ab3ad85d2c0c",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:appstore-permission-preprompt:ko",
+      "locator": "web/content/blog/appstore-permission-preprompt/ko.md:1-",
+      "title": "기존 한국어 글: App Store 권한 심사 대응: 설명 화면을 걷어내고 기능 순간에 묻기까지",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "첫 실행 화면에 캘린더·마이크·카메라 권한을 설명하는 토글을 넣었습니다. 사용자가 왜 권한이 필요한지 먼저 알려 주려는 의도였습니다. App Store 심사는 이 흐름을 다르게 읽었습니다. 커스텀 안내를 본 뒤 시스템 권한 프롬프트로 항상 이어지지 않았고, 사용자가 권한 요청을 건너뛸 수 있었습니다.",
+      "claim_keys": [
+        "corpus-depth",
+        "seed-not-source"
+      ],
+      "content_hash": "b052aebe5eb09310bf8b5ac2df26314829b06424020b75b859eadd0556b35b92",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

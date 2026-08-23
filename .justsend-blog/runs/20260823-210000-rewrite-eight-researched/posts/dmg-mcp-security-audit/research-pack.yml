@@ -1,0 +1,122 @@
+{
+  "topic": "DMG와 MCP 플러그인 보안 감사: 바이너리가 전부 공개돼도 안전한 경계 만들기",
+  "generated_at": "2026-08-23T21:00:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "EFE6757E-D426-4EB2-BAAE-6C8BB08928FF",
+      "locator": "justsend:EFE6757E-D426-4EB2-BAAE-6C8BB08928FF",
+      "title": "DMG와 MCP 플러그인 보안 검수",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "공개 DMG와 MCP 플러그인을 공격자가 완전히 분석한다는 모델에서 의도 큐 인가와 내용 유발 SSRF를 발견하고 수정·재포장·재감사했다.",
+      "claim_keys": [
+        "public-threat-model",
+        "intent-authorization",
+        "runtime-reaudit"
+      ],
+      "content_hash": "8a4e4d283b7613cb0064b4a44e87f22569e3ea39af5fc43d00403bb67f45b565",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:AgentIntentTrustTests",
+      "locator": "mac-prod/MacTests/AgentIntentTrustTests.swift:167-198",
+      "title": "의도 큐 첨부 경계 테스트",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "test",
+      "excerpt": "테스트는 staging root 밖 경로와 바깥을 가리키는 symlink를 위조 의도에 넣고, 파일이 읽히거나 삭제되지 않으며 기록도 생성되지 않는지 검증한다.",
+      "claim_keys": [
+        "intent-authorization",
+        "staged-path"
+      ],
+      "content_hash": "c5edb6a048a3f0d39a455748a9a6f8fc6a12699ac0972b513147e24accfcc99e",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:ContentFetchHostPolicy@11b36db",
+      "locator": "git:mac-prod:11b36db:patches/0066-contentfetchhostpolicy.patch",
+      "title": "내용 유발 주소의 SSRF 정책",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "ContentFetchHostPolicy는 http/https만 받고 모든 IP 해석을 모아 하나라도 loopback·link-local·private면 거절한다. 0177.0.0.1의 Network와 inet_aton 해석 차이를 테스트로 고정한다.",
+      "claim_keys": [
+        "ssrf-policy",
+        "parser-divergence"
+      ],
+      "content_hash": "6d3b54075a52bb02b5d1656e7339e413fa7dae766be01c98bb72d45a9b810b32",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "mcp-security-best-practices",
+      "locator": "https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices",
+      "title": "MCP security best practices",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "standard",
+      "excerpt": "The MCP security guidance describes confused-deputy and token handling risks and requires implementations to preserve authorization boundaries rather than treating protocol possession as authority.",
+      "claim_keys": [
+        "public-threat-model",
+        "intent-authorization"
+      ],
+      "content_hash": "609ce32019268bde5c52fd2d12889f1fab9dceabd9fc5b1855ddc000f793e00b",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:security-audit-178",
+      "locator": "justsend:EFE6757E-D426-4EB2-BAAE-6C8BB08928FF#notes:reaudit",
+      "title": "수정 뒤 보안 test와 DMG 재감사",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "AgentIntentTrustTests는 수정 전 실패를 잡은 뒤 통과했고, ContentFetchHostPolicyTests 8건이 통과했다. 수정 코드를 담은 빌드 178 DMG를 다시 공증하고 동일 위협 모델로 재감사했다.",
+      "claim_keys": [
+        "runtime-reaudit",
+        "staged-path",
+        "ssrf-policy"
+      ],
+      "content_hash": "667367b202a25b0fad8832a815d3b4c226572a35fd1d3dfea9d25a4f4c3d556e",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:dmg-mcp-security-audit:ko",
+      "locator": "web/content/blog/dmg-mcp-security-audit/ko.md:1-",
+      "title": "기존 한국어 글: DMG와 MCP 플러그인 보안 감사: 바이너리가 전부 공개돼도 안전한 경계 만들기",
+      "retrieved_at": "2026-08-23T21:00:00.000Z",
+      "selected": true,
+      "reason": "핵심 claim을 source expansion과 독립 검증에 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "배포 산출물은 누구나 내려받아 분석할 수 있습니다. Mach-O, 프레임워크, 리소스, entitlement, 문자열을 숨길 수 있다고 가정하지 않았습니다. 구현이 전부 공개돼도 사용자 데이터·키·계정·쓰기 권한이 보호되는지를 기준으로 DMG와 MCP 플러그인을 함께 감사했습니다.",
+      "claim_keys": [
+        "corpus-depth",
+        "seed-not-source"
+      ],
+      "content_hash": "9a77c4b1a878a22eecddd6d8da4487567f2dae5a01000de981f494d8acb2b047",
+      "sensitivity": "public-safe"
+    }
+  ]
+}
