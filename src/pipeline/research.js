@@ -22,6 +22,17 @@ function hash(value) {
   return createHash("sha256").update(String(value ?? "").normalize("NFC")).digest("hex");
 }
 
+function redactList(values) {
+  const items = [];
+  let redacted = 0;
+  for (const value of values) {
+    const safe = redactText(String(value));
+    if (safe.text.trim()) items.push(safe.text.trim());
+    redacted += safe.redacted;
+  }
+  return { items: [...new Set(items)], redacted };
+}
+
 export function buildJustSendResearchPack(selected, rejected = [], { topic, generatedAt } = {}) {
   const rows = [
     ...selected.map(record => ({ record, selected: true, reason: "topic-and-date-match" })),
@@ -33,7 +44,11 @@ export function buildJustSendResearchPack(selected, rejected = [], { topic, gene
     sources: rows.map(({ record, selected: isSelected, reason }, index) => {
       const title = redactText(String(record.title ?? record.id));
       const excerpt = redactText(String(record.content ?? "").trim());
-      const redacted = title.redacted + excerpt.redacted;
+      const safeReason = redactText(reason);
+      const claims = redactList(isSelected
+        ? (Array.isArray(record.claim_keys) ? record.claim_keys : [record.claim_key ?? `record:${record.id}`])
+        : []);
+      const redacted = title.redacted + excerpt.redacted + safeReason.redacted + claims.redacted;
       return {
         id: `RS-${String(index + 1).padStart(3, "0")}`,
         kind: "work-record",
@@ -43,14 +58,12 @@ export function buildJustSendResearchPack(selected, rejected = [], { topic, gene
         title: title.text,
         retrieved_at: generatedAt ?? new Date().toISOString(),
         selected: isSelected,
-        reason,
+        reason: safeReason.text,
         artifact_kind: "record",
         excerpt: excerpt.text || null,
-        claim_keys: isSelected
-          ? (Array.isArray(record.claim_keys) ? record.claim_keys.map(String) : [String(record.claim_key ?? `record:${record.id}`)])
-          : [],
+        claim_keys: claims.items,
         content_hash: hash(record.content),
-        sensitivity: redacted > 0 || /\[REDACTED:[a-z-]+\]/i.test(`${title.text} ${excerpt.text}`) ? "redacted" : "public-safe",
+        sensitivity: redacted > 0 || /\[REDACTED:[a-z-]+\]/i.test(`${title.text} ${excerpt.text} ${safeReason.text} ${claims.items.join(" ")}`) ? "redacted" : "public-safe",
       };
     }),
   };
@@ -63,7 +76,9 @@ export function enrichResearchPack(pack, sources = [], { retrievedAt } = {}) {
     const locator = redactText(String(source.locator));
     const title = redactText(String(source.title));
     const excerpt = source.excerpt == null ? { text: "", redacted: 0 } : redactText(String(source.excerpt));
-    const redacted = sourceID.redacted + locator.redacted + title.redacted + excerpt.redacted;
+    const safeReason = redactText(String(source.reason ?? "selected for source expansion"));
+    const claims = redactList(Array.isArray(source.claim_keys) ? source.claim_keys : []);
+    const redacted = sourceID.redacted + locator.redacted + title.redacted + excerpt.redacted + safeReason.redacted + claims.redacted;
     return {
       id: source.id ?? `RS-${String(start + index + 1).padStart(3, "0")}`,
       kind: source.kind,
@@ -73,12 +88,12 @@ export function enrichResearchPack(pack, sources = [], { retrievedAt } = {}) {
       title: title.text,
       retrieved_at: source.retrieved_at ?? retrievedAt ?? new Date().toISOString(),
       selected: source.selected !== false,
-      reason: String(source.reason ?? "selected for source expansion"),
+      reason: safeReason.text,
       artifact_kind: source.artifact_kind,
       excerpt: excerpt.text || null,
-      claim_keys: Array.isArray(source.claim_keys) ? source.claim_keys.map(String) : [],
+      claim_keys: claims.items,
       content_hash: source.content_hash ?? (source.excerpt == null ? null : hash(source.excerpt)),
-      sensitivity: redacted > 0 || /\[REDACTED:[a-z-]+\]/i.test(`${sourceID.text} ${locator.text} ${title.text} ${excerpt.text}`)
+      sensitivity: redacted > 0 || /\[REDACTED:[a-z-]+\]/i.test(`${sourceID.text} ${locator.text} ${title.text} ${excerpt.text} ${safeReason.text} ${claims.items.join(" ")}`)
         ? "redacted"
         : (source.sensitivity ?? "public-safe"),
     };

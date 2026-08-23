@@ -46,6 +46,18 @@ test("research pack requires selected excerpts and claim mapping", () => {
   assert.ok(validateResearchPack(invalid).errors.some(error => error.includes("excerpt")));
 });
 
+test("research reason and claim keys are redacted before artifact creation", () => {
+  const records = fixture.records.slice(0, 1).map(record => ({ ...record }));
+  let research = buildJustSendResearchPack(records, [], { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  research = enrichResearchPack(research, [
+    { kind: "repository-source", provider: "repository", source_id: "reader.swift", locator: "Sources/Reader.swift:10-80", title: "Reader source", artifact_kind: "code", excerpt: "WebKit 문서를 읽고 로컬에서 정규화하는 실제 구현 source입니다.", claim_keys: ["api_key=sk_live_SUPERSECRET", "owner:dev.private@example.com"], reason: "담당자 dev.private@example.com의 비밀 sk_live_SUPERSECRET를 확인했다." },
+  ], { retrievedAt: "2026-08-23T00:00:00Z" });
+  const serialized = JSON.stringify(research);
+  assert.doesNotMatch(serialized, /sk_live_SUPERSECRET|dev\.private@example\.com/);
+  assert.equal(research.sources.at(-1).sensitivity, "redacted");
+  assert.match(serialized, /REDACTED/);
+});
+
 test("corroborated Evidence requires two independent research sources", () => {
   const records = fixture.records.slice(0, 1).map(record => ({ ...record, confidence: "corroborated" }));
   let research = buildJustSendResearchPack(records, [], { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });

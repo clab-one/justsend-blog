@@ -30,7 +30,7 @@ omp plugin doctor
 
 성공 조건:
 
-- 목록에 `justsend-blog`, version `0.3.0`, enabled `true`.
+- 목록에 `justsend-blog`, version `0.3.1`, enabled `true`.
 - doctor에 plugin error가 없다.
 
 ## 4. Skill invocation 확인

@@ -3,6 +3,7 @@ const PATTERNS = [
   ["jwt", /\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\b/g],
   ["credential", /\b(?:api[_-]?key|access[_-]?token|refresh[_-]?token|password|passwd|secret|cookie|private[_-]?key)\s*[:=]\s*["']?[^\s,"'};]+/gi],
   ["aws-key", /\bAKIA[0-9A-Z]{16}\b/g],
+  ["provider-key", /\bsk_(?:live|test)_[A-Za-z0-9_-]{8,}\b/gi],
   ["email", /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi],
   ["phone", /(?<!\d)(?:\+?82[- .]?)?0?1[016789][- .]?\d{3,4}[- .]?\d{4}(?!\d)/g],
   ["private-ip", /\b(?:10(?:\.\d{1,3}){3}|192\.168(?:\.\d{1,3}){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d{1,3}){2}|127(?:\.\d{1,3}){3})\b/g],
