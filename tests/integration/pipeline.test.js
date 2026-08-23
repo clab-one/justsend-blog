@@ -43,10 +43,12 @@ test("mock JustSend MCP creates redacted deduplicated conflict-aware Evidence Pa
 test("worktree isolation preserves dirty tracked and untracked user files", () => {
   const workspace = mkdtempSync(join(tmpdir(), "jsb-workspace-"));
   git(workspace, "init", "-b", "main");
+  git(workspace, "config", "user.name", "JustSend Blog Test");
+  git(workspace, "config", "user.email", "justsend-blog-test@example.invalid");
   writeFileSync(join(workspace, "article.md"), "committed\n");
   git(workspace, "add", "article.md");
   git(workspace, "commit", "-m", "initial fixture");
-  assert.equal(git(workspace, "log", "-1", "--format=%an <%ae>"), "steve-8000 <stv.z8k@gmail.com>");
+  assert.equal(git(workspace, "log", "-1", "--format=%an <%ae>"), "JustSend Blog Test <justsend-blog-test@example.invalid>");
   writeFileSync(join(workspace, "article.md"), "user dirty change\n");
   writeFileSync(join(workspace, "notes.tmp"), "untracked user file\n");
   const context = prepareIsolatedRun({ workspace, runId: "20260823-120000-isolation-test", slug: "isolation-test" });

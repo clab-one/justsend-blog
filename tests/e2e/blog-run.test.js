@@ -15,10 +15,12 @@ function git(cwd, ...args) {
 test("mock records produce an audited publish candidate without merge or publish", async () => {
   const workspace = mkdtempSync(join(tmpdir(), "jsb-e2e-"));
   git(workspace, "init", "-b", "main");
+  git(workspace, "config", "user.name", "JustSend Blog Test");
+  git(workspace, "config", "user.email", "justsend-blog-test@example.invalid");
   writeFileSync(join(workspace, "README.md"), "# Fixture workspace\n");
   git(workspace, "add", "README.md");
   git(workspace, "commit", "-m", "initial fixture");
-  assert.equal(git(workspace, "log", "-1", "--format=%an <%ae>"), "steve-8000 <stv.z8k@gmail.com>");
+  assert.equal(git(workspace, "log", "-1", "--format=%an <%ae>"), "JustSend Blog Test <justsend-blog-test@example.invalid>");
   const base = git(workspace, "rev-parse", "HEAD");
   const request = {
     original: "지난 한 달간 JustSend에서 웹 파싱을 서버에서 온디바이스로 이전한 작업을 조사해서 기술 블로그로 작성해. 독자가 기존 구조와 새 구조의 차이를 이해할 수 있는 아키텍처 그림도 포함해.",
@@ -40,6 +42,7 @@ test("mock records produce an audited publish candidate without merge or publish
   for (const ext of ["html", "svg", "png"]) assert.ok(existsSync(join(result.runDir, "diagrams", `d001.${ext}`)), `diagram ${ext} must exist`);
   const audit = JSON.parse(readFileSync(join(result.runDir, "audit.json"), "utf8"));
   assert.equal(audit.result, "PASS");
+  assert.equal(audit.humanization.mode, "deterministic-fallback");
   assert.deepEqual(audit.text.unsupported_claims, []);
   assert.deepEqual(audit.diagrams.unsupported_nodes, []);
   assert.deepEqual(audit.diagrams.unsupported_edges, []);
@@ -48,6 +51,7 @@ test("mock records produce an audited publish candidate without merge or publish
   const manifest = JSON.parse(readFileSync(join(result.runDir, "manifest.json"), "utf8"));
   assert.equal(manifest.status, "READY_FOR_REVIEW");
   assert.equal(manifest.audit_result, "PASS");
+  assert.equal(manifest.humanization_mode, "deterministic-fallback");
   assert.equal(manifest.git_branch, "justsend-blog/20260823/web-parsing-on-device");
   assert.equal(git(workspace, "rev-parse", "main"), base);
   assert.equal(git(workspace, "status", "--short"), "");

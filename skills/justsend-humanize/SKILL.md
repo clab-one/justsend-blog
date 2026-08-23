@@ -7,6 +7,8 @@ description: 기술 구조와 diagram integration 뒤 한국어 prose만 im-not-
 
 Main이 직접 수행한다. vendored im-not-ai agent 문서를 호출하거나 다른 agent를 생성하지 않는다.
 
+실제 `/skill:justsend-blog` 실행은 `mode: main-direct-im-not-ai-guided`다. Main은 route를 정한 뒤 `vendor/im-not-ai/skills/humanize-korean/references/quick-rules.md`와 필요 시 `diagnosis-rules.md`를 직접 읽고 prose를 실제로 윤문한다. `src/pipeline/humanize.js#applyDeterministicFallback`은 mock fixture와 자동 테스트 전용 고정 치환이며 im-not-ai monolith/finalizer 실행으로 보고하지 않는다.
+
 1. `draft.md`와 integrated diagram caption을 기준 원문으로 고정한다.
 2. frontmatter, Evidence/record ID, URL, path, fenced/inline code, command, API name, JSON/YAML, 숫자, 날짜, 직접 인용, HTML/SVG, node ID를 보호 span으로 추출한다.
 3. `vendor/im-not-ai/scripts/prepare_monolith_input.py`로 metrics와 `route_hint`를 계산한다. 사용자 `가볍게/빠르게만`은 light, `--strict/정밀하게/증적`은 heavy로 override한다. metrics 실패는 standard다.
@@ -16,4 +18,4 @@ Main이 직접 수행한다. vendored im-not-ai agent 문서를 호출하거나 
 7. 30% 이상은 WARN과 정밀 대조, 50% 이상은 FAIL이며 윤문본을 채택하지 않는다.
 8. 숫자, 날짜, 고유명사, 제품·API 이름, 기술 용어, 직접 인용, 부정, 인과, 성능 수치, 성공/실패 여부가 달라지면 실패다.
 
-통과 결과만 `humanized.md`로 저장하고 route, 선택 이유, change rate를 manifest와 audit에 기록한다.
+통과 결과만 `humanized.md`로 저장하고 `mode: main-direct-im-not-ai-guided`, route, 선택 이유, change rate를 manifest와 audit에 기록한다. 자동 fixture runner의 결과는 반드시 `mode: deterministic-fallback`, `scope: fixture-and-test-only`로 남긴다.

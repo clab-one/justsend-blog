@@ -8,7 +8,7 @@ import { redactText } from "../../src/mcp/redaction.js";
 import { buildEvidencePack, deduplicateRecords, validateEvidencePack } from "../../src/pipeline/evidence.js";
 import { resolveWithin } from "../../src/pipeline/run-context.js";
 import { auditVisual, buildVisualPlan, renderSvg } from "../../src/pipeline/visual.js";
-import { auditProtected, humanizeMarkdown, runImNotAiChangeGate } from "../../src/pipeline/humanize.js";
+import { auditProtected, applyDeterministicFallback, runImNotAiChangeGate } from "../../src/pipeline/humanize.js";
 import { buildAuditReport, deterministicTextAudit } from "../../src/pipeline/audit.js";
 
 const fixture = JSON.parse(readFileSync(resolve("tests/fixtures/justsend-records.json"), "utf8"));
@@ -71,7 +71,7 @@ test("visual node and edge provenance passes only for known Evidence IDs", () =>
 
 test("humanization preserves protected date, number, URL, product, and Evidence ID", () => {
   const before = "검토를 진행했다. 2026-07-21에 WebKit 3건을 https://example.com 에서 확인했다. <!-- evidence: JS-E001 -->";
-  const after = humanizeMarkdown(before, { route: "standard" });
+  const after = applyDeterministicFallback(before, { route: "standard" });
   assert.match(after, /검토했다/);
   assert.deepEqual(auditProtected(before, after), { meaning_preserved: true, differences: {} });
   assert.deepEqual(deterministicTextAudit(before, after).numbers_changed, []);
@@ -83,7 +83,7 @@ test("humanization preserves protected date, number, URL, product, and Evidence 
 
 test("im-not-ai change-rate gate enforces 30 and 50 percent thresholds", () => {
   const stable = "검토를 진행했다. ".repeat(30);
-  const light = humanizeMarkdown(stable, { route: "standard" });
+  const light = applyDeterministicFallback(stable, { route: "standard" });
   const pass = runImNotAiChangeGate(stable, light);
   assert.ok(pass.change_rate < 0.3);
   assert.equal(pass.verdict, "PASS");
@@ -95,7 +95,7 @@ test("im-not-ai change-rate gate enforces 30 and 50 percent thresholds", () => {
 test("unsupported factual claim blocks integrated audit", () => {
   const pack = buildEvidencePack(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
   const text = "서버 처리 성능이 90% 개선됐다.";
-  const report = buildAuditReport({ technicalDraft: text, finalMarkdown: text, evidencePack: pack, visualPlan: { visuals: [] }, humanization: { route: "standard", change_rate: 0, meaning_preserved: true, verdict: "PASS" } });
+  const report = buildAuditReport({ technicalDraft: text, finalMarkdown: text, evidencePack: pack, visualPlan: { visuals: [] }, humanization: { mode: "deterministic-fallback", route: "standard", change_rate: 0, meaning_preserved: true, verdict: "PASS" } });
   assert.equal(report.result, "FAIL");
   assert.equal(report.text.unsupported_claims.length, 1);
 });

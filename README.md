@@ -1,6 +1,6 @@
 # justsend-blog
 
-JustSend 작업 기록을 Evidence Pack으로 정규화한 뒤 독자 중심 한국어 기술 글, 근거 기반 다이어그램, im-not-ai 윤문, Fidelity Audit과 Git diff를 거쳐 출판 후보 Markdown을 만드는 OMP 플러그인 팩이다.
+JustSend 작업 기록을 Evidence Pack으로 정규화한 뒤 독자 중심 한국어 기술 글, 근거 기반 다이어그램, im-not-ai 지표·규칙을 적용한 Main 직접 윤문, Fidelity Audit과 Git diff를 거쳐 출판 후보 Markdown을 만드는 OMP 플러그인 팩이다.
 
 ## 핵심 보장
 
@@ -10,7 +10,8 @@ JustSend 작업 기록을 Evidence Pack으로 정규화한 뒤 독자 중심 한
 - JustSend record에서 바로 글을 쓰지 않고 `evidence.yml`을 먼저 확정한다.
 - Markdown과 Git이 SSOT다. run은 별도 worktree와 branch에서 진행한다.
 - diagram node·edge와 최종 핵심 claim은 Evidence ID를 가진다.
-- im-not-ai는 기술 구조와 시각화가 확정된 뒤에만 실행한다.
+- 실제 OMP run은 기술 구조와 시각화가 확정된 뒤 im-not-ai route·references를 읽은 Main이 직접 윤문하고 `main-direct-im-not-ai-guided` mode를 기록한다.
+- 자동 fixture runner의 고정 치환은 `deterministic-fallback`으로 명시하며 im-not-ai monolith/finalizer 실행으로 보고하지 않는다.
 - text·diagram audit가 통과해도 결과는 `READY_FOR_REVIEW`다. 자동 merge·publish·JustSend write-back은 없다.
 
 ## 요구사항
@@ -105,7 +106,7 @@ node scripts/run-pipeline.js \
   --date 2026-08-23T12:34:56Z
 ```
 
-이 CLI fixture 모드는 테스트용이다. 실제 JustSend MCP 호출은 `/skill:justsend-blog`를 읽은 Main이 현재 OMP tool description을 발견해 직접 수행한다.
+이 CLI fixture 모드는 테스트용이며 prose 단계는 `deterministic-fallback`이다. im-not-ai의 route metrics와 변경률 gate는 실제 vendored Python을 실행하지만 diagnostician/monolith/finalizer를 호출하지 않는다. 실제 JustSend run은 `/skill:justsend-blog`를 읽은 Main이 현재 OMP tool description을 발견하고 im-not-ai references에 따라 prose를 직접 윤문한다.
 
 ## 검증
 

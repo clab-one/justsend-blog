@@ -9,7 +9,7 @@ import { buildOutline, chooseDocumentType, renderOutlineMarkdown, renderTechnica
 import { commitRunPaths, mintRunId, prepareIsolatedRun, runDiff } from "./run-context.js";
 import { TraceWriter } from "../tracing/trace-writer.js";
 import { buildVisualPlan, renderDiagram } from "./visual.js";
-import { humanizeMarkdown, runImNotAiChangeGate, selectImNotAiRoute } from "./humanize.js";
+import { applyDeterministicFallback, runImNotAiChangeGate, selectImNotAiRoute } from "./humanize.js";
 import { buildAuditReport } from "./audit.js";
 
 const PROJECT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -89,6 +89,7 @@ export async function runBlogPipeline({ workspace, fixturePath, request, date = 
     document_type_reason: "",
     language: "ko",
     humanization_route: null,
+    humanization_mode: null,
     diagrams: [],
     evidence_count: 0,
     audit_result: null,
@@ -161,16 +162,25 @@ export async function runBlogPipeline({ workspace, fixturePath, request, date = 
   commit = commitRunPaths(context, [context.runRelative], "blog(run): add evidence-backed diagrams");
   trace.append("git_commit", { commit, stage: "visual" });
 
-  trace.append("humanize_started", { engine: "im-not-ai", order: "after-visual-integration" });
+  trace.append("humanize_started", { route_engine: "im-not-ai", prose_mode: "deterministic-fallback", order: "after-visual-integration" });
   const route = selectImNotAiRoute(draft, { vendorRoot: join(PROJECT_ROOT, "vendor/im-not-ai"), override: request.humanization_route });
-  const humanized = humanizeMarkdown(draft, { route: route.route });
+  const humanized = applyDeterministicFallback(draft, { route: route.route });
   const gate = runImNotAiChangeGate(draft, humanized, { vendorRoot: join(PROJECT_ROOT, "vendor/im-not-ai") });
-  const humanization = { route: route.route, route_hint: route.route_hint, route_reason: route.reason, ...gate };
+  const humanization = {
+    mode: "deterministic-fallback",
+    route_engine: "im-not-ai",
+    prose_engine: "protected-fixed-substitutions",
+    scope: "fixture-and-test-only",
+    route: route.route,
+    route_hint: route.route_hint,
+    route_reason: route.reason,
+    ...gate,
+  };
   context.write("humanized.md", humanized);
   context.write("humanization.json", `${JSON.stringify(humanization, null, 2)}\n`);
-  trace.append("humanize_completed", { route: route.route, route_hint: route.route_hint, change_rate: gate.change_rate, meaning_preserved: gate.meaning_preserved, verdict: gate.verdict });
-  transitionManifest(manifestPath, "HUMANIZED", { humanization_route: route.route });
-  commit = commitRunPaths(context, [context.runRelative], "blog(run): humanize Korean prose");
+  trace.append("humanize_completed", { mode: humanization.mode, route: route.route, route_hint: route.route_hint, change_rate: gate.change_rate, meaning_preserved: gate.meaning_preserved, verdict: gate.verdict });
+  transitionManifest(manifestPath, "HUMANIZED", { humanization_route: route.route, humanization_mode: humanization.mode });
+  commit = commitRunPaths(context, [context.runRelative], "blog(run): apply deterministic fixture prose fallback");
   trace.append("git_commit", { commit, stage: "humanize" });
 
   trace.append("audit_started", { text: true, diagrams: visualPlan.visuals.length });

@@ -80,7 +80,7 @@ function polishKorean(text, route) {
   return out;
 }
 
-export function humanizeMarkdown(text, { route = "standard" } = {}) {
+export function applyDeterministicFallback(text, { route = "standard" } = {}) {
   if (!["light", "standard", "heavy"].includes(route)) throw new Error(`invalid humanization route: ${route}`);
   const source = String(text);
   const masked = maskProtected(source);

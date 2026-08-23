@@ -27,7 +27,7 @@ description: JustSend MCP 작업 기록을 Evidence Pack으로 정규화한 뒤 
 6. Evidence 절차로 `evidence.yml`과 `evidence.md`를 확정하고 schema validator를 통과시킨다.
 7. Writing 절차로 문서 유형을 선택하고 section별 `purpose`, `evidence_ids`, `visual_candidate`가 있는 `outline.md`를 만든다. 이어 `draft.md`를 작성한다.
 8. Visual 절차로 그림이 더 나은 구간만 `visual-plan.yml`에 넣는다. 필요하면 `skill://diagram-design`과 선택한 type reference를 읽고 HTML 정본, SVG, PNG를 `diagrams/`에 만든다.
-9. Humanize 절차로 한국어 prose만 route에 맞춰 윤문해 `humanized.md`를 만든다. 보호 대상 token은 원문과 동일해야 한다.
+9. Humanize 절차로 Main이 im-not-ai references를 읽고 한국어 prose를 직접 윤문해 `humanized.md`를 만든다. 실제 run에는 `mode: main-direct-im-not-ai-guided`를 기록한다. 보호 대상 token은 원문과 동일해야 한다.
 10. Audit 절차와 `scripts/verify-fidelity.js`로 text와 diagram을 함께 검사한다. 실패하면 근거 없는 문장을 삭제·불확실성 표시하거나 provenance를 고치고 재검사한다.
 11. PASS일 때만 `final.md`, `audit.json`, 최종 manifest를 `READY_FOR_REVIEW`로 만든다. 관련 경로만 명시적으로 commit하고 base와의 Git diff를 제시한다.
 12. 사용자에게 final Markdown, 생성 파일, Evidence 요약, audit, branch, commit, diff를 제공한다. 승인 전 다음 상태로 전이하지 않는다.

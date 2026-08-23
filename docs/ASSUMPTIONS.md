@@ -6,11 +6,15 @@
 
 ## Plugin dependency
 
-조사한 OMP manifest에는 plugin-to-plugin dependency field가 없다. 따라서 MIT인 diagram-design Skill과 im-not-ai deterministic runtime 최소 범위를 pinned vendor했다. Toss 콘텐츠는 vendor하지 않았다.
+조사한 OMP manifest에는 plugin-to-plugin dependency field가 없다. 따라서 MIT인 diagram-design Skill과 im-not-ai route metrics·검증 gate·rule references 최소 범위를 pinned vendor했다. Toss 콘텐츠는 vendor하지 않았다.
 
 ## JustSend MCP
 
 현재 OMP 환경에서 JustSend MCP discovery와 read 호출 가능 여부를 확인했다. 실제 사용자 record를 사용한 blog run은 개인정보 최소화 때문에 수행하지 않았고, 전체 pipeline 행동 검증은 8-record mock fixture로 수행했다. runtime Skill은 실제 tool description에서 map을 만든다.
+
+## Humanization mode
+
+실제 `/skill:justsend-blog` run은 `main-direct-im-not-ai-guided`다. Main이 im-not-ai route metrics와 references를 읽고 prose를 직접 윤문한 뒤 vendored gate를 실행한다. 자동 E2E runner는 LLM agent를 호출하지 않으며 고정 치환을 `deterministic-fallback`, `fixture-and-test-only`로 기록한다. 이 fallback을 upstream diagnostician·monolith·finalizer 실행으로 간주하지 않는다.
 
 ## Evidence serialization
 

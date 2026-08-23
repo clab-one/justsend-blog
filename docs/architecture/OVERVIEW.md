@@ -31,7 +31,7 @@ REQUESTED → RESEARCHING → EVIDENCE_READY → OUTLINED → DRAFTED
 5. Evidence ID가 연결된 outline과 기술 초안을 작성한다.
 6. 문단보다 시각화가 이해 비용을 줄이는 구간만 visual plan으로 승격한다.
 7. diagram-design 계약에 따라 HTML을 정본으로 만들고 SVG·PNG 호환본을 만든다.
-8. 기술 구조가 확정된 뒤 im-not-ai route를 선택해 한국어 prose만 윤문한다.
+8. 기술 구조가 확정된 뒤 실제 OMP run은 im-not-ai route·references를 읽은 Main이 prose를 직접 윤문하고 `main-direct-im-not-ai-guided`를 기록한다. 자동 fixture runner는 `deterministic-fallback`으로 분리한다.
 9. 숫자·날짜·URL·식별자·고유명사·코드와 claim/diagram provenance를 검사한다.
 10. audit PASS와 Git diff를 함께 제시한다. 사용자가 승인하기 전에는 merge·publish·JustSend write-back을 하지 않는다.
 
@@ -72,7 +72,7 @@ OMP 18은 linked plugin을 `package.json`의 `omp` manifest와 conventional `ski
 
 - `omp plugin link <repo>`로 로컬 개발 설치.
 - root `skills/`에 justsend Skill과 pinned diagram-design Skill을 함께 패키징.
-- im-not-ai는 MIT Python scripts와 필요한 references만 `vendor/im-not-ai/`에 고정하고, OMP Main 전용 `justsend-humanize`가 직접 실행한다.
+- im-not-ai는 MIT route metrics·deterministic gates·필요 references만 `vendor/im-not-ai/`에 고정한다. OMP Main 전용 `justsend-humanize`는 references를 읽고 직접 윤문하며, fixture fallback은 upstream agent 실행으로 표기하지 않는다.
 - Toss 콘텐츠는 vendor하지 않는다.
 
 로컬 런타임은 OMP `18.0.0`, 조사한 upstream HEAD는 `18.0.3`이다. 로컬 설치 검증 결과를 배포 명령의 기준으로 삼고, 차이는 `docs/ASSUMPTIONS.md`에 기록한다.

@@ -17,6 +17,7 @@
     "document_type_reason": {"type": "string"},
     "language": {"const": "ko"},
     "humanization_route": {"enum": ["light", "standard", "heavy", null]},
+    "humanization_mode": {"enum": ["main-direct-im-not-ai-guided", "deterministic-fallback", null]},
     "diagrams": {"type": "array"},
     "evidence_count": {"type": "integer", "minimum": 0},
     "audit_result": {"enum": ["PASS", "FAIL", null]},

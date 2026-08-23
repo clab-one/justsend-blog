@@ -31,8 +31,9 @@
     },
     "humanization": {
       "type": "object",
-      "required": ["route", "change_rate", "meaning_preserved"],
+      "required": ["mode", "route", "change_rate", "meaning_preserved"],
       "properties": {
+        "mode": {"enum": ["main-direct-im-not-ai-guided", "deterministic-fallback"]},
         "route": {"enum": ["light", "standard", "heavy"]},
         "change_rate": {"type": "number", "minimum": 0, "maximum": 1},
         "meaning_preserved": {"type": "boolean"},
