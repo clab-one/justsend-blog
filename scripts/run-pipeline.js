@@ -28,7 +28,7 @@ if (options["prepare-only"]) {
   process.exit(0);
 }
 if (!options.workspace || !options.fixture) {
-  console.error("사용법: node scripts/run-pipeline.js --workspace <git-root> --fixture <mock-records.json> [--research-sources <sources.json>] [--request <request.json>] [--date <ISO-8601>]");
+  console.error("사용법: node scripts/run-pipeline.js --workspace <git-root> --fixture <mock-records.json> [--research-sources <sources.json>] [--visual-specs <visual-specs.json>] [--request <request.json>] [--date <ISO-8601>]");
   console.error("실제 JustSend MCP 실행은 /skill:justsend-blog가 현재 OMP tool description을 발견해 직접 수행합니다.");
   process.exit(2);
 }
@@ -48,13 +48,39 @@ const defaultRequest = {
   assumptions: ["지난 한 달은 2026-07-01부터 2026-07-31까지로 해석했다."],
 };
 
+const defaultVisualSpecs = [{
+  diagram_id: "D001",
+  covers_section_ids: ["S02", "S03"],
+  purpose: "서버 파싱에서 iOS WebKit 온디바이스 처리로 바뀐 데이터 흐름을 비교한다.",
+  semantic_pattern: "unstructured-to-structured",
+  evidence_ids: ["JS-E001", "JS-E003"],
+  nodes: [
+    { id: "web-document-before", label: "Web document · before", role: "source", evidence_ids: ["JS-E001"] },
+    { id: "server-parser", label: "Server parser", role: "transform", evidence_ids: ["JS-E001"] },
+    { id: "web-document-after", label: "Web document · after", role: "source", evidence_ids: ["JS-E003"] },
+    { id: "webkit", label: "WebKit", role: "transform", evidence_ids: ["JS-E001", "JS-E003"] },
+    { id: "ios-app", label: "iOS App", role: "sink", evidence_ids: ["JS-E001", "JS-E003"] },
+  ],
+  edges: [
+    { from: "web-document-before", to: "server-parser", label: "before", kind: "flow", evidence_ids: ["JS-E001"] },
+    { from: "web-document-after", to: "webkit", label: "reads", kind: "flow", evidence_ids: ["JS-E003"] },
+    { from: "webkit", to: "ios-app", label: "normalizes", kind: "flow", evidence_ids: ["JS-E003"] },
+  ],
+  excluded: ["Evidence에 없는 서버 컴포넌트"],
+  formats: ["html", "svg", "png"],
+}];
+
 try {
   const request = options.request ? JSON.parse(await readFile(resolve(options.request), "utf8")) : defaultRequest;
   const researchSources = options["research-sources"]
     ? JSON.parse(await readFile(resolve(options["research-sources"]), "utf8"))
     : [];
   if (!Array.isArray(researchSources)) throw new TypeError("research-sources must be a JSON array");
-  const result = await runBlogPipeline({ workspace: resolve(options.workspace), fixturePath: resolve(options.fixture), request, researchSources, date: options.date ? new Date(options.date) : new Date() });
+  const visualSpecs = options["visual-specs"]
+    ? JSON.parse(await readFile(resolve(options["visual-specs"]), "utf8"))
+    : (options.request ? [] : defaultVisualSpecs);
+  if (!Array.isArray(visualSpecs)) throw new TypeError("visual-specs must be a JSON array");
+  const result = await runBlogPipeline({ workspace: resolve(options.workspace), fixturePath: resolve(options.fixture), request, researchSources, visualSpecs, date: options.date ? new Date(options.date) : new Date() });
   console.log(JSON.stringify({ run_dir: result.runDir, branch: result.branch, commit: result.commit, audit: result.audit.result, status: "READY_FOR_REVIEW" }, null, 2));
 } catch (error) {
   console.error(error instanceof Error ? error.stack : String(error));

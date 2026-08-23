@@ -7,78 +7,76 @@ function escapeXml(value) {
   return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[char]);
 }
 
-export function buildVisualPlan(pack, outline = { sections: [] }) {
+export function buildVisualPlan(pack, outline = { sections: [] }, { specs = [] } = {}) {
   const candidates = outline.sections.filter(section => section.visual_candidate === true);
-  const compatible = candidates.filter(section => /WebKit|온디바이스|파싱|실행 위치|데이터 흐름|기존 경로/i.test(`${section.title} ${section.purpose}`));
-  const compatibleIds = compatible.map(section => section.section_id);
-  const incompatibleIds = candidates.filter(section => !compatibleIds.includes(section.section_id)).map(section => section.section_id);
-  const decision = pack.evidence.find(item => item.type === "decision" && /WebKit|온디바이스|파싱/i.test(item.statement));
-  const implementation = pack.evidence.find(item => item.type === "fact" && /WebKit|문서|파싱/i.test(item.statement));
-  if (!decision || !implementation || compatible.length === 0) {
-    return {
-      visuals: [],
-      decisions: candidates.map(({ section_id }) => ({
-        section_id,
-        decision: "omit",
-        diagram_id: null,
-        reason: "최적 유형을 판단하거나 그 관계를 그릴 direct 또는 corroborated Evidence가 부족하다. source를 보강해야 한다.",
-      })),
-    };
-  }
-  const purpose = "서버 파싱에서 iOS WebKit 온디바이스 처리로 바뀐 데이터 흐름을 비교한다.";
-  const selection = selectDiagramType({ purpose, sections: compatible, evidence: [decision, implementation] });
-  const renderer = rendererForType(selection.type);
-  if (!renderer) {
-    return {
-      visuals: [],
-      decisions: candidates.map(({ section_id }) => ({
-        section_id,
-        decision: "omit",
-        diagram_id: null,
-        reason: `최적 유형 ${selection.type}을 선택했지만 등록된 renderer가 없다. 차선 유형으로 바꾸지 말고 renderer를 준비해야 한다.`,
-      })),
-    };
-  }
-  return {
-    visuals: [{
-      diagram_id: "D001",
-      section_id: compatibleIds[0],
-      covers_section_ids: compatibleIds,
-      purpose,
+  const candidateIds = new Set(candidates.map(section => section.section_id));
+  const evidence = new Map(pack.evidence.map(item => [item.id, item]));
+  const visuals = [];
+  const decisions = [];
+  const covered = new Set();
+  for (const [index, spec] of specs.entries()) {
+    const covers = [...new Set(spec.covers_section_ids ?? [spec.section_id])];
+    const invalid = covers.filter(sectionId => !candidateIds.has(sectionId));
+    if (invalid.length > 0) throw new Error(`visual spec covers non-candidate sections: ${invalid.join(", ")}`);
+    const sections = candidates.filter(section => covers.includes(section.section_id));
+    const evidenceIds = [...new Set([
+      ...(spec.evidence_ids ?? []),
+      ...(spec.nodes ?? []).flatMap(node => node.evidence_ids ?? []),
+      ...(spec.edges ?? []).flatMap(edge => edge.evidence_ids ?? []),
+    ])];
+    const missingEvidence = evidenceIds.filter(id => !evidence.has(id));
+    if (missingEvidence.length > 0) throw new Error(`visual spec references unknown Evidence: ${missingEvidence.join(", ")}`);
+    const selection = selectDiagramType({ purpose: spec.purpose, sections, evidence: evidenceIds.map(id => evidence.get(id)) });
+    const renderer = rendererForType(selection.type);
+    if (!renderer) {
+      for (const sectionId of covers) {
+        covered.add(sectionId);
+        decisions.push({
+          section_id: sectionId,
+          decision: "omit",
+          diagram_id: null,
+          reason: `최적 유형 ${selection.type}을 선택했지만 등록된 renderer가 없다. 차선 유형으로 바꾸지 말고 renderer를 준비해야 한다.`,
+        });
+      }
+      continue;
+    }
+    const diagramId = spec.diagram_id ?? `D${String(index + 1).padStart(3, "0")}`;
+    const diagram = {
+      diagram_id: diagramId,
+      section_id: covers[0],
+      covers_section_ids: covers,
+      purpose: spec.purpose,
       type: selection.type,
-      selection: { ...selection, semantic_pattern: "unstructured-to-structured" },
+      selection: { ...selection, semantic_pattern: spec.semantic_pattern ?? null },
       renderer,
-      evidence_ids: [decision.id, implementation.id],
-      nodes: [
-        { id: "web-document-before", label: "Web document · before", role: "source", evidence_ids: [decision.id] },
-        { id: "server-parser", label: "Server parser", role: "transform", evidence_ids: [decision.id] },
-        { id: "web-document-after", label: "Web document · after", role: "source", evidence_ids: [implementation.id] },
-        { id: "webkit", label: "WebKit", role: "transform", evidence_ids: [decision.id, implementation.id] },
-        { id: "ios-app", label: "iOS App", role: "sink", evidence_ids: [decision.id, implementation.id] }
-      ],
-      edges: [
-        { from: "web-document-before", to: "server-parser", label: "before: parsing", kind: "flow", evidence_ids: [decision.id] },
-        { from: "web-document-after", to: "webkit", label: "reads document", kind: "flow", evidence_ids: [implementation.id] },
-        { from: "webkit", to: "ios-app", label: "local normalization", kind: "flow", evidence_ids: [implementation.id] }
-      ],
-      excluded: ["Evidence에 없는 서버 컴포넌트 제거", "확인되지 않은 성능 개선 수치", "출처 없는 보안 경계"],
-      formats: ["html", "svg", "png"]
-    }],
-    decisions: [
-      ...compatibleIds.map(section_id => ({
-        section_id,
+      evidence_ids: evidenceIds,
+      nodes: spec.nodes ?? [],
+      edges: spec.edges ?? [],
+      excluded: spec.excluded ?? [],
+      formats: spec.formats ?? ["html", "svg", "png"],
+    };
+    visuals.push(diagram);
+    for (const sectionId of covers) {
+      covered.add(sectionId);
+      decisions.push({
+        section_id: sectionId,
         decision: "render",
-        diagram_id: "D001",
+        diagram_id: diagramId,
         reason: `${selection.rationale} 이 section의 주된 관계를 가장 직접적으로 설명한다.`,
-      })),
-      ...incompatibleIds.map(section_id => ({
-        section_id,
-        decision: "omit",
-        diagram_id: null,
-        reason: "현재 Evidence는 이 section의 최적 유형을 그릴 actor·state·message 관계를 충분히 제공하지 않는다.",
-      })),
-    ],
-  };
+      });
+    }
+  }
+  for (const { section_id } of candidates) {
+    if (covered.has(section_id)) continue;
+    decisions.push({
+      section_id,
+      decision: "omit",
+      diagram_id: null,
+      reason: "candidate를 설명할 semantic visual spec이 없다. 임의 generic diagram을 만들지 말고 node role·edge kind와 Evidence를 먼저 확정해야 한다.",
+    });
+  }
+  decisions.sort((left, right) => left.section_id.localeCompare(right.section_id));
+  return { visuals, decisions };
 }
 
 export function renderSvg(diagram) {

@@ -42,7 +42,8 @@ test("mock records produce an audited publish candidate without merge or publish
     { kind: "official-doc", provider: "official-docs", source_id: "webkit-doc", locator: "https://developer.apple.com/documentation/webkit", title: "WebKit docs", artifact_kind: "standard", excerpt: "Apple의 WebKit 공식 API와 실행 모델을 설명하는 1차 문서입니다.", claim_keys: ["parsing-location"], reason: "외부 플랫폼의 공식 API 계약을 확인하기 위해 선택했다." },
     { kind: "runtime-observation", provider: "runtime", source_id: "offline-smoke", locator: "artifact://offline-smoke", title: "Offline smoke", artifact_kind: "runtime", excerpt: "네트워크를 끈 실행에서 로컬 파싱 결과가 생성된 관측입니다.", claim_keys: ["rollout-date"], reason: "실제 실행 조건과 결과를 확인하기 위해 선택했다." },
   ];
-  const result = await runBlogPipeline({ workspace, fixturePath: resolve("tests/fixtures/justsend-records.json"), request, researchSources, date: new Date("2026-08-23T12:34:56Z") });
+  const visualSpecs = JSON.parse(readFileSync(resolve("tests/fixtures/visual-specs.json"), "utf8"));
+  const result = await runBlogPipeline({ workspace, fixturePath: resolve("tests/fixtures/justsend-records.json"), request, researchSources, visualSpecs, date: new Date("2026-08-23T12:34:56Z") });
   const required = ["request.md", "manifest.json", "research-summary.md", "research-pack.yml", "evidence.yml", "evidence.md", "outline.md", "outline.json", "quality-contract.json", "draft.md", "visual-plan.yml", "humanized.md", "audit.json", "trace.jsonl", "final.md"];
   for (const name of required) assert.ok(existsSync(join(result.runDir, name)), `${name} must exist`);
   for (const ext of ["html", "svg", "png"]) assert.ok(existsSync(join(result.runDir, "diagrams", `d001.${ext}`)), `diagram ${ext} must exist`);

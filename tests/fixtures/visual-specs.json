@@ -1,0 +1,23 @@
+[
+  {
+    "diagram_id": "D001",
+    "covers_section_ids": ["S02", "S03"],
+    "purpose": "서버 파싱에서 iOS WebKit 온디바이스 처리로 바뀐 데이터 흐름을 비교한다.",
+    "semantic_pattern": "unstructured-to-structured",
+    "evidence_ids": ["JS-E001", "JS-E003"],
+    "nodes": [
+      {"id": "web-document-before", "label": "Web document · before", "role": "source", "evidence_ids": ["JS-E001"]},
+      {"id": "server-parser", "label": "Server parser", "role": "transform", "evidence_ids": ["JS-E001"]},
+      {"id": "web-document-after", "label": "Web document · after", "role": "source", "evidence_ids": ["JS-E003"]},
+      {"id": "webkit", "label": "WebKit", "role": "transform", "evidence_ids": ["JS-E001", "JS-E003"]},
+      {"id": "ios-app", "label": "iOS App", "role": "sink", "evidence_ids": ["JS-E001", "JS-E003"]}
+    ],
+    "edges": [
+      {"from": "web-document-before", "to": "server-parser", "label": "before", "kind": "flow", "evidence_ids": ["JS-E001"]},
+      {"from": "web-document-after", "to": "webkit", "label": "reads", "kind": "flow", "evidence_ids": ["JS-E003"]},
+      {"from": "webkit", "to": "ios-app", "label": "normalizes", "kind": "flow", "evidence_ids": ["JS-E003"]}
+    ],
+    "excluded": ["Evidence에 없는 서버 컴포넌트"],
+    "formats": ["html", "svg", "png"]
+  }
+]

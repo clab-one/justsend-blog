@@ -65,7 +65,7 @@ function integrateDiagram(markdown, visualPlan) {
   return `${markdown.trim()}\n\n## 구조 비교 그림\n\n${figures}\n`;
 }
 
-export async function runBlogPipeline({ workspace, fixturePath, request, researchSources = [], date = new Date() }) {
+export async function runBlogPipeline({ workspace, fixturePath, request, researchSources = [], visualSpecs = [], date = new Date() }) {
   const fixture = JSON.parse(readFileSync(fixturePath, "utf8"));
   const runId = mintRunId({ date, slug: "web-parsing-on-device" });
   const context = prepareIsolatedRun({ workspace, runId, slug: "web-parsing-on-device" });
@@ -161,7 +161,7 @@ export async function runBlogPipeline({ workspace, fixturePath, request, researc
   commit = commitRunPaths(context, [context.runRelative], "blog(run): add outline and technical draft");
   trace.append("git_commit", { commit, stage: "draft" });
 
-  const visualPlan = buildVisualPlan(pack, outline);
+  const visualPlan = buildVisualPlan(pack, outline, { specs: visualSpecs });
   context.write("visual-plan.yml", `${JSON.stringify(visualPlan, null, 2)}\n`);
   trace.append("visual_planned", { count: visualPlan.visuals.length, decisions: visualPlan.decisions });
   transitionManifest(manifestPath, "VISUAL_PLANNED", { diagrams: visualPlan.visuals.map(item => item.diagram_id) });

@@ -22,6 +22,32 @@ function packFor(records, options = {}) {
   return buildEvidencePack(records, { ...options, researchPack });
 }
 
+function webParsingVisualSpec(pack, covers = ["S02", "S03"]) {
+  const decision = pack.evidence.find(item => item.type === "decision");
+  const implementation = pack.evidence.find(item => item.type === "fact");
+  return {
+    diagram_id: "D001",
+    covers_section_ids: covers,
+    purpose: "서버 파싱에서 iOS WebKit 온디바이스 처리로 바뀐 데이터 흐름을 비교한다.",
+    semantic_pattern: "unstructured-to-structured",
+    evidence_ids: [decision.id, implementation.id],
+    nodes: [
+      { id: "web-document-before", label: "Web document · before", role: "source", evidence_ids: [decision.id] },
+      { id: "server-parser", label: "Server parser", role: "transform", evidence_ids: [decision.id] },
+      { id: "web-document-after", label: "Web document · after", role: "source", evidence_ids: [implementation.id] },
+      { id: "webkit", label: "WebKit", role: "transform", evidence_ids: [decision.id, implementation.id] },
+      { id: "ios-app", label: "iOS App", role: "sink", evidence_ids: [decision.id, implementation.id] },
+    ],
+    edges: [
+      { from: "web-document-before", to: "server-parser", label: "before: parsing", kind: "flow", evidence_ids: [decision.id] },
+      { from: "web-document-after", to: "webkit", label: "reads document", kind: "flow", evidence_ids: [implementation.id] },
+      { from: "webkit", to: "ios-app", label: "local normalization", kind: "flow", evidence_ids: [implementation.id] },
+    ],
+    excluded: ["Evidence에 없는 서버 컴포넌트"],
+    formats: ["html", "svg", "png"],
+  };
+}
+
 test("capability discovery maps read descriptions and rejects write tool", () => {
   const result = discoverCapabilities(fixture.tools);
   assert.deepEqual(Object.keys(result.capabilities).sort(), ["get_attachments", "get_record", "get_related_records", "list_records_by_range", "search_records"]);
@@ -111,7 +137,7 @@ test("visual node and edge provenance passes only for known Evidence IDs", () =>
     { section_id: "S03", title: "새 데이터 흐름", purpose: "온디바이스 WebKit 흐름", visual_candidate: true },
     { section_id: "S04", title: "권한 요청 sequence", purpose: "시스템 프롬프트 순서", visual_candidate: true },
   ] };
-  const plan = buildVisualPlan(pack, outline);
+  const plan = buildVisualPlan(pack, outline, { specs: [webParsingVisualSpec(pack)] });
   assert.deepEqual(plan.visuals[0].covers_section_ids, ["S02", "S03"]);
   assert.deepEqual(plan.decisions.map(item => item.section_id), ["S02", "S03", "S04"]);
   assert.deepEqual(plan.decisions.map(item => item.decision), ["render", "render", "omit"]);
@@ -146,13 +172,58 @@ test("diagram type router selects the primary semantic axis and allows a genuine
   assert.equal(second.type, "data-flow");
 });
 
+test("eight production topics build and audit with their meaning-selected diagram type", () => {
+  const cases = [
+    ["permission", "권한 상태 전이: notDetermined에서 granted 또는 blocked로 이동하고 설정 복구한다.", "state-machine", [
+      ["unknown", "notDetermined", "state"], ["granted", "granted", "state"], ["blocked", "blocked", "state"],
+    ], [["unknown", "granted", "허용", "transition"], ["unknown", "blocked", "거부", "transition"]], null],
+    ["release", "App Store 재제출 감사 절차를 build, metadata, server, gate 단계로 수행한다.", "process", [
+      ["build", "Build", "stage"], ["metadata", "Metadata", "stage"], ["server", "Server contract", "stage"], ["gate", "Submit gate", "stage"],
+    ], [["build", "metadata", "대조", "next"], ["metadata", "server", "확인", "next"], ["server", "gate", "통과", "next"]], null],
+    ["mcp", "MCP anchor의 provisional, live, dead 상태 전이와 lifecycle을 설명한다.", "state-machine", [
+      ["provisional", "provisional", "state"], ["live", "live", "state"], ["dead", "dead", "state"],
+    ], [["provisional", "live", "materialize", "transition"], ["live", "dead", "delete", "transition"]], null],
+    ["mac", "공증 App과 helper ZIP의 배포 위치, 설치 zone과 runtime을 보여 준다.", "deployment", [
+      ["build-zone", "Build", "zone"], ["user-zone", "User Mac", "zone"], ["dmg", "DMG", "artifact", "build-zone"], ["app", "App runtime", "runtime", "user-zone"],
+    ], [["dmg", "app", "deploy", "deploys"]], null],
+    ["security", "MCP trust boundary와 SSRF 위협 모델에서 component 연결과 차단 경계를 보여 준다.", "architecture", [
+      ["input", "Untrusted input", "component"], ["boundary", "Trust boundary", "boundary"], ["store", "User records", "component"],
+    ], [["input", "store", "authorized write", "connects"]], "secure-paved-road"],
+    ["hero", "image_path가 staging transform과 attachment store를 지나 목록 sink로 이동하는 데이터 흐름이다.", "data-flow", [
+      ["input", "image_path", "source"], ["stage", "Staging", "transform"], ["attachment", "Attachment", "store"], ["list", "List", "sink"],
+    ], [["input", "stage", "copy", "flow"], ["stage", "attachment", "import", "flow"], ["attachment", "list", "render", "flow"]], null],
+    ["api", "API를 유지, 보류, 재확인 outcome으로 분류하는 조건 분기와 판정이다.", "flowchart", [
+      ["routes", "Routes", "source"], ["decision", "Evidence complete?", "decision"], ["keep", "유지", "outcome"], ["hold", "보류", "outcome"], ["recheck", "재확인", "outcome"],
+    ], [["routes", "decision", "audit", "next"], ["decision", "keep", "yes", "branch"], ["decision", "hold", "planned", "branch"], ["decision", "recheck", "unknown", "branch"]], null],
+    ["research", "Research Pack source가 claim mapping transform을 지나 Evidence sink로 이동하는 data flow다.", "data-flow", [
+      ["seed", "JustSend seed", "source"], ["research", "Research Pack", "transform"], ["evidence", "Evidence Pack", "sink"],
+    ], [["seed", "research", "expand", "flow"], ["research", "evidence", "map claims", "flow"]], "unstructured-to-structured"],
+  ];
+  for (const [name, purpose, expected, nodeRows, edgeRows, semanticPattern] of cases) {
+    const evidencePack = { evidence: [{ id: "JS-E001", statement: purpose, confidence: "direct", evidence_ids: [] }] };
+    const outline = { sections: [{ section_id: "S01", title: purpose, purpose, visual_candidate: true }] };
+    const spec = {
+      diagram_id: "D001", covers_section_ids: ["S01"], purpose, semantic_pattern: semanticPattern,
+      evidence_ids: ["JS-E001"],
+      nodes: nodeRows.map(([id, label, role, container_id]) => ({ id, label, role, ...(container_id ? { container_id } : {}), evidence_ids: ["JS-E001"] })),
+      edges: edgeRows.map(([from, to, label, kind]) => ({ from, to, label, kind, evidence_ids: ["JS-E001"] })),
+      excluded: [], formats: ["html", "svg", "png"],
+    };
+    const plan = buildVisualPlan(evidencePack, outline, { specs: [spec] });
+    assert.equal(plan.visuals[0].type, expected, name);
+    const diagram = plan.visuals[0];
+    const report = auditVisual(diagram, evidencePack, renderSvg(diagram), { outline });
+    for (const key of ["incorrect_type_selection", "renderer_contract_mismatch", "type_invariant_violations"]) assert.deepEqual(report[key], [], `${name}:${key}:${JSON.stringify(report[key])}`);
+  }
+});
+
 test("visual audit rejects a generic custom SVG that bypasses the selected renderer contract", () => {
   const pack = packFor(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
   const outline = { sections: [
     { section_id: "S02", title: "기존 데이터 흐름", purpose: "서버 파싱 데이터 흐름", visual_candidate: true },
     { section_id: "S03", title: "새 데이터 흐름", purpose: "온디바이스 WebKit 데이터 흐름", visual_candidate: true },
   ] };
-  const diagram = buildVisualPlan(pack, outline).visuals[0];
+  const diagram = buildVisualPlan(pack, outline, { specs: [webParsingVisualSpec(pack)] }).visuals[0];
   const genericSvg = `<svg>${diagram.nodes.map(node => `<g data-node-id="${node.id}"><text>${node.label}</text></g>`).join("")}${diagram.edges.map(edge => `<g data-from="${edge.from}" data-to="${edge.to}"></g>`).join("")}</svg>`;
   const report = auditVisual(diagram, pack, genericSvg, { outline });
   assert.ok(report.renderer_contract_mismatch.length > 0);
@@ -164,7 +235,7 @@ test("visual audit rejects a declared type that is not optimal for the section m
   const sourceOutline = { sections: [
     { section_id: "S02", title: "기존 데이터 흐름", purpose: "서버 파싱 흐름", visual_candidate: true },
   ] };
-  const diagram = buildVisualPlan(pack, sourceOutline).visuals[0];
+  const diagram = buildVisualPlan(pack, sourceOutline, { specs: [webParsingVisualSpec(pack, ["S02"])] }).visuals[0];
   diagram.type = "process";
   diagram.selection.primary_axis = "stages";
   diagram.renderer = rendererForType("process");
@@ -260,7 +331,7 @@ test("SoloMD-style enriched source dossier passes production quality", () => {
     { section_id: "S02", title: "기존 데이터 흐름", purpose: "서버 파싱 architecture", visual_candidate: true },
     { section_id: "S03", title: "새 데이터 흐름", purpose: "온디바이스 WebKit architecture", visual_candidate: true },
   ] };
-  const plan = buildVisualPlan(pack, outline);
+  const plan = buildVisualPlan(pack, outline, { specs: [webParsingVisualSpec(pack)] });
   const contract = defaultQualityContract({ documentType: "engineering-story", corpusMedianCharacters: 6_000 });
   const report = buildQualityAudit({ markdown: rich, evidencePack: pack, researchPack, outline, visualPlan: plan, contract });
   assert.equal(report.result, "PASS", JSON.stringify(report.blockers));

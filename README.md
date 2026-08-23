@@ -42,7 +42,7 @@ omp plugin list --json
 omp plugin doctor
 ```
 
-검증 결과: `justsend-blog@0.4.0` enabled, doctor `4 ok / 0 warnings / 0 errors`.
+검증 결과: `justsend-blog@0.4.1` enabled, doctor `4 ok / 0 warnings / 0 errors`.
 
 ## JustSend MCP 설정
 
@@ -129,6 +129,7 @@ node scripts/run-pipeline.js \
   --workspace /absolute/path/to/git-workspace \
   --fixture "$PWD/tests/fixtures/justsend-records.json" \
   --research-sources "$PWD/tests/fixtures/research-sources.json" \
+  --visual-specs "$PWD/tests/fixtures/visual-specs.json" \
   --date 2026-08-23T12:34:56Z
 ```
 
@@ -147,7 +148,7 @@ node scripts/doctor.js
 
 마지막 검증 결과:
 
-- Unit: 27 pass, 0 fail
+- Unit: 28 pass, 0 fail
 - Integration: 2 pass, 0 fail
 - E2E: 1 pass, 0 fail
 - Agent policy: Scout 5, state-changing Scout 0, recursive spawn 0
