@@ -170,7 +170,7 @@ export async function runBlogPipeline({ workspace, fixturePath, request, researc
     const outputs = renderDiagram(diagram, join(context.runDir, "diagrams"));
     for (const path of [outputs.html, outputs.svg, outputs.png]) context.budget.charge(path);
     renderedSvgs[diagram.diagram_id] = readFileSync(outputs.svg, "utf8");
-    trace.append("diagram_rendered", { diagram_id: diagram.diagram_id, formats: diagram.formats, evidence_ids: diagram.evidence_ids });
+    trace.append("diagram_rendered", { diagram_id: diagram.diagram_id, type: diagram.type, primary_axis: diagram.selection.primary_axis, renderer: diagram.renderer, formats: diagram.formats, evidence_ids: diagram.evidence_ids });
   }
   draft = integrateDiagram(draft, visualPlan);
   writeFileSync(join(context.runDir, "draft.md"), draft, { encoding: "utf8", mode: 0o600 });

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://justsend.blog/schemas/visual-plan.schema.json",
-  "title": "JustSend Blog Visual Plan",
+  "title": "JustSend Blog Type-Correct Visual Plan",
   "type": "object",
   "required": ["visuals", "decisions"],
   "properties": {
@@ -10,40 +10,78 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["diagram_id", "section_id", "covers_section_ids", "purpose", "type_hint", "evidence_ids", "nodes", "edges", "excluded", "formats"],
+        "required": ["diagram_id", "section_id", "covers_section_ids", "purpose", "type", "selection", "renderer", "evidence_ids", "nodes", "edges", "excluded", "formats"],
         "properties": {
           "diagram_id": {"type": "string", "pattern": "^D[0-9]{3,}$"},
           "section_id": {"type": "string", "pattern": "^S[0-9]{2,}$"},
           "covers_section_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^S[0-9]{2,}$"}},
           "purpose": {"type": "string", "minLength": 1},
-          "type_hint": {"type": "string", "minLength": 1},
-          "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^JS-E[0-9]{3,}$"}},
+          "type": {"enum": ["architecture", "sequence", "data-flow", "state-machine", "flowchart", "timeline", "layer-stack", "process", "dependency", "deployment", "er", "swimlane", "fishbone"]},
+          "selection": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["primary_axis", "rationale", "signals", "considered", "confidence"],
+            "properties": {
+              "primary_axis": {"enum": ["components", "messages", "data-movement", "states", "decisions", "events", "layers", "stages", "dependencies", "deployment", "entities", "ownership", "causes"]},
+              "rationale": {"type": "string", "minLength": 20},
+              "signals": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+              "considered": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["type", "score", "rejected_because"],
+                  "properties": {
+                    "type": {"enum": ["architecture", "sequence", "data-flow", "state-machine", "flowchart", "timeline", "layer-stack", "process", "dependency", "deployment", "er", "swimlane", "fishbone"]},
+                    "score": {"type": "number", "minimum": 0},
+                    "rejected_because": {"type": ["string", "null"]}
+                  }
+                }
+              },
+              "confidence": {"enum": ["low", "medium", "high"]},
+              "semantic_pattern": {"type": ["string", "null"]}
+            }
+          },
+          "renderer": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "version"],
+            "properties": {
+              "id": {"type": "string", "pattern": "^justsend-[a-z0-9-]+-v[0-9]+$"},
+              "version": {"type": "string", "pattern": "^[0-9]+$"}
+            }
+          },
+          "evidence_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^JS-E[0-9]{3,}$"}},
           "nodes": {
             "type": "array",
             "minItems": 1,
             "items": {
               "type": "object",
-              "required": ["id", "label", "evidence_ids"],
+              "additionalProperties": false,
+              "required": ["id", "label", "role", "evidence_ids"],
               "properties": {
                 "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
                 "label": {"type": "string", "minLength": 1},
-                "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
-              },
-              "additionalProperties": false
+                "role": {"enum": ["actor", "artifact", "boundary", "cause", "component", "decision", "effect", "entity", "event", "external", "layer", "outcome", "runtime", "sink", "source", "stage", "state", "store", "transform", "zone"]},
+                "container_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+                "evidence_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^JS-E[0-9]{3,}$"}}
+              }
             }
           },
           "edges": {
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["from", "to", "label", "evidence_ids"],
+              "additionalProperties": false,
+              "required": ["from", "to", "label", "kind", "evidence_ids"],
               "properties": {
                 "from": {"type": "string"},
                 "to": {"type": "string"},
                 "label": {"type": "string"},
-                "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
-              },
-              "additionalProperties": false
+                "kind": {"enum": ["blocked", "branch", "calls", "causes", "connects", "contains", "deploys", "depends-on", "flow", "message", "next", "relation", "runs-on", "transition"]},
+                "evidence_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^JS-E[0-9]{3,}$"}}
+              }
             }
           },
           "excluded": {"type": "array", "items": {"type": "string"}},

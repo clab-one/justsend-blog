@@ -40,6 +40,12 @@ test("quality and visual schemas require the new publication gates", () => {
   assert.ok(visual.properties.visuals.items.required.includes("covers_section_ids"));
   assert.ok(audit.required.includes("quality"));
   assert.ok(audit.properties.diagrams.required.includes("missing_required_visuals"));
+  assert.ok(audit.properties.diagrams.required.includes("incorrect_type_selection"));
+  assert.ok(audit.properties.diagrams.required.includes("renderer_contract_mismatch"));
+  assert.ok(audit.properties.diagrams.required.includes("type_invariant_violations"));
+  assert.ok(visual.properties.visuals.items.required.includes("type"));
+  assert.ok(visual.properties.visuals.items.required.includes("selection"));
+  assert.ok(visual.properties.visuals.items.required.includes("renderer"));
   assert.ok(quality.properties.thresholds.required.includes("min_repository_sources"));
   assert.ok(quality.properties.thresholds.required.includes("min_official_sources"));
   assert.ok(quality.properties.thresholds.required.includes("min_runtime_sources"));

@@ -1,6 +1,6 @@
 {
   "name": "justsend-blog",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Research-enriched, evidence-first JustSend technical blog authoring pack for OMP",
   "type": "module",
   "private": true,
@@ -47,7 +47,7 @@
   ],
   "omp": {
     "name": "JustSend Blog",
-    "version": "0.3.1",
+    "version": "0.4.0",
     "description": "JustSend seed research, repository and official source enrichment, Markdown authoring, diagrams, Korean humanization, and fidelity audit"
   }
 }

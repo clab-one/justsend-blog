@@ -31,6 +31,10 @@
 - `unsupported_edges.length > 0`
 - incorrect direction, actor, label, quantity, security boundary
 - `missing_provenance.length > 0`
+- `incorrect_type_selection.length > 0`: section·purpose·Evidence가 가리키는 최적 type과 plan type 불일치
+- `renderer_contract_mismatch.length > 0`: plan renderer와 SVG root metadata 불일치 또는 미등록 renderer
+- `type_invariant_violations.length > 0`: state·transition, zone·artifact·runtime, decision·outcome 등 선택 type의 필수 구조 누락
+- type 다양성을 만들려고 의미상 차선 type 선택. 같은 type이 여러 글에서 실제 최적이면 허용
 - `missing_required_visuals.length > 0`
 - `misclassified_visual_candidates.length > 0`
 - `unjustified_omissions.length > 0`

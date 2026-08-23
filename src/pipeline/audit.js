@@ -87,12 +87,15 @@ export function buildAuditReport({ technicalDraft, finalMarkdown, evidencePack, 
   const afterClaims = new Set(comments(finalMarkdown));
   const claims_added = [...afterClaims].filter(id => !beforeClaims.has(id));
   const claims_removed = [...beforeClaims].filter(id => !afterClaims.has(id));
-  const visualReports = (visualPlan?.visuals ?? []).map(diagram => auditVisual(diagram, evidencePack, renderedSvgs[diagram.diagram_id] ?? ""));
+  const visualReports = (visualPlan?.visuals ?? []).map(diagram => auditVisual(diagram, evidencePack, renderedSvgs[diagram.diagram_id] ?? "", { outline }));
   const diagrams = {
     unsupported_nodes: visualReports.flatMap(report => report.unsupported_nodes),
     unsupported_edges: visualReports.flatMap(report => report.unsupported_edges),
     incorrect_labels: visualReports.flatMap(report => report.incorrect_labels),
     missing_provenance: visualReports.flatMap(report => report.missing_provenance),
+    incorrect_type_selection: visualReports.flatMap(report => report.incorrect_type_selection),
+    renderer_contract_mismatch: visualReports.flatMap(report => report.renderer_contract_mismatch),
+    type_invariant_violations: visualReports.flatMap(report => report.type_invariant_violations),
     missing_required_visuals: quality.visual.missing_required_visuals,
     misclassified_visual_candidates: quality.visual.misclassified_visual_candidates,
     unjustified_omissions: quality.visual.unjustified_omissions,
@@ -115,6 +118,9 @@ export function buildAuditReport({ technicalDraft, finalMarkdown, evidencePack, 
     diagrams.unsupported_edges,
     diagrams.incorrect_labels,
     diagrams.missing_provenance,
+    diagrams.incorrect_type_selection,
+    diagrams.renderer_contract_mismatch,
+    diagrams.type_invariant_violations,
     quality.blockers,
   ];
   const failed = blockers.some(items => items.length > 0)

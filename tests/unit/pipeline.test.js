@@ -9,6 +9,7 @@ import { buildEvidencePack, deduplicateRecords, validateEvidencePack } from "../
 import { buildJustSendResearchPack, enrichResearchPack, researchCoverage, validateResearchPack } from "../../src/pipeline/research.js";
 import { resolveWithin } from "../../src/pipeline/run-context.js";
 import { auditVisual, buildVisualPlan, renderSvg } from "../../src/pipeline/visual.js";
+import { rendererForType, selectDiagramType } from "../../src/pipeline/visual-contract.js";
 import { auditProtected, applyDeterministicFallback, runImNotAiChangeGate } from "../../src/pipeline/humanize.js";
 import { buildAuditReport, deterministicTextAudit } from "../../src/pipeline/audit.js";
 import { buildQualityAudit, defaultQualityContract } from "../../src/pipeline/quality.js";
@@ -115,13 +116,63 @@ test("visual node and edge provenance passes only for known Evidence IDs", () =>
   assert.deepEqual(plan.decisions.map(item => item.section_id), ["S02", "S03", "S04"]);
   assert.deepEqual(plan.decisions.map(item => item.decision), ["render", "render", "omit"]);
   const diagram = plan.visuals[0];
-  const report = auditVisual(diagram, pack, renderSvg(diagram));
-  assert.deepEqual(report, { unsupported_nodes: [], unsupported_edges: [], incorrect_labels: [], missing_provenance: [] });
+  assert.equal(diagram.type, "data-flow");
+  assert.deepEqual(diagram.renderer, rendererForType("data-flow"));
+  const report = auditVisual(diagram, pack, renderSvg(diagram), { outline });
+  for (const key of ["unsupported_nodes", "unsupported_edges", "incorrect_labels", "missing_provenance", "incorrect_type_selection", "renderer_contract_mismatch", "type_invariant_violations"]) {
+    assert.deepEqual(report[key], [], `${key}: ${JSON.stringify(report[key])}`);
+  }
   diagram.nodes[0].evidence_ids = ["JS-E999"];
   diagram.edges[0].evidence_ids = [];
-  const failed = auditVisual(diagram, pack, renderSvg(diagram));
+  const failed = auditVisual(diagram, pack, renderSvg(diagram), { outline });
   assert.deepEqual(failed.unsupported_nodes, ["web-document-before"]);
   assert.deepEqual(failed.unsupported_edges, ["web-document-before->server-parser"]);
+});
+
+test("diagram type router selects the primary semantic axis and allows a genuinely repeated optimum", () => {
+  const cases = [
+    ["권한 상태 전이: notDetermined, granted, blocked 생명주기", "state-machine"],
+    ["공증 DMG와 helper ZIP의 배포 위치, runtime과 설치 경로", "deployment"],
+    ["API를 유지, 보류, 재확인으로 분류하는 조건 분기와 판정", "flowchart"],
+    ["MCP trust boundary와 SSRF 위협 모델의 컴포넌트 연결", "architecture"],
+    ["image_path가 staging, attachment, 목록, 상세로 이동하는 데이터 흐름", "data-flow"],
+    ["App Store 재제출 감사 절차를 단계별로 수행하는 process", "process"],
+    ["Research Pack에서 Evidence로 source expansion과 claim mapping을 수행한다", "data-flow"],
+  ];
+  for (const [purpose, expected] of cases) assert.equal(selectDiagramType({ purpose }).type, expected, purpose);
+  const first = selectDiagramType({ purpose: "입력이 transform과 store를 지나 output으로 이동하는 데이터 흐름" });
+  const second = selectDiagramType({ purpose: "source 문서가 정규화되어 sink로 이동하는 data flow" });
+  assert.equal(first.type, "data-flow");
+  assert.equal(second.type, "data-flow");
+});
+
+test("visual audit rejects a generic custom SVG that bypasses the selected renderer contract", () => {
+  const pack = packFor(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const outline = { sections: [
+    { section_id: "S02", title: "기존 데이터 흐름", purpose: "서버 파싱 데이터 흐름", visual_candidate: true },
+    { section_id: "S03", title: "새 데이터 흐름", purpose: "온디바이스 WebKit 데이터 흐름", visual_candidate: true },
+  ] };
+  const diagram = buildVisualPlan(pack, outline).visuals[0];
+  const genericSvg = `<svg>${diagram.nodes.map(node => `<g data-node-id="${node.id}"><text>${node.label}</text></g>`).join("")}${diagram.edges.map(edge => `<g data-from="${edge.from}" data-to="${edge.to}"></g>`).join("")}</svg>`;
+  const report = auditVisual(diagram, pack, genericSvg, { outline });
+  assert.ok(report.renderer_contract_mismatch.length > 0);
+  assert.ok(report.type_invariant_violations.some(item => item.includes("rendered-role")));
+});
+
+test("visual audit rejects a declared type that is not optimal for the section meaning", () => {
+  const pack = packFor(fixture.records.slice(0, 3), { topic: "웹 파싱", generatedAt: "2026-08-23T00:00:00Z" });
+  const sourceOutline = { sections: [
+    { section_id: "S02", title: "기존 데이터 흐름", purpose: "서버 파싱 흐름", visual_candidate: true },
+  ] };
+  const diagram = buildVisualPlan(pack, sourceOutline).visuals[0];
+  diagram.type = "process";
+  diagram.selection.primary_axis = "stages";
+  diagram.renderer = rendererForType("process");
+  const report = auditVisual(diagram, pack, renderSvg(diagram), { outline: { sections: [
+    { section_id: "S02", title: "데이터 흐름", purpose: "source가 transform을 지나 sink로 이동한다", visual_candidate: true },
+  ] } });
+  assert.ok(report.incorrect_type_selection.some(item => item.expected === "data-flow"));
+  assert.ok(report.type_invariant_violations.some(item => item.includes("role:stage")));
 });
 
 test("humanization preserves protected date, number, URL, product, and Evidence ID", () => {
