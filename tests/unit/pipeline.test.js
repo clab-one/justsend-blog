@@ -183,7 +183,7 @@ test("eight production topics build and audit with their meaning-selected diagra
     ["mcp", "MCP anchor의 provisional, live, dead 상태 전이와 lifecycle을 설명한다.", "state-machine", [
       ["provisional", "provisional", "state"], ["live", "live", "state"], ["dead", "dead", "state"],
     ], [["provisional", "live", "materialize", "transition"], ["live", "dead", "delete", "transition"]], null],
-    ["mac", "공증 App과 helper ZIP의 배포 위치, 설치 zone과 runtime을 보여 준다.", "deployment", [
+    ["mac", "공증 App과 helper ZIP이 release zone에서 runtime으로 배포되는 위치 구조를 보여 준다.", "deployment", [
       ["build-zone", "Build", "zone"], ["user-zone", "User Mac", "zone"], ["dmg", "DMG", "artifact", "build-zone"], ["app", "App runtime", "runtime", "user-zone"],
     ], [["dmg", "app", "deploy", "deploys"]], null],
     ["security", "MCP trust boundary와 SSRF 위협 모델에서 component 연결과 차단 경계를 보여 준다.", "architecture", [

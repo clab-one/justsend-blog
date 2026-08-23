@@ -12,8 +12,8 @@ const TYPE_RULES = [
     type: "deployment",
     primary_axis: "deployment",
     patterns: [
-      [/deployment|배포\s*(위치|구조|경로)/i, 12, "배포 위치"],
-      [/pod|namespace|container|cluster|host|runtime placement/i, 8, "실행 환경"],
+      [/deployment|배포(?:되는|된|할)?\s*(위치|구조|경로)/i, 12, "배포 위치"],
+      [/pod|namespace|container|cluster|host|\bruntime\b|실행\s*(환경|위치)/i, 8, "실행 환경"],
       [/DMG|ZIP|bundle|artifact|공증|설치\s*(위치|경로)/i, 6, "배포 산출물"],
     ],
   },

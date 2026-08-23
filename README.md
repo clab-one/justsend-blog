@@ -42,7 +42,7 @@ omp plugin list --json
 omp plugin doctor
 ```
 
-검증 결과: `justsend-blog@0.4.1` enabled, doctor `4 ok / 0 warnings / 0 errors`.
+검증 결과: `justsend-blog@0.4.2` enabled, doctor `4 ok / 0 warnings / 0 errors`.
 
 ## JustSend MCP 설정
 
