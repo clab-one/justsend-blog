@@ -43,7 +43,7 @@
   "quality_profile": "production",
   "quality_result": "PASS",
   "git_branch": "justsend-blog/20260823/rewrite-eight-v042-type-correct",
-  "git_commit": null,
+  "git_commit": "c885d51c912515142bd6e19cc5b65596dd7ae596",
   "status": "ACCEPTED",
   "assumptions": [
     "기존 공개 8편은 corpus와 결함 재현 기준으로만 읽고 final·Evidence·visual artifact를 복사하지 않는다.",

@@ -12,3 +12,4 @@
 {"at": "2026-08-24T00:29:00.000Z", "stage": "READY_FOR_REVIEW", "event": "fresh-publish-candidates-created", "detail": "new final.md and audit.json for all 8 posts"}
 {"at": "2026-08-24T00:30:00.000Z", "stage": "ACCEPTED", "event": "user-directed-regeneration-approved", "detail": "user instructed regenerate, push and Kubernetes deploy after Skill fix"}
 {"at": "2026-08-24T00:35:00.000Z", "stage": "ACCEPTED", "event": "diagram-contact-sheet-verified", "detail": "actual Chromium: 8 diagrams, 6 optimal types, repeated state-machine/data-flow accepted, rendered type and renderer metadata matched; screenshot preserved"}
+{"at": "2026-08-24T00:40:00.000Z", "stage": "ACCEPTED", "event": "fresh-run-content-committed", "detail": "content commit c885d51c912515142bd6e19cc5b65596dd7ae596; only fresh run path staged"}
