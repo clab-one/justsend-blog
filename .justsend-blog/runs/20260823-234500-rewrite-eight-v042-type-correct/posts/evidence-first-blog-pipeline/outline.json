@@ -1,0 +1,109 @@
+{
+  "document_type": "architecture-decision",
+  "audience_outcome": "독자가 source와 Evidence를 따라 문제의 주된 관계 축과 선택의 경계를 설명할 수 있다.",
+  "sections": [
+    {
+      "section_id": "S01",
+      "title": "JustSend는 source가 아니라 seed입니다",
+      "purpose": "JustSend는 source가 아니라 seed설명한다",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "단일 판단·제약·검증 설명은 prose와 표가 더 정확하다."
+    },
+    {
+      "section_id": "S02",
+      "title": "Source는 두 번 구조화됩니다",
+      "purpose": "Source는 두 번 구조화됩니다",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103"
+      ],
+      "visual_candidate": true,
+      "visual_reason": "section의 주된 관계 축을 prose보다 type-specific diagram이 정확히 보여 준다."
+    },
+    {
+      "section_id": "S03",
+      "title": "Writing은 Evidence store만 읽습니다",
+      "purpose": "Writing은 Evidence store만 읽습니다",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E104"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "단일 판단·제약·검증 설명은 prose와 표가 더 정확하다."
+    },
+    {
+      "section_id": "S04",
+      "title": "Visual type도 같은 source 흐름을 탑니다",
+      "purpose": "Visual type도 같은 source 흐름을 탑니다",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "단일 판단·제약·검증 설명은 prose와 표가 더 정확하다."
+    },
+    {
+      "section_id": "S05",
+      "title": "Humanize는 구조 뒤에 옵니다",
+      "purpose": "Humanize는 구조 뒤에 옵니다",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E104"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "단일 판단·제약·검증 설명은 prose와 표가 더 정확하다."
+    },
+    {
+      "section_id": "S06",
+      "title": "Worktree는 artifact와 사용자 WIP를 분리합니다",
+      "purpose": "Worktree는 artifact와 사용자 WIP를 분리합니다",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E105"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "단일 판단·제약·검증 설명은 prose와 표가 더 정확하다."
+    },
+    {
+      "section_id": "S07",
+      "title": "Run provenance는 같은 주제의 재작성을 구분합니다",
+      "purpose": "Run provenance는 같은 주제의 재작성을 구분합니다",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E105"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "단일 판단·제약·검증 설명은 prose와 표가 더 정확하다."
+    },
+    {
+      "section_id": "S08",
+      "title": "Fidelity Audit가 publish candidate를 결정합니다",
+      "purpose": "Fidelity Audit가 publish candidate를 결정합니다",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E106"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "단일 판단·제약·검증 설명은 prose와 표가 더 정확하다."
+    },
+    {
+      "section_id": "S09",
+      "title": "데이터 흐름의 끝은 자동 publish가 아닙니다",
+      "purpose": "데이터 흐름의 끝은 자동 publish가 아닙니다",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E103",
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ],
+      "visual_candidate": true,
+      "visual_reason": "선택한 diagram이 이 section의 동일한 primary axis와 type 선택 근거를 직접 설명한다."
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "visuals": [
+    {
+      "diagram_id": "D001",
+      "section_id": "S02",
+      "covers_section_ids": [
+        "S02"
+      ],
+      "purpose": "등록 API를 source·traffic·기존 처분 근거로 판정해 유지, 보류, 재확인 outcome으로 분류하는 조건 flowchart를 설명한다.",
+      "type": "flowchart",
+      "selection": {
+        "type": "flowchart",
+        "primary_axis": "decisions",
+        "rationale": "의사결정 흐름, 조건 분기, 처분 분류 신호를 기준으로 decisions 축을 주된 읽기 경로로 선택했다.",
+        "signals": [
+          "의사결정 흐름",
+          "조건 분기",
+          "처분 분류"
+        ],
+        "considered": [
+          {
+            "type": "flowchart",
+            "score": 29,
+            "rejected_because": null
+          },
+          {
+            "type": "state-machine",
+            "score": 10,
+            "rejected_because": "decisions 축이 states 축보다 독자의 핵심 질문을 직접 설명한다."
+          },
+          {
+            "type": "deployment",
+            "score": 0,
+            "rejected_because": "decisions 축이 deployment 축보다 독자의 핵심 질문을 직접 설명한다."
+          }
+        ],
+        "confidence": "high",
+        "semantic_pattern": null
+      },
+      "renderer": {
+        "id": "justsend-flowchart-v1",
+        "version": "1"
+      },
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E103",
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ],
+      "nodes": [
+        {
+          "id": "routes",
+          "label": "88 Method+Path",
+          "role": "source",
+          "evidence_ids": [
+            "JS-E101",
+            "JS-E106"
+          ]
+        },
+        {
+          "id": "decision",
+          "label": "근거와 처분?",
+          "role": "decision",
+          "evidence_ids": [
+            "JS-E102",
+            "JS-E103",
+            "JS-E104"
+          ]
+        },
+        {
+          "id": "keep",
+          "label": "유지 11",
+          "role": "outcome",
+          "evidence_ids": [
+            "JS-E105"
+          ]
+        },
+        {
+          "id": "hold",
+          "label": "보류 8",
+          "role": "outcome",
+          "evidence_ids": [
+            "JS-E104",
+            "JS-E105"
+          ]
+        },
+        {
+          "id": "recheck",
+          "label": "재확인 3",
+          "role": "outcome",
+          "evidence_ids": [
+            "JS-E105"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "routes",
+          "to": "decision",
+          "label": "source · traffic · docs",
+          "kind": "next",
+          "evidence_ids": [
+            "JS-E101",
+            "JS-E102",
+            "JS-E104"
+          ]
+        },
+        {
+          "from": "decision",
+          "to": "keep",
+          "label": "active",
+          "kind": "branch",
+          "evidence_ids": [
+            "JS-E104",
+            "JS-E105"
+          ]
+        },
+        {
+          "from": "decision",
+          "to": "hold",
+          "label": "server-first",
+          "kind": "branch",
+          "evidence_ids": [
+            "JS-E104",
+            "JS-E105"
+          ]
+        },
+        {
+          "from": "decision",
+          "to": "recheck",
+          "label": "unknown",
+          "kind": "branch",
+          "evidence_ids": [
+            "JS-E103",
+            "JS-E105"
+          ]
+        }
+      ],
+      "excluded": [
+        "삭제 권고 outcome",
+        "88개 전체 목록"
+      ],
+      "formats": [
+        "html",
+        "svg",
+        "png"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "section_id": "S02",
+      "decision": "render",
+      "diagram_id": "D001",
+      "reason": "의사결정 흐름, 조건 분기, 처분 분류 신호를 기준으로 decisions 축을 주된 읽기 경로로 선택했다. 이 section의 주된 관계를 가장 직접적으로 설명한다."
+    }
+  ]
+}

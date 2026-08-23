@@ -1,0 +1,84 @@
+{
+  "run_id": "20260823-234500-rewrite-eight-v042-type-correct",
+  "request": {
+    "goal": "0.4.3 의미 기반 최적 diagram 유형으로 기술 글 8편을 source부터 새로 재생산",
+    "post_count": 8,
+    "publication_target": "justsend-web-production"
+  },
+  "created_at": "2026-08-23T23:45:00.000Z",
+  "omp_version": "18.0.0",
+  "plugin_version": "0.4.3",
+  "upstreams": {},
+  "justsend_server": "connected-session-mcp",
+  "logical_capabilities": [
+    "search_records:justsend_search",
+    "get_record:justsend_get_record",
+    "list_notes:justsend_list_notes"
+  ],
+  "document_type": "editorial-bundle",
+  "document_type_reason": "incident-review·architecture-decision·engineering-story 묶음이며 각 글의 visual primary axis는 독립적으로 선택한다.",
+  "language": "ko",
+  "humanization_route": "light",
+  "humanization_mode": "main-direct-im-not-ai-guided",
+  "diagrams": [
+    "posts/appstore-permission-preprompt/diagrams/d001.svg",
+    "posts/appstore-release-consistency-audit/diagrams/d001.svg",
+    "posts/mcp-work-record-architecture/diagrams/d001.svg",
+    "posts/mac-developer-id-dmg/diagrams/d001.svg",
+    "posts/dmg-mcp-security-audit/diagrams/d001.svg",
+    "posts/agent-work-record-hero-image/diagrams/d001.svg",
+    "posts/api-v2-consumer-audit/diagrams/d001.svg",
+    "posts/evidence-first-blog-pipeline/diagrams/d001.svg"
+  ],
+  "evidence_count": 56,
+  "research_result": "PASS",
+  "research_providers": [
+    "justsend",
+    "repository",
+    "official-docs",
+    "runtime",
+    "corpus"
+  ],
+  "audit_result": "PASS",
+  "quality_profile": "production",
+  "quality_result": "PASS",
+  "git_branch": "justsend-blog/20260823/rewrite-eight-v042-type-correct",
+  "git_commit": null,
+  "status": "ACCEPTED",
+  "assumptions": [
+    "기존 공개 8편은 corpus와 결함 재현 기준으로만 읽고 final·Evidence·visual artifact를 복사하지 않는다.",
+    "기존 공개 slug는 유지한다.",
+    "같은 diagram type이 여러 글에서 실제 최적이면 반복을 허용한다."
+  ],
+  "missing_capabilities": [
+    "get_related_records",
+    "get_attachments"
+  ],
+  "reviewed_at": "2026-08-24T00:30:00.000Z",
+  "diagram_types": {
+    "appstore-permission-preprompt": "state-machine",
+    "appstore-release-consistency-audit": "process",
+    "mcp-work-record-architecture": "state-machine",
+    "mac-developer-id-dmg": "deployment",
+    "dmg-mcp-security-audit": "architecture",
+    "agent-work-record-hero-image": "data-flow",
+    "api-v2-consumer-audit": "flowchart",
+    "evidence-first-blog-pipeline": "data-flow"
+  },
+  "diagram_review": {
+    "html": "diagram-review.html",
+    "screenshot": "diagram-review.webp",
+    "types": [
+      "architecture",
+      "data-flow",
+      "deployment",
+      "flowchart",
+      "process",
+      "state-machine"
+    ],
+    "self_check": "8/8 PASS",
+    "geometry_findings": 0,
+    "xml": "8/8 PASS",
+    "browser_surface": "8/8 type=renderer=SVG metadata"
+  }
+}

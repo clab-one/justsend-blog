@@ -1,0 +1,114 @@
+{
+  "diagram_id": "D001",
+  "covers_section_ids": [
+    "S02",
+    "S09"
+  ],
+  "purpose": "JustSend seed source가 Research Pack transform, Evidence store, Writing transform을 지나 Fidelity Audit review sink로 이동하는 data flow를 설명한다.",
+  "semantic_pattern": "unstructured-to-structured",
+  "evidence_ids": [
+    "JS-E101",
+    "JS-E102",
+    "JS-E103",
+    "JS-E104",
+    "JS-E105",
+    "JS-E106"
+  ],
+  "nodes": [
+    {
+      "id": "seed",
+      "label": "JustSend Seed",
+      "role": "source",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102"
+      ]
+    },
+    {
+      "id": "research",
+      "label": "Research Pack",
+      "role": "transform",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103"
+      ]
+    },
+    {
+      "id": "evidence",
+      "label": "Evidence Pack",
+      "role": "store",
+      "evidence_ids": [
+        "JS-E102"
+      ]
+    },
+    {
+      "id": "writing",
+      "label": "Draft · Diagram",
+      "role": "transform",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104"
+      ]
+    },
+    {
+      "id": "review",
+      "label": "Audit · Review",
+      "role": "sink",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "seed",
+      "to": "research",
+      "label": "source expansion",
+      "kind": "flow",
+      "evidence_ids": [
+        "JS-E102"
+      ]
+    },
+    {
+      "from": "research",
+      "to": "evidence",
+      "label": "claim mapping",
+      "kind": "flow",
+      "evidence_ids": [
+        "JS-E102"
+      ]
+    },
+    {
+      "from": "evidence",
+      "to": "writing",
+      "label": "provenance",
+      "kind": "flow",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104"
+      ]
+    },
+    {
+      "from": "writing",
+      "to": "review",
+      "label": "Fidelity gate",
+      "kind": "flow",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ]
+    }
+  ],
+  "excluded": [
+    "JustSend-only summary",
+    "자동 publish"
+  ],
+  "formats": [
+    "html",
+    "svg",
+    "png"
+  ]
+}

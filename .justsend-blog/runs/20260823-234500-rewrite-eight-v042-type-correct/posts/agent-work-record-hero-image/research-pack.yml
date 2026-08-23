@@ -1,0 +1,119 @@
+{
+  "topic": "image_path 한 줄이 목록과 상세 이미지가 되기까지",
+  "generated_at": "2026-08-23T23:45:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "EB3D1968-9E6A-4379-AEE1-9328B20F8DFB",
+      "locator": "justsend:EB3D1968-9E6A-4379-AEE1-9328B20F8DFB",
+      "title": "대표 이미지 구현 기록",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "image_path를 intent queue와 attachment로 연결하고 목록·상세에서 같은 첨부를 표시한 결과와 중복 렌더 실패를 기록했다.",
+      "claim_keys": [
+        "image-input-v42",
+        "duplicate-render-v42"
+      ],
+      "content_hash": "44c1990fc44a13e834d4ae9a756bdd9f009135c8f82affafe208a5bdcf685f64",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:workStart.image:v42",
+      "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:995-1056",
+      "title": "image_path staging",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "workStart는 image를 검증해 staging에 원자적으로 쓰고 attachment id·filename·path를 anchor intent에 넣으며 본문 참조는 주입하지 않는다.",
+      "claim_keys": [
+        "staging-transform-v42",
+        "duplicate-render-v42"
+      ],
+      "content_hash": "a305170f9925317ecfab41525256a66c77b8edc8398ca1d59c8652e50836c217",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:thumbPath:v42",
+      "locator": "mac-prod/.port/new/app/JustSend/Sources/Home/HomeViewModel.swift:480-500",
+      "title": "leadingThumbPath source",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "HomeViewModel은 첫 photo/video attachment localPath를 목록 thumbnail source로 선택한다.",
+      "claim_keys": [
+        "attachment-store-v42",
+        "surface-sink-v42"
+      ],
+      "content_hash": "5d1be39de5ae2d6871db4ed461d01181f2a67dfa8e2cbc2ee7c257f7eba9de3f",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "mcp-tools-image-v42",
+      "locator": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "title": "MCP tool schema",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "api-contract",
+      "excerpt": "MCP inputSchema는 image_path 같은 caller-to-server input을 명시적 contract로 노출한다.",
+      "claim_keys": [
+        "image-input-v42",
+        "staging-transform-v42"
+      ],
+      "content_hash": "b0bbc6d66c219f273c0b4b3586b3ed91bb4b4d392488aa50ec544f11e99eca6f",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:agent-hero-v42",
+      "locator": "justsend:EB3D1968-9E6A-4379-AEE1-9328B20F8DFB#installed-app",
+      "title": "대표 이미지 실앱 관측",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "설치본에서 목록 thumbnail과 상세 hero가 같은 record에 보이고 첨부 없는 행은 빈 자리를 만들지 않음을 확인했다.",
+      "claim_keys": [
+        "surface-sink-v42",
+        "runtime-image-v42"
+      ],
+      "content_hash": "a681281aee26b66e81fdd582890112e6f61d87a8df497f73c4e65df213c2c367",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:agent-work-record-hero-image:current",
+      "locator": "web/content/blog/agent-work-record-hero-image/ko.md",
+      "title": "현재 공개 대표 이미지 글",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "에이전트 작업 기록은 기능적으로는 완전했지만 목록에서 모두 긴 텍스트 카드처럼 보였다. 제목만으로는 작업을 구분하기 어려웠고, 완료 결과는 진행 노트 아래에 묻혔다. 대표 이미지 한 장을 붙이는 일처럼 보였지만 실제 변경은 tool input, process 간 staging, attachment 저장, list projection, detail rendering을 모두 건드렸다.\n기존 글은 결과를 1348자에 요약했다. corpus 깊이 기준에 못 미쳤고, 왜 renderer가 그림 내용을 결정하면 안 되는지와 `jsattach` 중복이 어떻게 생겼는지, running helper를 교체하다 연결을 끊은 실패가 빠졌다. 여기서는 image를 장식이 아닌 기록 데이터의 한 종류로 다룬다.\n## 먼저 “누가 무엇을 그리는가”를 나눴습니다",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "content_hash": "5a50e8c97a2ed4a131d9717a63e06573e9110d00cf165797841d00edfe25b366",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

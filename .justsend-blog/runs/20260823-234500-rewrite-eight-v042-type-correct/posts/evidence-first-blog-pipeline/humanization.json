@@ -1,0 +1,9 @@
+{
+  "mode": "main-direct-im-not-ai-guided",
+  "route": "light",
+  "reason": "prepare_monolith_input.py가 light를 선택했고 quick-rules에 따라 이미 정리된 prose에서 메타 문구만 국소 수정했다.",
+  "change_rate": 0.0,
+  "meaning_preserved": true,
+  "protected_tokens_preserved": true,
+  "verdict": "PASS"
+}

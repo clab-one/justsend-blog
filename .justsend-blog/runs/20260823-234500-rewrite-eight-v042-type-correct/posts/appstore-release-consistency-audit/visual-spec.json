@@ -1,0 +1,94 @@
+{
+  "diagram_id": "D001",
+  "covers_section_ids": [
+    "S01"
+  ],
+  "purpose": "App Store 재제출 감사를 submitted build, metadata·privacy, server contract, final gate의 순차 process로 설명한다.",
+  "semantic_pattern": "stage-framework",
+  "evidence_ids": [
+    "JS-E101",
+    "JS-E102",
+    "JS-E103",
+    "JS-E104",
+    "JS-E105",
+    "JS-E106"
+  ],
+  "nodes": [
+    {
+      "id": "build",
+      "label": "Submitted Build",
+      "role": "stage",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E106"
+      ]
+    },
+    {
+      "id": "metadata",
+      "label": "Metadata · Privacy",
+      "role": "stage",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103"
+      ]
+    },
+    {
+      "id": "server",
+      "label": "Server Contract",
+      "role": "stage",
+      "evidence_ids": [
+        "JS-E104"
+      ]
+    },
+    {
+      "id": "gate",
+      "label": "Submit Gate",
+      "role": "stage",
+      "evidence_ids": [
+        "JS-E105",
+        "JS-E106"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "build",
+      "to": "metadata",
+      "label": "same release",
+      "kind": "next",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E103"
+      ]
+    },
+    {
+      "from": "metadata",
+      "to": "server",
+      "label": "runtime contract",
+      "kind": "next",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104"
+      ]
+    },
+    {
+      "from": "server",
+      "to": "gate",
+      "label": "all aligned",
+      "kind": "next",
+      "evidence_ids": [
+        "JS-E105",
+        "JS-E106"
+      ]
+    }
+  ],
+  "excluded": [
+    "Apple 최종 승인",
+    "확인하지 않은 quota 수치"
+  ],
+  "formats": [
+    "html",
+    "svg",
+    "png"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "diagram_id": "D001",
+  "covers_section_ids": [
+    "S02"
+  ],
+  "purpose": "MCP work anchor가 issued에서 provisional, live, dead로 전이하고 account 복원 guard에서 retry하는 상태 lifecycle을 설명한다.",
+  "semantic_pattern": null,
+  "evidence_ids": [
+    "JS-E101",
+    "JS-E102",
+    "JS-E103",
+    "JS-E104",
+    "JS-E106"
+  ],
+  "nodes": [
+    {
+      "id": "issued",
+      "label": "ID issued",
+      "role": "state",
+      "evidence_ids": [
+        "JS-E102"
+      ]
+    },
+    {
+      "id": "provisional",
+      "label": "provisional",
+      "role": "state",
+      "evidence_ids": [
+        "JS-E103"
+      ]
+    },
+    {
+      "id": "live",
+      "label": "live",
+      "role": "state",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E106"
+      ]
+    },
+    {
+      "id": "dead",
+      "label": "dead",
+      "role": "state",
+      "evidence_ids": [
+        "JS-E102"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "issued",
+      "to": "provisional",
+      "label": "openWork",
+      "kind": "transition",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103"
+      ]
+    },
+    {
+      "from": "provisional",
+      "to": "live",
+      "label": "materialize · retry",
+      "kind": "transition",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E106"
+      ]
+    },
+    {
+      "from": "live",
+      "to": "dead",
+      "label": "delete",
+      "kind": "transition",
+      "evidence_ids": [
+        "JS-E102"
+      ]
+    }
+  ],
+  "excluded": [
+    "ToolSpec 전체 목록",
+    "구체 retry 횟수"
+  ],
+  "formats": [
+    "html",
+    "svg",
+    "png"
+  ]
+}

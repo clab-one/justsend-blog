@@ -1,0 +1,14 @@
+{"at": "2026-08-23T23:45:00.000Z", "stage": "REQUESTED", "event": "fresh-v043-run-created", "detail": "created at base cd2282e; worktree advanced to aea2d4 for geometry-safe 0.4.3 renderers; accepted 0.3.1 run remains immutable"}
+{"at": "2026-08-23T23:45:00.000Z", "stage": "RESEARCHING", "event": "sources-re-read", "detail": "8 JustSend seeds, 16 repository locators, 7 official documents, runtime notes and current corpus re-read"}
+{"at": "2026-08-23T23:45:00.000Z", "stage": "RESEARCHING", "event": "fresh-packs-started", "detail": "new source excerpts, content hashes, claim keys and JS-E101+ Evidence IDs; no old artifact copy"}
+{"at": "2026-08-24T00:00:00.000Z", "stage": "EVIDENCE_READY", "event": "fresh-research-evidence-pass", "detail": "8 research packs and 8 Evidence packs validated; JS-E101+; no previous artifact copy"}
+{"at": "2026-08-24T00:05:00.000Z", "stage": "OUTLINED", "event": "fresh-outlines-created", "detail": "8 new outlines with semantic visual candidates and new draft structures"}
+{"at": "2026-08-24T00:10:00.000Z", "stage": "DRAFTED", "event": "fresh-drafts-created", "detail": "8 fresh drafts 4931-5409 body characters; previous final text not copied"}
+{"at": "2026-08-24T00:15:00.000Z", "stage": "VISUAL_PLANNED", "event": "optimal-types-selected", "detail": "state-machine 2, process 1, deployment 1, architecture 1, data-flow 2, flowchart 1; repeated types retained when optimal"}
+{"at": "2026-08-24T00:20:00.000Z", "stage": "VISUAL_RENDERED", "event": "registered-renderers-used", "detail": "8 HTML/SVG/PNG sets rendered by justsend type-specific v1 renderers"}
+{"at": "2026-08-24T00:23:00.000Z", "stage": "VISUAL_RENDERED", "event": "renderer-geometry-patch-applied", "detail": "0.4.3 moved labels outside nodes/zones and replaced executable provenance script with a template"}
+{"at": "2026-08-24T00:25:00.000Z", "stage": "HUMANIZED", "event": "light-humanization-pass", "detail": "im-not-ai light route, protected tokens preserved"}
+{"at": "2026-08-24T00:28:00.000Z", "stage": "AUDITED", "event": "type-correct-fidelity-pass", "detail": "8/8 incorrect_type_selection=0, renderer_contract_mismatch=0, type_invariant_violations=0, quality=PASS"}
+{"at": "2026-08-24T00:29:00.000Z", "stage": "READY_FOR_REVIEW", "event": "fresh-publish-candidates-created", "detail": "new final.md and audit.json for all 8 posts"}
+{"at": "2026-08-24T00:30:00.000Z", "stage": "ACCEPTED", "event": "user-directed-regeneration-approved", "detail": "user instructed regenerate, push and Kubernetes deploy after Skill fix"}
+{"at": "2026-08-24T00:35:00.000Z", "stage": "ACCEPTED", "event": "diagram-contact-sheet-verified", "detail": "actual Chromium: 8 diagrams, 6 optimal types, repeated state-machine/data-flow accepted, rendered type and renderer metadata matched; screenshot preserved"}

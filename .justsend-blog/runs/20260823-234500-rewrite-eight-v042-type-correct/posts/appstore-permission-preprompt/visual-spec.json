@@ -1,0 +1,92 @@
+{
+  "diagram_id": "D001",
+  "covers_section_ids": [
+    "S02",
+    "S05"
+  ],
+  "purpose": "notDetermined 권한 상태가 사용자 선택으로 granted 또는 blocked로 전이하고 blocked에서 Settings 복구 상태로 이어지는 lifecycle을 설명한다.",
+  "semantic_pattern": null,
+  "evidence_ids": [
+    "JS-E102",
+    "JS-E103",
+    "JS-E104",
+    "JS-E106"
+  ],
+  "nodes": [
+    {
+      "id": "not-determined",
+      "label": "notDetermined",
+      "role": "state",
+      "evidence_ids": [
+        "JS-E103"
+      ]
+    },
+    {
+      "id": "granted",
+      "label": "granted",
+      "role": "state",
+      "evidence_ids": [
+        "JS-E103"
+      ]
+    },
+    {
+      "id": "blocked",
+      "label": "blocked",
+      "role": "state",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104"
+      ]
+    },
+    {
+      "id": "settings",
+      "label": "Settings recovery",
+      "role": "state",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E106"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "not-determined",
+      "to": "granted",
+      "label": "allow",
+      "kind": "transition",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103"
+      ]
+    },
+    {
+      "from": "not-determined",
+      "to": "blocked",
+      "label": "deny",
+      "kind": "transition",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104"
+      ]
+    },
+    {
+      "from": "blocked",
+      "to": "settings",
+      "label": "open settings",
+      "kind": "transition",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E106"
+      ]
+    }
+  ],
+  "excluded": [
+    "첫 실행 custom pre-prompt",
+    "권한 허용률 수치"
+  ],
+  "formats": [
+    "html",
+    "svg",
+    "png"
+  ]
+}

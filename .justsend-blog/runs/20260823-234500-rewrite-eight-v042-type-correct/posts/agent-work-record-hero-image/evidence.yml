@@ -1,0 +1,186 @@
+{
+  "topic": "image_path 한 줄이 목록과 상세 이미지가 되기까지",
+  "generated_at": "2026-08-23T23:45:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "image_path",
+      "한",
+      "줄이",
+      "목록과",
+      "상세",
+      "이미지가",
+      "되기까지"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E101",
+      "type": "decision",
+      "statement": "대표 이미지의 의미는 caller가 정하고 work_start는 image_path라는 명시적 input만 받는다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "image-input-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "EB3D1968-9E6A-4379-AEE1-9328B20F8DFB",
+          "locator": "justsend:EB3D1968-9E6A-4379-AEE1-9328B20F8DFB",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "mcp-tools-image-v42",
+          "locator": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E102",
+      "type": "fact",
+      "statement": "helper는 image를 staging에 atomic write하고 attachment identity와 path를 anchor intent에 함께 보존한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "staging-transform-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:workStart.image:v42",
+          "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:995-1056",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E103",
+      "type": "failure",
+      "statement": "attachment hero와 body jsattach reference를 함께 만들자 같은 그림이 상세에서 두 번 렌더링됐다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "duplicate-render-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "EB3D1968-9E6A-4379-AEE1-9328B20F8DFB",
+          "locator": "justsend:EB3D1968-9E6A-4379-AEE1-9328B20F8DFB",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:workStart.image:v42",
+          "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:995-1056",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E104",
+      "type": "decision",
+      "statement": "본문 reference를 제거하고 attachment를 목록과 상세가 함께 읽는 단일 source로 삼았다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "attachment-store-v42",
+        "surface-sink-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:workStart.image:v42",
+          "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:995-1056",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:thumbPath:v42",
+          "locator": "mac-prod/.port/new/app/JustSend/Sources/Home/HomeViewModel.swift:480-500",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E105",
+      "type": "fact",
+      "statement": "목록 thumbnail은 첫 visual attachment localPath에서 계산된다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "attachment-store-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:thumbPath:v42",
+          "locator": "mac-prod/.port/new/app/JustSend/Sources/Home/HomeViewModel.swift:480-500",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E106",
+      "type": "result",
+      "statement": "설치본에서 목록 thumbnail·상세 hero·첨부 없는 행의 여백 부재를 확인했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "runtime-image-v42",
+        "surface-sink-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:agent-hero-v42",
+          "locator": "justsend:EB3D1968-9E6A-4379-AEE1-9328B20F8DFB#installed-app",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E107",
+      "type": "measurement",
+      "statement": "기존 공개 글은 Markdown 5808자로, 새 run은 같은 source를 다시 조사하되 기존 final과 Evidence artifact를 복사하지 않는다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:agent-work-record-hero-image:current",
+          "locator": "web/content/blog/agent-work-record-hero-image/ko.md",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}

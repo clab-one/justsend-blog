@@ -1,0 +1,181 @@
+{
+  "topic": "Developer ID 직접 배포의 실제 위치: App DMG와 helper ZIP을 분리한 구조",
+  "generated_at": "2026-08-23T23:45:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "Developer",
+      "ID",
+      "직접",
+      "배포의",
+      "실제",
+      "위치",
+      "App",
+      "DMG와"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E101",
+      "type": "reason",
+      "statement": "App Store/TestFlight 자격과 helper 실행 자격의 충돌이 직접 배포 전환의 출발점이었다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "channel-conflict-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+          "locator": "justsend:8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E102",
+      "type": "decision",
+      "statement": "App은 공증 DMG, helper는 별도 공증 ZIP으로 release zone을 나눠 배포한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "separate-artifacts-v42",
+        "deployment-zones-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+          "locator": "justsend:8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:direct-distribution-plan:v42",
+          "locator": "mac-prod/PLAN-DIRECT-DISTRIBUTION.md:1-80,180-270",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E103",
+      "type": "decision",
+      "statement": "Developer ID에서 native Apple login entitlement를 쓸 수 없어 Services ID web OAuth로 credential 획득 경로를 바꿨다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "oauth-boundary-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:direct-distribution-plan:v42",
+          "locator": "mac-prod/PLAN-DIRECT-DISTRIBUTION.md:1-80,180-270",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E104",
+      "type": "fact",
+      "statement": "package script는 app과 DMG의 notarization·staple·identity·checksum을 실패 시 중단하는 순서로 실행한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "package-pipeline-v42",
+        "notarization-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:package-dmg:v42",
+          "locator": "mac-prod/scripts/package-dmg.sh:1-180",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "apple-notarization-v42",
+          "locator": "https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E105",
+      "type": "fact",
+      "statement": "Apple notarization ticket은 Gatekeeper가 first launch에서 artifact를 확인하는 근거다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "notarization-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "apple-notarization-v42",
+          "locator": "https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E106",
+      "type": "result",
+      "statement": "사용자 Mac에서 DMG 설치·app launch와 별도 helper initialize를 각각 확인했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "runtime-dmg-v42",
+        "separate-artifacts-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:MACPROD-12-v42",
+          "locator": "justsend:8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50#dmg-runtime",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E107",
+      "type": "measurement",
+      "statement": "기존 공개 글은 Markdown 5931자로, 새 run은 같은 source를 다시 조사하되 기존 final과 Evidence artifact를 복사하지 않는다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:mac-developer-id-dmg:current",
+          "locator": "web/content/blog/mac-developer-id-dmg/ko.md",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}

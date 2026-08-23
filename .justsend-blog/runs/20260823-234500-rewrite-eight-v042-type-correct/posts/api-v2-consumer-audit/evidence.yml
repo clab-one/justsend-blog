@@ -1,0 +1,222 @@
+{
+  "topic": "미사용 API를 삭제하지 않고 유지·보류·재확인으로 분류한 이유",
+  "generated_at": "2026-08-23T23:45:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "미사용",
+      "API를",
+      "삭제하지",
+      "않고",
+      "유지·보류·재확인으로",
+      "분류한",
+      "이유"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E101",
+      "type": "measurement",
+      "statement": "실행 router에서 method와 path 조합 88개를 inventory로 만들었다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "route-count-v42",
+        "http-contract-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB",
+          "locator": "justsend:FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "platform:register-routes:v42",
+          "locator": "platform/backend/internal/api/register.go:225-270",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "rfc9110-v42",
+          "locator": "https://www.rfc-editor.org/rfc/rfc9110",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E102",
+      "type": "measurement",
+      "statement": "source consumer와 traffic을 대조해 66개 사용 근거와 22개 관측 미사용을 구분했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "route-count-v42",
+        "classification-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB",
+          "locator": "justsend:FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:api-audit-v42",
+          "locator": "justsend:FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB#result",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E103",
+      "type": "failure",
+      "statement": "관측 미사용을 dead API로 읽어 삭제 6건을 권고한 초기 분류는 기존 처분표를 놓쳤다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "classification-v42",
+        "prior-disposition-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB",
+          "locator": "justsend:FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "platform:backend-surface-audit:v42",
+          "locator": "docs/platform/backend-surface-audit.md:1-160",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:api-audit-v42",
+          "locator": "justsend:FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB#result",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E104",
+      "type": "fact",
+      "statement": "기존 처분은 server-first route를 보류하고 profile·avatar를 유지하도록 이미 구분했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "prior-disposition-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "platform:backend-surface-audit:v42",
+          "locator": "docs/platform/backend-surface-audit.md:1-160",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E105",
+      "type": "decision",
+      "statement": "최종 outcome은 유지 11, 보류 8, 재확인 3이며 삭제 권고는 0건이다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "final-disposition-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB",
+          "locator": "justsend:FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "platform:backend-surface-audit:v42",
+          "locator": "docs/platform/backend-surface-audit.md:1-160",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:api-audit-v42",
+          "locator": "justsend:FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB#result",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E106",
+      "type": "fact",
+      "statement": "같은 path라도 HTTP method가 다르면 별도 contract로 센다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "http-contract-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "platform:register-routes:v42",
+          "locator": "platform/backend/internal/api/register.go:225-270",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "rfc9110-v42",
+          "locator": "https://www.rfc-editor.org/rfc/rfc9110",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E107",
+      "type": "measurement",
+      "statement": "기존 공개 글은 Markdown 5956자로, 새 run은 같은 source를 다시 조사하되 기존 final과 Evidence artifact를 복사하지 않는다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:api-v2-consumer-audit:current",
+          "locator": "web/content/blog/api-v2-consumer-audit/ko.md",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}

@@ -1,0 +1,208 @@
+{
+  "topic": "JustSend seed를 Research Pack과 Evidence로 바꾸는 글쓰기 데이터 흐름",
+  "generated_at": "2026-08-23T23:45:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "JustSend",
+      "seed를",
+      "Research",
+      "Pack과",
+      "Evidence로",
+      "바꾸는",
+      "글쓰기",
+      "데이터"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E101",
+      "type": "failure",
+      "statement": "JustSend record만 요약하면 현재 code·official contract·runtime result가 빠져 사건 memo 이상의 깊이를 만들기 어렵다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "seed-limit-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+          "locator": "justsend:248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E102",
+      "type": "decision",
+      "statement": "JustSend seed를 Research Pack으로 확장하고 claim mapping을 거쳐 Evidence store에 넣은 뒤에만 writing을 시작한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "pipeline-flow-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+          "locator": "justsend:248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "justsend-blog:visual-contract:v43",
+          "locator": "justsend-blog/src/pipeline/visual-contract.js:1-180",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "git-worktree-v42",
+          "locator": "https://git-scm.com/docs/git-worktree",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E103",
+      "type": "fact",
+      "statement": "0.4.3 visual contract는 section·purpose·Evidence에서 최적 diagram type과 primary axis를 계산한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "visual-type-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "justsend-blog:visual-contract:v43",
+          "locator": "justsend-blog/src/pipeline/visual-contract.js:1-180",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:justsend-blog-043-tests",
+          "locator": "justsend-blog@aea2d4a:npm-test",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E104",
+      "type": "fact",
+      "statement": "같은 type이 여러 글에서 실제 최적이면 허용하고 plan·renderer·SVG invariant가 다를 때만 차단한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "type-audit-v42",
+        "fidelity-gate-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "justsend-blog:visual-contract:v43",
+          "locator": "justsend-blog/src/pipeline/visual-contract.js:1-180",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "justsend-blog:audit:v42",
+          "locator": "justsend-blog/src/pipeline/audit.js:82-130",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:justsend-blog-043-tests",
+          "locator": "justsend-blog@aea2d4a:npm-test",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E105",
+      "type": "fact",
+      "statement": "별도 Git worktree는 generated run과 원 workspace의 WIP를 분리한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "worktree-isolation-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+          "locator": "justsend:248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "git-worktree-v42",
+          "locator": "https://git-scm.com/docs/git-worktree",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E106",
+      "type": "result",
+      "statement": "0.4.3에서 8개 production topic routing을 포함한 31개 test와 package validation이 통과했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "runtime-pipeline-v42",
+        "visual-type-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:justsend-blog-043-tests",
+          "locator": "justsend-blog@aea2d4a:npm-test",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E107",
+      "type": "measurement",
+      "statement": "기존 공개 글은 Markdown 7252자로, 새 run은 같은 source를 다시 조사하되 기존 final과 Evidence artifact를 복사하지 않는다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:evidence-first-blog-pipeline:current",
+          "locator": "web/content/blog/evidence-first-blog-pipeline/ko.md",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}

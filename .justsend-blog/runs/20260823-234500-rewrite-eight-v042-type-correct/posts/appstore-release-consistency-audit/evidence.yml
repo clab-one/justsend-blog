@@ -1,0 +1,197 @@
+{
+  "topic": "App Store 재제출을 한 번의 프로세스로 만드는 정합성 감사",
+  "generated_at": "2026-08-23T23:45:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "App",
+      "Store",
+      "재제출을",
+      "한",
+      "번의",
+      "프로세스로",
+      "만드는",
+      "정합성"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E101",
+      "type": "failure",
+      "statement": "수정 build만 준비하면 Review Notes, privacy, 권한 문구, 구독, 공개 공유가 서로 다른 release 시점을 설명할 수 있었다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "submission-unit-v42",
+        "privacy-contract-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "73D9E71A-74AF-44BF-A4DA-C87E81F65456",
+          "locator": "justsend:73D9E71A-74AF-44BF-A4DA-C87E81F65456",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:purpose-strings:v42",
+          "locator": "mac-prod/project.yml:300-320",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E102",
+      "type": "fact",
+      "statement": "권한 purpose string은 배포 설정에 있어 source code review와 별도로 제출 artifact를 검사해야 한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "metadata-source-v42",
+        "privacy-contract-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:purpose-strings:v42",
+          "locator": "mac-prod/project.yml:300-320",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E103",
+      "type": "fact",
+      "statement": "Apple은 metadata와 privacy information이 실제 app experience와 최신 version을 반영하도록 요구한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "accurate-metadata-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "apple-review-guidelines-v42",
+          "locator": "https://developer.apple.com/app-store/review/guidelines/",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E104",
+      "type": "fact",
+      "statement": "공개 공유 신고 test는 같은 신고의 멱등성과 link retirement를 함께 확인한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "ugc-report-v42",
+        "server-contract-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "platform:share-report-test:v42",
+          "locator": "platform/backend/internal/api/share_report_test.go:90-170",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "apple-review-guidelines-v42",
+          "locator": "https://developer.apple.com/app-store/review/guidelines/",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E105",
+      "type": "decision",
+      "statement": "재제출 gate를 build·metadata·privacy·구독·공유가 같은 사실을 말하는 단일 process로 정의했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "submission-unit-v42",
+        "server-contract-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "73D9E71A-74AF-44BF-A4DA-C87E81F65456",
+          "locator": "justsend:73D9E71A-74AF-44BF-A4DA-C87E81F65456",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "platform:share-report-test:v42",
+          "locator": "platform/backend/internal/api/share_report_test.go:90-170",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "apple-review-guidelines-v42",
+          "locator": "https://developer.apple.com/app-store/review/guidelines/",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E106",
+      "type": "result",
+      "statement": "입력 harness가 만든 crash를 제품 crash와 분리한 뒤 build 178과 구독 두 종의 제출 상태를 확인했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "runtime-submit-v42",
+        "harness-control-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:build-178-v42",
+          "locator": "justsend:73D9E71A-74AF-44BF-A4DA-C87E81F65456#build-178",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E107",
+      "type": "measurement",
+      "statement": "기존 공개 글은 Markdown 5503자로, 새 run은 같은 source를 다시 조사하되 기존 final과 Evidence artifact를 복사하지 않는다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:appstore-release-consistency-audit:current",
+          "locator": "web/content/blog/appstore-release-consistency-audit/ko.md",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}
