@@ -8,7 +8,7 @@ omp plugin doctor
 node scripts/validate-package.js
 ```
 
-`justsend-blog@0.4.2`이 enabled인지, `skills/justsend-blog/SKILL.md`가 linked root 바로 아래 one-level layout인지 확인한다. 기존 session은 plugin cache를 유지할 수 있으므로 새 session을 연다.
+`justsend-blog@0.4.3`이 enabled인지, `skills/justsend-blog/SKILL.md`가 linked root 바로 아래 one-level layout인지 확인한다. 기존 session은 plugin cache를 유지할 수 있으므로 새 session을 연다.
 
 ## JustSend MCP capability가 누락된다
 

@@ -175,18 +175,20 @@ function edgePath(from, to) {
   const y1 = from.y + from.height / 2;
   const x2 = to.x;
   const y2 = to.y + to.height / 2;
-  if (Math.abs(y1 - y2) < 1) return { d: `M ${x1} ${y1} H ${x2}`, labelX: (x1 + x2) / 2, labelY: y1 - 16 };
+  const labelY = Math.min(from.y, to.y) - 12;
+  if (Math.abs(y1 - y2) < 1) return { d: `M ${x1} ${y1} H ${x2}`, labelX: (x1 + x2) / 2, labelY };
   const mid = Math.round((x1 + x2) / 8) * 4;
-  return { d: `M ${x1} ${y1} H ${mid} V ${y2} H ${x2}`, labelX: (x1 + mid) / 2, labelY: y1 - 16 };
+  return { d: `M ${x1} ${y1} H ${mid} V ${y2} H ${x2}`, labelX: (x1 + mid) / 2, labelY };
 }
 
-function edgeElement(edge, index, positions) {
+function edgeElement(edge, index, positions, { labelY } = {}) {
   const from = positions.get(edge.from);
   const to = positions.get(edge.to);
   if (!from || !to) return "";
   const route = edgePath(from, to);
   const width = Math.max(64, Math.min(160, edge.label.length * 11 + 24));
-  return `<g data-edge-id="E${String(index + 1).padStart(3, "0")}" data-from="${escapeXml(edge.from)}" data-to="${escapeXml(edge.to)}" data-edge-kind="${escapeXml(edge.kind)}" data-evidence-ids="${escapeXml(edge.evidence_ids.join(","))}"><path d="${route.d}" class="edge" marker-end="url(#arrow)"/><rect x="${route.labelX - width / 2}" y="${route.labelY - 12}" width="${width}" height="14" rx="3" class="label-mask"/><text x="${route.labelX}" y="${route.labelY - 2}" class="edge-label">${escapeXml(edge.label)}</text></g>`;
+  const laneY = labelY ?? route.labelY;
+  return `<g data-edge-id="E${String(index + 1).padStart(3, "0")}" data-from="${escapeXml(edge.from)}" data-to="${escapeXml(edge.to)}" data-edge-kind="${escapeXml(edge.kind)}" data-evidence-ids="${escapeXml(edge.evidence_ids.join(","))}"><path d="${route.d}" class="edge" marker-end="url(#arrow)"/><rect x="${route.labelX - width / 2}" y="${laneY - 12}" width="${width}" height="14" rx="3" class="label-mask"/><text x="${route.labelX}" y="${laneY - 2}" class="edge-label">${escapeXml(edge.label)}</text></g>`;
 }
 
 function nodeGroup(node, box, shape, body, focal = false) {
@@ -276,7 +278,7 @@ function renderDeployment(diagram) {
     items.forEach((node, index) => positions.set(node.id, { x: box.x + 32, y: box.y + 60 + index * 96, width: box.width - 64, height: 64 }));
   }
   children.filter(node => !positions.has(node.id)).forEach((node, index) => positions.set(node.id, { x: 72 + index * 176, y: 468, width: 144, height: 56 }));
-  const edges = diagram.edges.map((edge, index) => edgeElement(edge, index, positions)).join("");
+  const edges = diagram.edges.map((edge, index) => edgeElement(edge, index, positions, { labelY: 60 + index * 22 })).join("");
   const childMarkup = children.map((node, index) => {
     const box = positions.get(node.id);
     return nodeGroup(node, box, node.role, `<rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" rx="8" class="node${index === children.length - 1 ? " focal" : ""}"/>`);

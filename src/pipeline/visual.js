@@ -137,7 +137,7 @@ function renderPng(diagram) {
 export function renderDiagram(diagram, outputDir) {
   const svg = renderSvg(diagram);
   const provenance = JSON.stringify({ diagram_id: diagram.diagram_id, type: diagram.type, selection: diagram.selection, renderer: diagram.renderer, nodes: diagram.nodes, edges: diagram.edges });
-  const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${escapeXml(diagram.purpose)}</title><style>body{margin:0;background:#fff;color:#121212;font-family:"Hanken Grotesk","Pretendard Variable",Pretendard,ui-sans-serif,system-ui,sans-serif}figure{margin:0;padding:24px}figcaption{margin-top:12px;color:#363636}</style></head><body><figure>${svg}<figcaption>${escapeXml(diagram.purpose)}</figcaption></figure><script id="diagram-provenance" type="application/json">${provenance.replaceAll("<","\\u003c")}</script></body></html>`;
+  const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${escapeXml(diagram.purpose)}</title><style>body{margin:0;background:#fff;color:#121212;font-family:"Hanken Grotesk","Pretendard Variable",Pretendard,ui-sans-serif,system-ui,sans-serif}figure{margin:0;padding:24px}figcaption{margin-top:12px;color:#363636}</style></head><body><figure>${svg}<figcaption>${escapeXml(diagram.purpose)}</figcaption></figure><template id="diagram-provenance" data-diagram-provenance>${provenance.replaceAll("<","\\u003c")}</template></body></html>`;
   const base = join(outputDir, diagram.diagram_id.toLowerCase());
   writeFileSync(`${base}.html`, html, "utf8");
   writeFileSync(`${base}.svg`, svg, "utf8");
