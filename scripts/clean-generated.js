@@ -14,4 +14,4 @@ function clean(root) {
   }
 }
 
-clean(resolve("vendor"));
+clean(resolve("skills/justsend-blog/vendor"));

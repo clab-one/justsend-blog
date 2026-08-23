@@ -163,9 +163,9 @@ export async function runBlogPipeline({ workspace, fixturePath, request, date = 
   trace.append("git_commit", { commit, stage: "visual" });
 
   trace.append("humanize_started", { route_engine: "im-not-ai", prose_mode: "deterministic-fallback", order: "after-visual-integration" });
-  const route = selectImNotAiRoute(draft, { vendorRoot: join(PROJECT_ROOT, "vendor/im-not-ai"), override: request.humanization_route });
+  const route = selectImNotAiRoute(draft, { vendorRoot: join(PROJECT_ROOT, "skills/justsend-blog/vendor/im-not-ai"), override: request.humanization_route });
   const humanized = applyDeterministicFallback(draft, { route: route.route });
-  const gate = runImNotAiChangeGate(draft, humanized, { vendorRoot: join(PROJECT_ROOT, "vendor/im-not-ai") });
+  const gate = runImNotAiChangeGate(draft, humanized, { vendorRoot: join(PROJECT_ROOT, "skills/justsend-blog/vendor/im-not-ai") });
   const humanization = {
     mode: "deterministic-fallback",
     route_engine: "im-not-ai",

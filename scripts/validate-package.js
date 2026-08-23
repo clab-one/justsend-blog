@@ -7,7 +7,15 @@ const required = [
   "package.json", "plugin.json", ".omp-plugin/plugin.json", "skills/justsend-blog/SKILL.md",
   "docs/architecture/SOLOMD_TRACEABILITY.md", "docs/adr/0001-solomd-authoring-core.md",
   "schemas/evidence-pack.schema.json", "schemas/visual-plan.schema.json", "schemas/audit-report.schema.json",
-  "policies/writing-policy.yml", "THIRD_PARTY_NOTICES.md", "upstreams.lock.yml"
+  "policies/writing-policy.yml", "THIRD_PARTY_NOTICES.md", "upstreams.lock.yml",
+  "skills/justsend-blog/references/workflows/research.md",
+  "skills/justsend-blog/references/workflows/evidence.md",
+  "skills/justsend-blog/references/workflows/writing.md",
+  "skills/justsend-blog/references/workflows/visual.md",
+  "skills/justsend-blog/references/workflows/humanize.md",
+  "skills/justsend-blog/references/workflows/audit.md",
+  "skills/justsend-blog/vendor/diagram-design/SKILL.md",
+  "skills/justsend-blog/vendor/im-not-ai/scripts/prepare_monolith_input.py"
 ];
 const errors = required.filter(path => !existsSync(join(root, path))).map(path => `missing: ${path}`);
 const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
@@ -16,7 +24,9 @@ const ompPlugin = JSON.parse(readFileSync(join(root, ".omp-plugin/plugin.json"),
 if (pkg.name !== "justsend-blog") errors.push("package name must be justsend-blog");
 if (pkg.version !== plugin.version || pkg.version !== ompPlugin.version || pkg.omp?.version !== pkg.version) errors.push("manifest versions must match");
 const skillsDir = join(root, "skills");
-for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
+const skillEntries = readdirSync(skillsDir, { withFileTypes: true }).filter(entry => entry.isDirectory());
+if (skillEntries.length !== 1 || skillEntries[0].name !== "justsend-blog") errors.push(`only justsend-blog may be exposed; found: ${skillEntries.map(entry => entry.name).join(", ")}`);
+for (const entry of skillEntries) {
   if (!entry.isDirectory()) continue;
   const path = join(skillsDir, entry.name, "SKILL.md");
   if (!existsSync(path)) { errors.push(`skill missing SKILL.md: ${entry.name}`); continue; }
@@ -26,4 +36,4 @@ for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
 const traceability = readFileSync(join(root, "docs/architecture/SOLOMD_TRACEABILITY.md"), "utf8");
 for (const source of ["agent_run.rs", "recipe_runner.rs", "git_history.rs", "safety.rs", "trace.rs"]) if (!traceability.includes(source)) errors.push(`SoloMD traceability missing source: ${source}`);
 if (errors.length) { console.error(errors.join("\n")); process.exit(1); }
-console.log(`PASS package=${pkg.name}@${pkg.version} skills=${readdirSync(skillsDir, { withFileTypes: true }).filter(entry => entry.isDirectory()).length}`);
+console.log(`PASS package=${pkg.name}@${pkg.version} exposed-skills=${skillEntries.length} internal-workflows=6`);

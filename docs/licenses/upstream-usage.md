@@ -20,15 +20,15 @@
 
 - 고정: `epoko77-ai/im-not-ai@0ac1e84f92334f9696e69184478f91c1c6f1dc5e`
 - 라이선스: MIT (`.upstream/im-not-ai/LICENSE`)
-- 사용: `vendor/im-not-ai/`에 route metric·deterministic gate·필요 references를 고정 vendor한다.
-- 수정: 원본 Python은 수정하지 않는다. OMP Main 전용 orchestration은 `skills/justsend-humanize/`와 `src/pipeline/humanize.js`에 별도 작성한다.
+- 사용: `skills/justsend-blog/vendor/im-not-ai/`에 route metric·deterministic gate·필요 references를 고정 vendor한다.
+- 수정: 원본 Python은 수정하지 않는다. OMP Main 전용 orchestration은 `skills/justsend-blog/references/workflows/humanize.md`와 `src/pipeline/humanize.js`에 별도 작성한다.
 - attribution: `THIRD_PARTY_NOTICES.md`와 vendored LICENSE에 보존한다.
 
 ## diagram-design
 
 - 고정: `cathrynlavery/diagram-design@648c2a597839301e06df1e7434a08bde9f42eed3`
 - 라이선스: MIT (`.upstream/diagram-design/LICENSE`)
-- 사용: `skills/diagram-design/` 전체 Skill을 pinned vendor해 OMP가 직접 discover하도록 한다.
+- 사용: `skills/justsend-blog/vendor/diagram-design/` 전체 Skill을 pinned vendor하고 Master가 내부 dependency로 읽는다. 독립 OMP Skill로 discover하지 않는다.
 - 수정: `references/style-guide.md`를 직접 바꾸지 않는다. JustSend token은 `.justsend-blog/profiles/justsend.md`와 `.diagram-design` marker로 분리한다.
 - attribution: upstream LICENSE와 THIRD_PARTY_LICENSES를 보존한다. font binary는 포함하지 않는다.
 
@@ -38,7 +38,7 @@
 - 라이선스: CC BY-NC-SA 4.0. 별도 LICENSE 파일은 없고 `README.md:23-29`, `docs/overview.md:58-64`에 선언돼 있다.
 - 사용: research-only.
 - 배포하지 않는 것: 원문, 문장, 단락, 표, 템플릿, 예시, 이미지, 브랜드 표현, Toss 고유 threshold.
-- `policies/writing-policy.yml`과 `skills/justsend-writing/references/*`는 독자의 목표, 가치 우선, 명확한 주체, 구체성, 용어 일관성 같은 일반 원칙을 독립된 표현·구조·예시로 작성한다.
+- `policies/writing-policy.yml`과 `skills/justsend-blog/references/writing/*`는 독자의 목표, 가치 우선, 명확한 주체, 구체성, 용어 일관성 같은 일반 원칙을 독립된 표현·구조·예시로 작성한다.
 
 ## 독립 작성 확인
 

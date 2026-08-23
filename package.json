@@ -36,7 +36,6 @@
     "policies/",
     "templates/",
     "scripts/",
-    "vendor/",
     "vault/",
     "docs/",
     "plugin.json",

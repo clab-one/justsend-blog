@@ -5,7 +5,7 @@ description: Evidence Pack, technical draft, humanized prose, visual plan과 dia
 
 # JustSend Audit
 
-`references/fidelity-contract.md`와 `schemas/audit-report.schema.json`을 적용한다.
+`skill://justsend-blog/references/contracts/fidelity-contract.md`와 `schemas/audit-report.schema.json`을 적용한다.
 
 1. deterministic 검사로 numbers, dates, URLs, record IDs, Evidence IDs, proper nouns, code blocks, inline code, paths, API names, quoted strings를 비교한다.
 2. final의 사실 claim을 추출해 adjacent evidence comment 또는 outline section Evidence ID에 연결한다.

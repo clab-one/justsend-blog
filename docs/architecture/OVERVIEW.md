@@ -71,8 +71,9 @@ final.md
 OMP 18은 linked plugin을 `package.json`의 `omp` manifest와 conventional `skills/<name>/SKILL.md`로 발견한다. plugin-to-plugin dependency 필드는 없다. 따라서 다음 방식을 사용한다.
 
 - `omp plugin link <repo>`로 로컬 개발 설치.
-- root `skills/`에 justsend Skill과 pinned diagram-design Skill을 함께 패키징.
-- im-not-ai는 MIT route metrics·deterministic gates·필요 references만 `vendor/im-not-ai/`에 고정한다. OMP Main 전용 `justsend-humanize`는 references를 읽고 직접 윤문하며, fixture fallback은 upstream agent 실행으로 표기하지 않는다.
+- root `skills/`에는 `justsend-blog` 하나만 둬 `/skill:justsend-blog`만 discover한다. Research·Evidence·Writing·Visual·Humanize·Audit은 `skills/justsend-blog/references/workflows/` 내부 절차다.
+- diagram-design 전체 Skill은 `skills/justsend-blog/vendor/diagram-design/`에 pinned vendor해 Master가 내부 reference로 읽고, 독립 Skill로 노출하지 않는다.
+- im-not-ai route metrics·deterministic gates·필요 references는 `skills/justsend-blog/vendor/im-not-ai/`에 고정한다. Master 내부 humanize workflow가 references를 읽고 직접 윤문하며, fixture fallback은 upstream agent 실행으로 표기하지 않는다.
 - Toss 콘텐츠는 vendor하지 않는다.
 
 로컬 런타임은 OMP `18.0.0`, 조사한 upstream HEAD는 `18.0.3`이다. 로컬 설치 검증 결과를 배포 명령의 기준으로 삼고, 차이는 `docs/ASSUMPTIONS.md`에 기록한다.

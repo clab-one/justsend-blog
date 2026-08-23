@@ -19,14 +19,14 @@ description: JustSend MCP 작업 기록을 Evidence Pack으로 정규화한 뒤 
 
 ## 실행
 
-1. `skill://justsend-research`, `skill://justsend-evidence`, `skill://justsend-writing`, `skill://justsend-visual`, `skill://justsend-humanize`, `skill://justsend-audit`를 읽는다.
+1. `skill://justsend-blog/references/workflows/research.md`, `skill://justsend-blog/references/workflows/evidence.md`, `skill://justsend-blog/references/workflows/writing.md`, `skill://justsend-blog/references/workflows/visual.md`, `skill://justsend-blog/references/workflows/humanize.md`, `skill://justsend-blog/references/workflows/audit.md`를 순서대로 읽는다. 모두 Master Skill 내부 절차이며 독립 Skill로 호출하지 않는다.
 2. 현재 Git root와 HEAD를 확인한다. `scripts/run-pipeline.js --workspace <root> --prepare-only` 계약으로 별도 worktree와 `justsend-blog/YYYYMMDD/<slug>` branch를 만든다. 원 workspace의 dirty 파일을 stage·stash·reset하지 않는다.
 3. `.justsend-blog/runs/<run-id>/request.md`, `manifest.json`, `trace.jsonl`을 만든다. 요청에 없는 독자·기간·유형은 합리적으로 정하고 `assumptions`에 기록한다.
 4. 현재 도구 목록과 description을 `scripts/discover-capabilities.js`의 논리 interface에 맞춰 매핑한다. 필수 read capability가 없으면 존재하지 않는 결과를 만들지 말고 run을 `BLOCKED`로 종료한다.
 5. Research 절차로 넓게 찾고 원문·metadata를 읽어 `research-summary.md`를 만든다. secret 원문은 artifact와 trace에 쓰지 않는다.
 6. Evidence 절차로 `evidence.yml`과 `evidence.md`를 확정하고 schema validator를 통과시킨다.
 7. Writing 절차로 문서 유형을 선택하고 section별 `purpose`, `evidence_ids`, `visual_candidate`가 있는 `outline.md`를 만든다. 이어 `draft.md`를 작성한다.
-8. Visual 절차로 그림이 더 나은 구간만 `visual-plan.yml`에 넣는다. 필요하면 `skill://diagram-design`과 선택한 type reference를 읽고 HTML 정본, SVG, PNG를 `diagrams/`에 만든다.
+8. Visual 절차로 그림이 더 나은 구간만 `visual-plan.yml`에 넣는다. 필요하면 `skill://justsend-blog/vendor/diagram-design/SKILL.md`와 `skill://justsend-blog/vendor/diagram-design/references/<selected-type>.md`를 읽고, vendor directory를 상대경로 기준으로 삼아 HTML 정본, SVG, PNG를 `diagrams/`에 만든다.
 9. Humanize 절차로 Main이 im-not-ai references를 읽고 한국어 prose를 직접 윤문해 `humanized.md`를 만든다. 실제 run에는 `mode: main-direct-im-not-ai-guided`를 기록한다. 보호 대상 token은 원문과 동일해야 한다.
 10. Audit 절차와 `scripts/verify-fidelity.js`로 text와 diagram을 함께 검사한다. 실패하면 근거 없는 문장을 삭제·불확실성 표시하거나 provenance를 고치고 재검사한다.
 11. PASS일 때만 `final.md`, `audit.json`, 최종 manifest를 `READY_FOR_REVIEW`로 만든다. 관련 경로만 명시적으로 commit하고 base와의 Git diff를 제시한다.

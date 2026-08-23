@@ -87,7 +87,7 @@ export function applyDeterministicFallback(text, { route = "standard" } = {}) {
   return masked.restore(polishKorean(masked.masked, route));
 }
 
-export function selectImNotAiRoute(text, { vendorRoot = resolve("vendor/im-not-ai"), override } = {}) {
+export function selectImNotAiRoute(text, { vendorRoot = resolve("skills/justsend-blog/vendor/im-not-ai"), override } = {}) {
   const requested = override && /^(light|standard|heavy)$/.test(override) ? override : null;
   const runDir = mkdtempSync(join(tmpdir(), "justsend-blog-humanize-"));
   try {
@@ -135,7 +135,7 @@ export function auditProtected(before, after) {
   return { meaning_preserved: Object.keys(differences).length === 0, differences };
 }
 
-export function runImNotAiChangeGate(before, after, { vendorRoot = resolve("vendor/im-not-ai") } = {}) {
+export function runImNotAiChangeGate(before, after, { vendorRoot = resolve("skills/justsend-blog/vendor/im-not-ai") } = {}) {
   const dir = mkdtempSync(join(tmpdir(), "justsend-blog-gate-"));
   try {
     const beforePath = join(dir, "before.md");

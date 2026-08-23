@@ -6,6 +6,7 @@ JustSend 작업 기록을 Evidence Pack으로 정규화한 뒤 독자 중심 한
 
 ## 핵심 보장
 
+- OMP에 노출되는 사용자 진입점은 `/skill:justsend-blog` 하나다. Research·Evidence·Writing·Visual·Humanize·Audit은 Master 내부 references다.
 - OMP Main Orchestrator가 연구, 작성, 시각화, 윤문, 검증을 직접 수행한다.
 - 허용 subagent는 읽기 전용 `scout` 하나뿐이다.
 - JustSend MCP는 실행 시 tool description으로 capability를 발견하며 기본 read-only다.
@@ -123,11 +124,11 @@ node scripts/doctor.js
 
 마지막 검증 결과:
 
-- Unit: 12 pass, 0 fail
+- Unit: 13 pass, 0 fail
 - Integration: 2 pass, 0 fail
 - E2E: 1 pass, 0 fail
 - Agent policy: Scout 5, state-changing Scout 0, recursive spawn 0
-- Package: 8 Skills, manifest versions synchronized
+- Package: 1 exposed Skill, 6 internal workflows, manifest versions synchronized
 
 ## 설계 문서
 

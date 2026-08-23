@@ -5,7 +5,7 @@ description: JustSend 조사 결과를 fact·decision·reason·result·failure·
 
 # JustSend Evidence
 
-`references/evidence-contract.md`와 `schemas/evidence-pack.schema.json`을 적용한다.
+`skill://justsend-blog/references/contracts/evidence-contract.md`와 `schemas/evidence-pack.schema.json`을 적용한다.
 
 - 허용 evidence type: `fact`, `decision`, `reason`, `result`, `failure`, `tradeoff`, `measurement`, `timeline-event`, `quote`, `open-question`.
 - 허용 confidence: `direct`, `corroborated`, `inferred`, `uncertain`.

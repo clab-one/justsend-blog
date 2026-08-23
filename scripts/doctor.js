@@ -13,8 +13,8 @@ const checks = [
   ["Python", command("python3", ["--version"])],
   ["Git", command("git", ["--version"])],
   ["Master Skill", { ok: existsSync(resolve("skills/justsend-blog/SKILL.md")), output: "skills/justsend-blog/SKILL.md" }],
-  ["diagram-design", { ok: existsSync(resolve("skills/diagram-design/SKILL.md")), output: "skills/diagram-design/SKILL.md" }],
-  ["im-not-ai metrics", { ok: existsSync(resolve("vendor/im-not-ai/scripts/prepare_monolith_input.py")), output: "vendored Python" }],
+  ["diagram-design vendor", { ok: existsSync(resolve("skills/justsend-blog/vendor/diagram-design/SKILL.md")), output: "skills/justsend-blog/vendor/diagram-design/SKILL.md" }],
+  ["im-not-ai metrics", { ok: existsSync(resolve("skills/justsend-blog/vendor/im-not-ai/scripts/prepare_monolith_input.py")), output: "vendored Python" }],
   ["JustSend MCP config", { ok: existsSync(resolve(".omp/mcp.json")), output: existsSync(resolve(".omp/mcp.json")) ? ".omp/mcp.json" : "미설정: .omp/mcp.json.example을 복사하고 placeholder를 실제 값으로 교체" }],
 ];
 for (const [name, result] of checks) console.log(`${result.ok ? "PASS" : "WARN"} ${name}: ${result.output}`);

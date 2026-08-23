@@ -26,17 +26,17 @@
 - Commit: `0ac1e84f92334f9696e69184478f91c1c6f1dc5e`
 - License: MIT
 - Use: Korean route metrics, safety gates, and rule references
-- Vendored path: `vendor/im-not-ai/`
+- Vendored path: `skills/justsend-blog/vendor/im-not-ai/`
 - Modified: upstream Python/reference files are unmodified; OMP adapter is separate
-- Attribution: upstream LICENSE preserved at `vendor/im-not-ai/LICENSE`
+- Attribution: upstream LICENSE preserved at `skills/justsend-blog/vendor/im-not-ai/LICENSE`
 
 ## diagram-design
 
 - URL: <https://github.com/cathrynlavery/diagram-design>
 - Commit: `648c2a597839301e06df1e7434a08bde9f42eed3`
 - License: MIT
-- Use: OMP-discoverable editorial diagram Skill
-- Vendored path: `skills/diagram-design/`
+- Use: Master Skill 내부 editorial diagram dependency; 독립 OMP Skill로 discover하지 않음
+- Vendored path: `skills/justsend-blog/vendor/diagram-design/`
 - Modified: no upstream Skill file modified; JustSend profile is stored separately
 - Attribution: upstream LICENSE and `THIRD_PARTY_LICENSES.md` preserved in the vendored Skill root
 

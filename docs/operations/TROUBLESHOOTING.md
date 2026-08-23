@@ -36,8 +36,8 @@ node scripts/validate-evidence.js /path/to/evidence.yml
 
 ```bash
 python3 --version
-ls vendor/im-not-ai/scripts/prepare_monolith_input.py
-ls vendor/im-not-ai/skills/humanize-korean/references/metrics_v2.py
+ls skills/justsend-blog/vendor/im-not-ai/scripts/prepare_monolith_input.py
+ls skills/justsend-blog/vendor/im-not-ai/skills/humanize-korean/references/metrics_v2.py
 ```
 
 metrics 오류를 숨기지 않는다. route는 standard로 안전하게 낮추고 manifest에 이유를 기록한다.

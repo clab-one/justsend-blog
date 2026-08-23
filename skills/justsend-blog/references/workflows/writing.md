@@ -5,7 +5,7 @@ description: Evidence Pack과 독자 목표를 바탕으로 기술 블로그 문
 
 # JustSend Writing
 
-다음 reference를 읽는다: `references/document-types.md`, `references/information-architecture.md`, `references/sentence-policy.md`. 정책 SSOT는 `policies/writing-policy.yml`이다.
+다음 reference를 읽는다: `skill://justsend-blog/references/writing/document-types.md`, `skill://justsend-blog/references/writing/information-architecture.md`, `skill://justsend-blog/references/writing/sentence-policy.md`. 정책 SSOT는 `policies/writing-policy.yml`이다.
 
 1. audience가 글을 읽은 뒤 이해하거나 판단하거나 수행해야 할 일을 한 문장으로 쓴다.
 2. `engineering-story`, `architecture-decision`, `explanation`, `incident-review`, `tutorial`, `how-to`, `reference`, `product-narrative`, `launch-post` 중 하나를 선택하고 이유를 manifest에 기록한다.

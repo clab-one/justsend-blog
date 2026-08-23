@@ -6,7 +6,7 @@
 
 ## Plugin dependency
 
-조사한 OMP manifest에는 plugin-to-plugin dependency field가 없다. 따라서 MIT인 diagram-design Skill과 im-not-ai route metrics·검증 gate·rule references 최소 범위를 pinned vendor했다. Toss 콘텐츠는 vendor하지 않았다.
+조사한 OMP manifest에는 plugin-to-plugin dependency field가 없다. 따라서 `skills/`에는 `justsend-blog` 하나만 노출하고 diagram-design과 im-not-ai를 `skills/justsend-blog/vendor/`에 pinned vendor했다. 여섯 helper workflow는 `skills/justsend-blog/references/workflows/`에 두며 독립 Skill로 discover하지 않는다. Toss 콘텐츠는 vendor하지 않았다.
 
 ## JustSend MCP
 
