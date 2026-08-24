@@ -21,3 +21,4 @@
 {"at": "2026-08-24T02:05:00.000Z", "stage": "ACCEPTED", "event": "bilingual-diagram-contact-sheet-verified", "detail": "actual Chromium rendered 16 diagrams; 8 KO/EN pairs kept the same selected type and axis; state branches used distinct attach points"}
 {"at": "2026-08-24T02:10:00.000Z", "stage": "ACCEPTED", "event": "english-localization-audited", "detail": "8 English articles: Quality PASS, Fidelity PASS, sources=7, Evidence coverage=1.0, edge intersections=0, branch endpoint violations=0"}
 {"at": "2026-08-24T02:15:00.000Z", "stage": "ACCEPTED", "event": "english-publication-candidate-approved", "detail": "user requested English versions be published with the same type-correct treatment"}
+{"at": "2026-08-24T02:20:00.000Z", "stage": "ACCEPTED", "event": "english-localization-committed", "detail": "commit ae829fdc80710fa06ef0c73cce38b0f0cb93cf80; Korean and English run artifacts committed together"}
