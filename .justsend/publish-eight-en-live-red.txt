@@ -1,0 +1,7 @@
+RED — rollout 전 live 상태
+
+- deployment: clab-cluster / justsend-platform / deploy/justsend-web
+- replicas: 2 ready
+- image: ghcr.io/clab-one/justsend-web:latest
+- 두 pod imageID: sha256:f974512745c7f07c11509ee3de3d69759cfdc2a3f1c0db7e08adbbefb4ebe946
+- 새 English publication image digest sha256:174d5ce33c0fed6554c14a4429afdc79d06f8b33031703beacf8159f80f85bae는 아직 실행되지 않았다.

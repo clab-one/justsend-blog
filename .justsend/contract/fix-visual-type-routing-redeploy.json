@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "task_key": "fix-visual-type-routing-redeploy",
+  "objective": "justsend-blog이 의미에 맞는 최적 diagram 유형을 선택하고 type-specific renderer와 audit를 강제하도록 수정한 뒤 8편 diagram을 재생산·배포한다.",
+  "tier": "HEAVY",
+  "criteria": [
+    {
+      "id": "routing",
+      "scenario": "같은 visual 후보를 state·deployment·data-flow·process·architecture 의미 fixture와 진짜 동일 유형 fixture로 평가한다.",
+      "observable": "의미별 최적 type과 선택 근거가 결정되며, 같은 type이 최적일 때는 허용하고 다른 type_hint로 generic geometry를 위장하면 실패한다.",
+      "proof": "red-green",
+      "status": "surfaced",
+      "evidence": {
+        "red": {
+          "at": "2026-08-24T00:02:51.666Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/visual-type-routing-red.txt"
+        },
+        "green": {
+          "at": "2026-08-24T00:03:01.243Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/visual-type-routing-green.txt"
+        },
+        "surface": {
+          "at": "2026-08-24T00:03:14.957Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/visual-type-routing-green.txt"
+        }
+      },
+      "cleanup_receipts": []
+    },
+    {
+      "id": "contract",
+      "scenario": "custom SVG와 pipeline renderer SVG를 visual audit에 넣는다.",
+      "observable": "plan의 selected type·renderer id·rendered data-diagram-type·type invariant가 모두 일치해야 PASS하며 임의 generator 우회는 차단된다.",
+      "proof": "red-green",
+      "status": "surfaced",
+      "evidence": {
+        "red": {
+          "at": "2026-08-24T00:03:26.718Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/visual-type-routing-red.txt"
+        },
+        "green": {
+          "at": "2026-08-24T00:03:38.057Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/visual-type-routing-green.txt"
+        },
+        "surface": {
+          "at": "2026-08-24T00:03:47.941Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/visual-type-routing-green.txt"
+        }
+      },
+      "cleanup_receipts": []
+    },
+    {
+      "id": "content",
+      "scenario": "승인 글 8편의 visual plan과 diagram을 새 Skill로 재생성하고 Fidelity audit를 실행한다.",
+      "observable": "각 글의 독자 질문에 맞는 type과 geometry를 가지며 8편 Fidelity audit가 PASS한다.",
+      "proof": "red-green",
+      "status": "surfaced",
+      "evidence": {
+        "red": {
+          "at": "2026-08-24T00:03:56.553Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/visual-type-routing-red.txt"
+        },
+        "green": {
+          "at": "2026-08-24T00:04:03.112Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/v43-content-green.txt"
+        },
+        "surface": {
+          "at": "2026-08-24T00:04:55.552Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend-blog/worktrees/20260823-234500-rewrite-eight-v042-type-correct/.justsend-blog/runs/20260823-234500-rewrite-eight-v042-type-correct/diagram-review.webp"
+        }
+      },
+      "cleanup_receipts": []
+    },
+    {
+      "id": "live",
+      "scenario": "web build·image publish·Kubernetes rollout 뒤 공개 글과 SVG를 읽는다.",
+      "observable": "8개 공개 글이 새 type-correct SVG를 제공하고 두 pod가 새 image digest를 실행한다.",
+      "proof": "red-green",
+      "status": "surfaced",
+      "evidence": {
+        "red": {
+          "at": "2026-08-24T00:05:03.598Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/v43-live-red.txt"
+        },
+        "green": {
+          "at": "2026-08-24T00:05:15.861Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/v43-live-green.txt"
+        },
+        "surface": {
+          "at": "2026-08-24T00:05:23.856Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/v43-live-green.txt"
+        }
+      },
+      "cleanup_receipts": []
+    }
+  ],
+  "created_at": "2026-08-23T22:32:16.992Z",
+  "updated_at": "2026-08-24T00:05:23.856Z",
+  "type": "fix",
+  "enforce": true
+}

@@ -1,0 +1,13 @@
+GREEN — justsend-blog 0.4.3
+
+- `npm test`: 31 pass, 0 fail
+- `npm run validate`: PASS package=justsend-blog@0.4.3
+- installed plugin: justsend-blog 0.4.3 enabled
+- semantic routing fixture: 8 production topics PASS
+- same optimum repeated: state-machine 2, data-flow 2 허용
+- generic custom SVG bypass: FAIL as expected
+- incorrect type selection: FAIL as expected
+- renderer metadata mismatch: FAIL as expected
+- type invariant violation: FAIL as expected
+- renderer geometry patch: label masks outside nodes/zones; provenance uses non-executable template
+- remote main: aea2d4a includes 0.4.3 Skill, followed by fresh run commit 0b59af2

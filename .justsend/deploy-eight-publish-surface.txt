@@ -1,0 +1,21 @@
+배포 정합성 — PASS
+
+JustSend Blog:
+- local HEAD = origin/main = 8e5c0d108060977dcfb6b2142a8a7545cf0a4965
+- run status = ACCEPTED
+
+Web:
+- local HEAD = origin/main = d6c4b8d180dc1aaf2c20684bf8f1f6cb4e902b2c
+- working tree = clean
+
+Container:
+- ghcr.io/clab-one/justsend-web:d6c4b8d
+- digest sha256:0572aa877c2b2abd0b662c1ccd3b80905bb81cdd7e3606a63c5b6d65fd664e84
+- image smoke = SMOKE-OK
+
+Kubernetes:
+- context clab-cluster
+- namespace justsend-platform
+- deployment justsend-web
+- rollout successfully completed
+- 2/2 pods imageID = sha256:0572aa877c2b2abd0b662c1ccd3b80905bb81cdd7e3606a63c5b6d65fd664e84

@@ -1,0 +1,12 @@
+Branch: justsend-blog/20260823/rewrite-eight-researched
+Base: 4447f67fd479c4102f51b239a5c5a1b2fbc975d9
+Content commit: 61dcfaf35667f95424c2976f11ddd21111c4159a
+Manifest commit: d66a31c
+
+Final status:
+## justsend-blog/20260823/rewrite-eight-researched
+
+Base diff:
+git diff --stat: 132 files +9639 -0
+All changed files are under .justsend-blog/runs/20260823-210000-rewrite-eight-researched/.
+The invalidated 20260823-000000-rewrite-eight-quality run was not modified or rebased. Its outline was inspected only for scope/gate comparison; old draft and Evidence content were not reused.

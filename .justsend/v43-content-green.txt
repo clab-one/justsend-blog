@@ -1,0 +1,18 @@
+GREEN — fresh run 20260823-234500-rewrite-eight-v042-type-correct
+
+accepted 0.3.1 run을 덮어쓰지 않고 새 run/branch에서 source부터 재생산:
+- Research: 8/8 PASS, sources=6, providers=5
+- Evidence: 8/8 PASS, new JS-E101+ IDs
+- Draft: 8 fresh drafts, body 4931~5409 chars
+- Fidelity: 8/8 PASS
+- Quality: 8/8 PASS
+- incorrect_type_selection: 0
+- renderer_contract_mismatch: 0
+- type_invariant_violations: 0
+- diagram self-check: 8/8 PASS
+- geometry: 8/8, 0 findings
+- XML: 8/8 PASS
+- actual Chromium contact sheet: 8 diagrams, 6 selected types, type=renderer=SVG metadata
+
+Run commit: c885d51c912515142bd6e19cc5b65596dd7ae596
+Run main: 0b59af2c5ce01d0a6be18670ad544ec8b8daf902

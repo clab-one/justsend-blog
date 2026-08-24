@@ -1,0 +1,12 @@
+8편 최종 production 검증 — 2026-08-23
+
+appstore-permission-preprompt: research PASS sources=6 selected=6 providers=5; evidence PASS 7; Fidelity PASS; quality PASS
+appstore-release-consistency-audit: research PASS sources=6 selected=6 providers=5; evidence PASS 7; Fidelity PASS; quality PASS
+mcp-work-record-architecture: research PASS sources=6 selected=6 providers=5; evidence PASS 7; Fidelity PASS; quality PASS
+mac-developer-id-dmg: research PASS sources=6 selected=6 providers=5; evidence PASS 7; Fidelity PASS; quality PASS
+dmg-mcp-security-audit: research PASS sources=6 selected=6 providers=5; evidence PASS 7; Fidelity PASS; quality PASS
+agent-work-record-hero-image: research PASS sources=6 selected=6 providers=5; evidence PASS 7; Fidelity PASS; quality PASS
+api-v2-consumer-audit: research PASS sources=6 selected=6 providers=5; evidence PASS 7; Fidelity PASS; quality PASS
+evidence-first-blog-pipeline: research PASS sources=6 selected=6 providers=5; evidence PASS 8; Fidelity PASS; quality PASS
+
+모든 글: repository sources=2, official sources=1, runtime sources=1, evidence coverage=1.0, blockers=0.

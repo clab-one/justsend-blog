@@ -1,0 +1,9 @@
+GREEN — diagram geometry와 의미 계약
+
+- justsend-blog@0.4.5 unit/integration/e2e: 33 pass, 0 fail
+- package validation: PASS
+- state-machine unknown -> granted / blocked 분기 attach point: 232,268 / 232,292
+- flowchart decision 분기 attach point: 435,288 / 480,288 / 525,288
+- 한영 SVG 16개 self-check/XML/geometry audit: 16/16 PASS, edge-node intersection 0, branch endpoint violation 0
+- 회귀 계약: Evidence가 state·transition·trigger/guard, zone·artifact·runtime placement, input/source→transform/store→output/sink 의미를 지지해야 type을 선택한다.
+- 어느 의미 type도 기준을 충족하지 않으면 type=null, visual decision=omit, quality audit=FAIL로 publication을 차단한다.

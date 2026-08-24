@@ -1,0 +1,322 @@
+{
+  "ingress_ip": "219.255.103.189",
+  "digest": "sha256:174d5ce33c0fed6554c14a4429afdc79d06f8b33031703beacf8159f80f85bae",
+  "routes": [
+    {
+      "lang": "ko",
+      "slug": "appstore-permission-preprompt",
+      "bytes": 18632,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "ko",
+      "slug": "appstore-release-consistency-audit",
+      "bytes": 18032,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "ko",
+      "slug": "mcp-work-record-architecture",
+      "bytes": 18213,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "ko",
+      "slug": "mac-developer-id-dmg",
+      "bytes": 17226,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "ko",
+      "slug": "dmg-mcp-security-audit",
+      "bytes": 16320,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "ko",
+      "slug": "agent-work-record-hero-image",
+      "bytes": 16883,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "ko",
+      "slug": "api-v2-consumer-audit",
+      "bytes": 16879,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "ko",
+      "slug": "evidence-first-blog-pipeline",
+      "bytes": 17875,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "en",
+      "slug": "appstore-permission-preprompt",
+      "bytes": 20483,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "en",
+      "slug": "appstore-release-consistency-audit",
+      "bytes": 20449,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "en",
+      "slug": "mcp-work-record-architecture",
+      "bytes": 19193,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "en",
+      "slug": "mac-developer-id-dmg",
+      "bytes": 17827,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "en",
+      "slug": "dmg-mcp-security-audit",
+      "bytes": 17618,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "en",
+      "slug": "agent-work-record-hero-image",
+      "bytes": 17832,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "en",
+      "slug": "api-v2-consumer-audit",
+      "bytes": 17471,
+      "has_article": true,
+      "has_h1": true
+    },
+    {
+      "lang": "en",
+      "slug": "evidence-first-blog-pipeline",
+      "bytes": 19260,
+      "has_article": true,
+      "has_h1": true
+    }
+  ],
+  "svgs": [
+    {
+      "lang": "ko",
+      "slug": "appstore-permission-preprompt",
+      "name": "appstore-permission-flow.svg",
+      "bytes": 3997,
+      "data-diagram-type": "state-machine",
+      "data-primary-axis": "states",
+      "data-renderer-id": "justsend-state-machine-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "ko",
+      "slug": "appstore-release-consistency-audit",
+      "name": "appstore-release-gate.svg",
+      "bytes": 4169,
+      "data-diagram-type": "process",
+      "data-primary-axis": "stages",
+      "data-renderer-id": "justsend-process-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "ko",
+      "slug": "mcp-work-record-architecture",
+      "name": "mcp-work-anchor.svg",
+      "bytes": 3836,
+      "data-diagram-type": "state-machine",
+      "data-primary-axis": "states",
+      "data-renderer-id": "justsend-state-machine-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "ko",
+      "slug": "mac-developer-id-dmg",
+      "name": "mac-direct-distribution.svg",
+      "bytes": 4444,
+      "data-diagram-type": "deployment",
+      "data-primary-axis": "deployment",
+      "data-renderer-id": "justsend-deployment-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "ko",
+      "slug": "dmg-mcp-security-audit",
+      "name": "dmg-mcp-trust-boundary.svg",
+      "bytes": 4184,
+      "data-diagram-type": "architecture",
+      "data-primary-axis": "components",
+      "data-renderer-id": "justsend-architecture-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "ko",
+      "slug": "agent-work-record-hero-image",
+      "name": "agent-hero-flow.svg",
+      "bytes": 3810,
+      "data-diagram-type": "data-flow",
+      "data-primary-axis": "data-movement",
+      "data-renderer-id": "justsend-data-flow-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "ko",
+      "slug": "api-v2-consumer-audit",
+      "name": "api-consumer-audit.svg",
+      "bytes": 4499,
+      "data-diagram-type": "flowchart",
+      "data-primary-axis": "decisions",
+      "data-renderer-id": "justsend-flowchart-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "ko",
+      "slug": "evidence-first-blog-pipeline",
+      "name": "research-first-blog.svg",
+      "bytes": 4474,
+      "data-diagram-type": "data-flow",
+      "data-primary-axis": "data-movement",
+      "data-renderer-id": "justsend-data-flow-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "en",
+      "slug": "appstore-permission-preprompt",
+      "name": "appstore-permission-flow-en.svg",
+      "bytes": 3855,
+      "data-diagram-type": "state-machine",
+      "data-primary-axis": "states",
+      "data-renderer-id": "justsend-state-machine-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "en",
+      "slug": "appstore-release-consistency-audit",
+      "name": "appstore-release-gate-en.svg",
+      "bytes": 4154,
+      "data-diagram-type": "process",
+      "data-primary-axis": "stages",
+      "data-renderer-id": "justsend-process-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "en",
+      "slug": "mcp-work-record-architecture",
+      "name": "mcp-work-anchor-en.svg",
+      "bytes": 3796,
+      "data-diagram-type": "state-machine",
+      "data-primary-axis": "states",
+      "data-renderer-id": "justsend-state-machine-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "en",
+      "slug": "mac-developer-id-dmg",
+      "name": "mac-direct-distribution-en.svg",
+      "bytes": 4396,
+      "data-diagram-type": "deployment",
+      "data-primary-axis": "deployment",
+      "data-renderer-id": "justsend-deployment-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "en",
+      "slug": "dmg-mcp-security-audit",
+      "name": "dmg-mcp-trust-boundary-en.svg",
+      "bytes": 4118,
+      "data-diagram-type": "architecture",
+      "data-primary-axis": "components",
+      "data-renderer-id": "justsend-architecture-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "en",
+      "slug": "agent-work-record-hero-image",
+      "name": "agent-hero-flow-en.svg",
+      "bytes": 3724,
+      "data-diagram-type": "data-flow",
+      "data-primary-axis": "data-movement",
+      "data-renderer-id": "justsend-data-flow-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "en",
+      "slug": "api-v2-consumer-audit",
+      "name": "api-consumer-audit-en.svg",
+      "bytes": 4437,
+      "data-diagram-type": "flowchart",
+      "data-primary-axis": "decisions",
+      "data-renderer-id": "justsend-flowchart-v1",
+      "data-renderer-version": "1"
+    },
+    {
+      "lang": "en",
+      "slug": "evidence-first-blog-pipeline",
+      "name": "research-first-blog-en.svg",
+      "bytes": 4394,
+      "data-diagram-type": "data-flow",
+      "data-primary-axis": "data-movement",
+      "data-renderer-id": "justsend-data-flow-v1",
+      "data-renderer-version": "1"
+    }
+  ],
+  "pairs": [
+    {
+      "slug": "appstore-permission-preprompt",
+      "type_match": true,
+      "axis_match": true
+    },
+    {
+      "slug": "appstore-release-consistency-audit",
+      "type_match": true,
+      "axis_match": true
+    },
+    {
+      "slug": "mcp-work-record-architecture",
+      "type_match": true,
+      "axis_match": true
+    },
+    {
+      "slug": "mac-developer-id-dmg",
+      "type_match": true,
+      "axis_match": true
+    },
+    {
+      "slug": "dmg-mcp-security-audit",
+      "type_match": true,
+      "axis_match": true
+    },
+    {
+      "slug": "agent-work-record-hero-image",
+      "type_match": true,
+      "axis_match": true
+    },
+    {
+      "slug": "api-v2-consumer-audit",
+      "type_match": true,
+      "axis_match": true
+    },
+    {
+      "slug": "evidence-first-blog-pipeline",
+      "type_match": true,
+      "axis_match": true
+    }
+  ]
+}

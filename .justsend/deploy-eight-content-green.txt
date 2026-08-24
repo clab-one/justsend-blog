@@ -1,0 +1,14 @@
+웹 production build 및 로컬 실제 UI 검증 — PASS
+
+- `bun run build`: 블로그 66개 생성, sitemap/RSS 3개 생성, TypeScript+Vite build 성공, 69개 route prerender 완료.
+- SVG XML: 8/8 `xmllint --noout` 성공.
+- 실제 Chromium preview: 8/8 title 일치, proseChars 4226~6646, H2 7~11, H3 2~4, SVG image naturalWidth > 0.
+- 기존 slug 유지:
+  appstore-permission-preprompt
+  appstore-release-consistency-audit
+  mcp-work-record-architecture
+  mac-developer-id-dmg
+  dmg-mcp-security-audit
+  agent-work-record-hero-image
+  api-v2-consumer-audit
+  evidence-first-blog-pipeline

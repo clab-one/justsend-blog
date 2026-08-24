@@ -1,0 +1,105 @@
+배포 전 공개 URL baseline
+
+## appstore-permission-preprompt
+URL: https://justsend.cloud/blog/ko/appstore-permission-preprompt
+새 제목 존재: false
+응답:
+URL: https://justsend.cloud/blog/ko/appstore-permission-preprompt
+Content-Type: unknown
+Method: failed
+Notes: Failed to fetch URL; Cause: Unable to connect. Is the computer able to access the url?
+
+---
+
+
+
+## appstore-release-consistency-audit
+URL: https://justsend.cloud/blog/ko/appstore-release-consistency-audit
+새 제목 존재: false
+응답:
+URL: https://justsend.cloud/blog/ko/appstore-release-consistency-audit
+Content-Type: unknown
+Method: failed
+Notes: Failed to fetch URL; Cause: Unable to connect. Is the computer able to access the url?
+
+---
+
+
+
+## mcp-work-record-architecture
+URL: https://justsend.cloud/blog/ko/mcp-work-record-architecture
+새 제목 존재: false
+응답:
+URL: https://justsend.cloud/blog/ko/mcp-work-record-architecture
+Content-Type: unknown
+Method: failed
+Notes: Failed to fetch URL; Cause: Unable to connect. Is the computer able to access the url?
+
+---
+
+
+
+## mac-developer-id-dmg
+URL: https://justsend.cloud/blog/ko/mac-developer-id-dmg
+새 제목 존재: false
+응답:
+URL: https://justsend.cloud/blog/ko/mac-developer-id-dmg
+Content-Type: unknown
+Method: failed
+Notes: Failed to fetch URL; Cause: Unable to connect. Is the computer able to access the url?
+
+---
+
+
+
+## dmg-mcp-security-audit
+URL: https://justsend.cloud/blog/ko/dmg-mcp-security-audit
+새 제목 존재: false
+응답:
+URL: https://justsend.cloud/blog/ko/dmg-mcp-security-audit
+Content-Type: unknown
+Method: failed
+Notes: Failed to fetch URL; Cause: Unable to connect. Is the computer able to access the url?
+
+---
+
+
+
+## agent-work-record-hero-image
+URL: https://justsend.cloud/blog/ko/agent-work-record-hero-image
+새 제목 존재: false
+응답:
+URL: https://justsend.cloud/blog/ko/agent-work-record-hero-image
+Content-Type: unknown
+Method: failed
+Notes: Failed to fetch URL; Cause: Unable to connect. Is the computer able to access the url?
+
+---
+
+
+
+## api-v2-consumer-audit
+URL: https://justsend.cloud/blog/ko/api-v2-consumer-audit
+새 제목 존재: false
+응답:
+URL: https://justsend.cloud/blog/ko/api-v2-consumer-audit
+Content-Type: unknown
+Method: failed
+Notes: Failed to fetch URL; Cause: Unable to connect. Is the computer able to access the url?
+
+---
+
+
+
+## evidence-first-blog-pipeline
+URL: https://justsend.cloud/blog/ko/evidence-first-blog-pipeline
+새 제목 존재: false
+응답:
+URL: https://justsend.cloud/blog/ko/evidence-first-blog-pipeline
+Content-Type: unknown
+Method: failed
+Notes: Failed to fetch URL; Cause: Unable to connect. Is the computer able to access the url?
+
+---
+
+

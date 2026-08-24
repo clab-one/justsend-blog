@@ -1,0 +1,6 @@
+RED — 배포 전 live 상태
+
+- deployment/justsend-web pod imageID: sha256:0572aa877c2b2abd0b662c1ccd3b80905bb81cdd7e3606a63c5b6d65fd664e84
+- 공개 8편은 이전 d6c4b8d 콘텐츠와 generic box-arrow SVG를 제공했다.
+- 사용자 관측: 모든 다이어그램이 같아 보였다.
+- 이전 audit는 type selection·renderer contract·type invariant field가 없어 이 상태를 PASS했다.

@@ -1,0 +1,8 @@
+GREEN — English publication candidate
+
+- English en.md 8개와 localized SVG 8개 생성
+- 한영 8쌍 모두 diagram type과 primary axis 일치
+- English audit 8/8 PASS; Evidence coverage 1.0; type/renderer/invariant/intersection/branch violation 0
+- web `bun run build`: 74 posts 생성, Vite production build 성공, blog prerender 77 routes 성공
+- 실제 Chromium: 한영 16 routes, title/body/H2/H3 확인, 16 SVG naturalWidth > 0, renderer metadata 확인
+- web commit: c002d98e86404d8aaf83b47ed6b26a2f3287a5fb

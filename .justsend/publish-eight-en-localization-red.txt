@@ -1,0 +1,5 @@
+RED — English publication 전 상태
+
+- web parent commit: 210bd37881f1f6f2cadc0843604b79e68bd0369f
+- 대상 8개 slug에는 공개 en.md와 localized -en.svg가 없었다.
+- 공개 대상은 한국어 8개 route와 한국어 SVG뿐이어서 동일 Evidence 기반 영문 독자가 접근할 route가 없었다.

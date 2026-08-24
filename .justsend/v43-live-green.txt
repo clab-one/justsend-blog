@@ -1,0 +1,21 @@
+GREEN — justsend.cloud type-correct 배포
+
+Git:
+- justsend-blog HEAD=origin/main=0b59af2c5ce01d0a6be18670ad544ec8b8daf902
+- web HEAD=origin/main=210bd37881f1f6f2cadc0843604b79e68bd0369f
+- web working tree clean
+
+Image:
+- ghcr.io/clab-one/justsend-web:210bd37
+- digest sha256:f974512745c7f07c11509ee3de3d69759cfdc2a3f1c0db7e08adbbefb4ebe946
+- image smoke: SMOKE-OK
+
+Kubernetes:
+- clab-cluster / justsend-platform / deployment/justsend-web
+- rollout successfully completed after explicit approval
+- 2/2 pods imageID sha256:f974512745c7f07c11509ee3de3d69759cfdc2a3f1c0db7e08adbbefb4ebe946
+
+Live:
+- 8/8 prerender HTML: new title, canonical, H2/H3, figure reference
+- 8/8 SVG XML: selected type, renderer id, primary axis, node roles, edge kinds
+- types: state-machine 2, process 1, deployment 1, architecture 1, data-flow 2, flowchart 1

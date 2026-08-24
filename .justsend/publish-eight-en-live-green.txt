@@ -1,0 +1,9 @@
+GREEN — rollout 및 공개 ingress 검증
+
+- deployment/justsend-web rollout 성공
+- 새 pod 2/2 ready
+- 두 pod imageID: ghcr.io/clab-one/justsend-web@sha256:174d5ce33c0fed6554c14a4429afdc79d06f8b33031703beacf8159f80f85bae
+- ingress justsend-web: host justsend.cloud, address 219.255.103.189, TLS justsend-web-tls, service justsend-web:http
+- direct ingress `curl --resolve`: 한영 article 16/16 HTTP success, article+h1 존재, 최소 16,320 bytes
+- public SVG 16/16 XML parse 및 data-diagram-type/data-primary-axis/data-renderer-id/data-renderer-version 확인
+- 한영 8쌍 type/axis 일치

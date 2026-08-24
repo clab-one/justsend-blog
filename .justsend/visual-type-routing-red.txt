@@ -1,0 +1,10 @@
+RED — 기존 Visual audit false PASS
+
+사용자 관측: 신규 글 8편의 다이어그램이 모두 같은 box-arrow 구조였다.
+확인된 직접 원인:
+- production orchestration이 eval의 단일 generator로 8개 SVG를 생성했다.
+- visual-plan의 type_hint 이름만 달랐고 실제 geometry는 동일했다.
+- old audit는 node/edge Evidence와 label/provenance만 검사해 모두 PASS했다.
+- old buildVisualPlan은 WebKit/파싱 purpose·node를 하드코딩했다.
+
+따라서 같은 type 반복이 문제가 아니라 section 의미와 selected type, renderer, rendered geometry를 검증하지 않은 것이 결함이다.

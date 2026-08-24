@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "task_key": "deploy-eight-enriched-blog",
+  "objective": "승인된 8개 final과 diagram을 기존 slug로 justsend.cloud에 배포하고 공개 URL에서 새 콘텐츠를 검증한다.",
+  "tier": "HEAVY",
+  "criteria": [
+    {
+      "id": "content",
+      "scenario": "8개 run final.md와 diagram을 web content의 기존 slug에 반영한 뒤 web build를 실행한다.",
+      "observable": "8개 route가 build에 포함되고 production build가 성공하며 기존 slug가 유지된다.",
+      "proof": "red-green",
+      "status": "surfaced",
+      "evidence": {
+        "red": {
+          "at": "2026-08-23T22:25:59.998Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/deploy-eight-content-red.txt"
+        },
+        "green": {
+          "at": "2026-08-23T22:26:04.795Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/deploy-eight-content-green.txt"
+        },
+        "surface": {
+          "at": "2026-08-23T22:26:09.594Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/deploy-eight-content-green.txt"
+        }
+      },
+      "cleanup_receipts": []
+    },
+    {
+      "id": "publish",
+      "scenario": "justsend-blog 승인 기록과 web 콘텐츠 commit을 각 remote branch에 push한다.",
+      "observable": "두 저장소의 remote가 배포 대상 commit을 가리키고 작업공간에 미반영 변경이 없다.",
+      "proof": "review",
+      "status": "surfaced",
+      "evidence": {
+        "surface": {
+          "at": "2026-08-23T22:26:14.964Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/deploy-eight-publish-surface.txt"
+        }
+      },
+      "cleanup_receipts": []
+    },
+    {
+      "id": "live",
+      "scenario": "https://justsend.cloud/blog/<slug> 8개를 배포 후 읽는다.",
+      "observable": "8개 URL이 새 제목·장문 본문·diagram 자산을 반환한다.",
+      "proof": "red-green",
+      "status": "surfaced",
+      "evidence": {
+        "red": {
+          "at": "2026-08-23T22:26:24.226Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/deploy-eight-live-red.txt"
+        },
+        "green": {
+          "at": "2026-08-23T22:26:32.067Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/deploy-eight-live-green.txt"
+        },
+        "surface": {
+          "at": "2026-08-23T22:26:37.791Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/deploy-eight-live-green.txt"
+        }
+      },
+      "cleanup_receipts": []
+    }
+  ],
+  "created_at": "2026-08-23T22:10:15.712Z",
+  "updated_at": "2026-08-23T22:26:37.791Z",
+  "type": "migration",
+  "enforce": true
+}

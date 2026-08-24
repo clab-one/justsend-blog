@@ -1,0 +1,24 @@
+justsend.cloud 배포 후 공개 URL 검증 — PASS
+
+8/8 URL HTTP 200 prerender HTML:
+- 새 제목 존재
+- canonical = https://justsend.cloud/blog/ko/<slug>
+- 새 /blog/figures/<name>.svg 참조 존재
+- H2 7~11, H3 2~4
+- HTML bytes 11,504~17,128
+
+8/8 SVG 공개 자산:
+- HTTP 200
+- `<svg`로 시작하고 `</svg>`로 닫힘
+- ellipsis truncation 없음
+- bytes 3,056~3,171
+
+검증 URL:
+https://justsend.cloud/blog/ko/appstore-permission-preprompt
+https://justsend.cloud/blog/ko/appstore-release-consistency-audit
+https://justsend.cloud/blog/ko/mcp-work-record-architecture
+https://justsend.cloud/blog/ko/mac-developer-id-dmg
+https://justsend.cloud/blog/ko/dmg-mcp-security-audit
+https://justsend.cloud/blog/ko/agent-work-record-hero-image
+https://justsend.cloud/blog/ko/api-v2-consumer-audit
+https://justsend.cloud/blog/ko/evidence-first-blog-pipeline

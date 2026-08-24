@@ -1,0 +1,14 @@
+첫 로컬 UI smoke 실패 — 2026-08-23
+
+appstore-permission-preprompt: figure failed
+브라우저 관측:
+- title: 새 제목 일치
+- proseChars: 4227
+- image src: /blog/figures/appstore-permission-flow.svg
+- image complete: true
+- image naturalWidth: 0
+
+XML 진단:
+public/blog/figures/appstore-permission-flow.svg:7: parser error: Unescaped '<' not allowed in attributes values
+
+원인: 긴 한 줄 SVG를 일반 read 출력으로 복사하면서 768자 표시 한계의 ellipsis가 실제 게시 파일에 들어갔다. source SVG를 :raw로 다시 읽어 8개 자산을 교체했다.

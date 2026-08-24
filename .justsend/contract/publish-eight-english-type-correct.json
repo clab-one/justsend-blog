@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "task_key": "publish-eight-english-type-correct",
+  "objective": "state-machine branch edge가 node를 관통하지 않도록 Skill을 수정하고, fresh 0.4.3 Evidence 기반 영문 8편과 localized type-correct SVG를 배포한다.",
+  "tier": "HEAVY",
+  "criteria": [
+    {
+      "id": "geometry",
+      "scenario": "notDetermined에서 granted와 blocked로 갈라지는 state-machine SVG를 geometry audit와 browser에서 검사한다.",
+      "observable": "두 branch가 서로 다른 lane을 사용하고 어떤 edge도 비종점 node를 관통하지 않으며 self-check·geometry가 PASS한다.",
+      "proof": "red-green",
+      "status": "surfaced",
+      "evidence": {
+        "red": {
+          "at": "2026-08-24T01:22:53.965Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/visual-type-routing-red.txt"
+        },
+        "green": {
+          "at": "2026-08-24T01:24:11.136Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/publish-eight-en-geometry-green.txt"
+        },
+        "surface": {
+          "at": "2026-08-24T01:24:28.129Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/publish-eight-en-geometry-surface.png"
+        }
+      },
+      "cleanup_receipts": []
+    },
+    {
+      "id": "english",
+      "scenario": "fresh 0.4.3 Evidence를 기반으로 en.md 8개와 English visual spec·SVG를 생성하고 web production build를 실행한다.",
+      "observable": "8개 English article이 같은 claim·type·primary axis를 보존하고 8개 /blog/en route와 localized SVG가 build된다.",
+      "proof": "red-green",
+      "status": "surfaced",
+      "evidence": {
+        "red": {
+          "at": "2026-08-24T01:23:58.352Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/publish-eight-en-localization-red.txt"
+        },
+        "green": {
+          "at": "2026-08-24T01:24:15.938Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/publish-eight-en-localization-green.txt"
+        },
+        "surface": {
+          "at": "2026-08-24T01:24:32.726Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/publish-eight-en-deployed-surface.webp"
+        }
+      },
+      "cleanup_receipts": []
+    },
+    {
+      "id": "live",
+      "scenario": "web main·GHCR push와 승인된 Kubernetes rollout 뒤 /blog/ko 및 /blog/en 16개 route를 읽는다.",
+      "observable": "한영 16개 URL과 16개 SVG가 새 renderer metadata를 제공하고 두 pod가 새 digest를 실행한다.",
+      "proof": "red-green",
+      "status": "surfaced",
+      "evidence": {
+        "red": {
+          "at": "2026-08-24T01:24:05.262Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/publish-eight-en-live-red.txt"
+        },
+        "green": {
+          "at": "2026-08-24T01:24:22.660Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/publish-eight-en-live-green.txt"
+        },
+        "surface": {
+          "at": "2026-08-24T01:24:38.282Z",
+          "path": "/Users/steve/justsend-platform/justsend-blog/.justsend/publish-eight-en-live-surface.json"
+        }
+      },
+      "cleanup_receipts": []
+    }
+  ],
+  "created_at": "2026-08-24T00:16:23.747Z",
+  "updated_at": "2026-08-24T01:24:38.282Z",
+  "type": "fix",
+  "enforce": true
+}
