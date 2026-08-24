@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "profile": "production",
+  "document_type": "architecture-decision",
+  "corpus": {
+    "median_characters": 12245
+  },
+  "thresholds": {
+    "min_characters": 4500,
+    "min_h2_sections": 5,
+    "min_h3_sections": 2,
+    "min_artifact_blocks": 3,
+    "min_code_blocks": 1,
+    "min_direct_evidence": 3,
+    "min_evidence_coverage": 0.65,
+    "min_corpus_depth_ratio": 0.6,
+    "max_repeated_paragraph_ratio": 0.2,
+    "min_total_research_sources": 5,
+    "min_research_source_kinds": 3,
+    "min_repository_sources": 2,
+    "min_official_sources": 1,
+    "min_runtime_sources": 1,
+    "min_research_claim_keys": 5
+  },
+  "exemptions": []
+}

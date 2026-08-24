@@ -1,0 +1,37 @@
+{
+  "source_language": "ko",
+  "target_language": "en",
+  "source_final": "../final.md",
+  "source_sha256": "9475e1b8227c0e9cb1db276dc7194610ce20322a6d860330e5a325e6597d43fd",
+  "target_sha256": "9d57ebed31ec9f9a923a66e5400faf8a112d98bc94684b235546a41f9ab3ddcd",
+  "evidence_ids": [
+    "JS-E101",
+    "JS-E102",
+    "JS-E103",
+    "JS-E104",
+    "JS-E105",
+    "JS-E106",
+    "JS-E107",
+    "JS-E108"
+  ],
+  "claims_added": [
+    "0.4.4 branch-routing and edge-geometry claim supported by RS-007 / JS-E108"
+  ],
+  "numbers_dates_urls_review": "PASS — Evidence-backed numbers, dates, URLs, and code examples manually compared with the fresh Korean source and localization source",
+  "diagram_type_expected": "deployment",
+  "renderer_version": "0.4.4",
+  "status": "AUDITED",
+  "parent_evidence_ids": [
+    "JS-E101",
+    "JS-E102",
+    "JS-E103",
+    "JS-E104",
+    "JS-E105",
+    "JS-E106",
+    "JS-E107"
+  ],
+  "localization_evidence_ids": [
+    "JS-E108"
+  ],
+  "audit_result": "PASS"
+}

@@ -1,6 +1,6 @@
 {
   "run_id": "20260823-234500-rewrite-eight-v042-type-correct",
-  "plugin_version": "0.4.3",
+  "plugin_version": "0.4.4",
   "result": "PASS",
   "fresh_artifacts": true,
   "posts": [
@@ -196,5 +196,167 @@
       "final": "posts/evidence-first-blog-pipeline/final.md",
       "diagram": "posts/evidence-first-blog-pipeline/diagrams/d001.svg"
     }
-  ]
+  ],
+  "languages": [
+    "ko",
+    "en"
+  ],
+  "english_corpus_median_characters": 12245,
+  "english_posts": [
+    {
+      "slug": "appstore-permission-preprompt",
+      "result": "PASS",
+      "characters": 10208,
+      "corpus_depth_ratio": 0.8336463862801143,
+      "evidence_coverage": 1,
+      "research_sources": 7,
+      "diagram_type": "state-machine",
+      "primary_axis": "states",
+      "renderer": {
+        "id": "justsend-state-machine-v1",
+        "version": "1"
+      },
+      "edge_node_intersections": 0,
+      "branch_endpoint_violations": 0,
+      "final": "posts/appstore-permission-preprompt/en/final.md",
+      "diagram": "posts/appstore-permission-preprompt/en/diagrams/d001.svg"
+    },
+    {
+      "slug": "appstore-release-consistency-audit",
+      "result": "PASS",
+      "characters": 9985,
+      "corpus_depth_ratio": 0.8154348713760718,
+      "evidence_coverage": 1,
+      "research_sources": 7,
+      "diagram_type": "process",
+      "primary_axis": "stages",
+      "renderer": {
+        "id": "justsend-process-v1",
+        "version": "1"
+      },
+      "edge_node_intersections": 0,
+      "branch_endpoint_violations": 0,
+      "final": "posts/appstore-release-consistency-audit/en/final.md",
+      "diagram": "posts/appstore-release-consistency-audit/en/diagrams/d001.svg"
+    },
+    {
+      "slug": "mcp-work-record-architecture",
+      "result": "PASS",
+      "characters": 9830,
+      "corpus_depth_ratio": 0.8027766435279706,
+      "evidence_coverage": 1,
+      "research_sources": 7,
+      "diagram_type": "state-machine",
+      "primary_axis": "states",
+      "renderer": {
+        "id": "justsend-state-machine-v1",
+        "version": "1"
+      },
+      "edge_node_intersections": 0,
+      "branch_endpoint_violations": 0,
+      "final": "posts/mcp-work-record-architecture/en/final.md",
+      "diagram": "posts/mcp-work-record-architecture/en/diagrams/d001.svg"
+    },
+    {
+      "slug": "mac-developer-id-dmg",
+      "result": "PASS",
+      "characters": 8721,
+      "corpus_depth_ratio": 0.712209064924459,
+      "evidence_coverage": 1,
+      "research_sources": 7,
+      "diagram_type": "deployment",
+      "primary_axis": "deployment",
+      "renderer": {
+        "id": "justsend-deployment-v1",
+        "version": "1"
+      },
+      "edge_node_intersections": 0,
+      "branch_endpoint_violations": 0,
+      "final": "posts/mac-developer-id-dmg/en/final.md",
+      "diagram": "posts/mac-developer-id-dmg/en/diagrams/d001.svg"
+    },
+    {
+      "slug": "dmg-mcp-security-audit",
+      "result": "PASS",
+      "characters": 9091,
+      "corpus_depth_ratio": 0.7424254797876685,
+      "evidence_coverage": 1,
+      "research_sources": 7,
+      "diagram_type": "architecture",
+      "primary_axis": "components",
+      "renderer": {
+        "id": "justsend-architecture-v1",
+        "version": "1"
+      },
+      "edge_node_intersections": 0,
+      "branch_endpoint_violations": 0,
+      "final": "posts/dmg-mcp-security-audit/en/final.md",
+      "diagram": "posts/dmg-mcp-security-audit/en/diagrams/d001.svg"
+    },
+    {
+      "slug": "agent-work-record-hero-image",
+      "result": "PASS",
+      "characters": 9159,
+      "corpus_depth_ratio": 0.7479787668436096,
+      "evidence_coverage": 1,
+      "research_sources": 7,
+      "diagram_type": "data-flow",
+      "primary_axis": "data-movement",
+      "renderer": {
+        "id": "justsend-data-flow-v1",
+        "version": "1"
+      },
+      "edge_node_intersections": 0,
+      "branch_endpoint_violations": 0,
+      "final": "posts/agent-work-record-hero-image/en/final.md",
+      "diagram": "posts/agent-work-record-hero-image/en/diagrams/d001.svg"
+    },
+    {
+      "slug": "api-v2-consumer-audit",
+      "result": "PASS",
+      "characters": 9102,
+      "corpus_depth_ratio": 0.743323805634953,
+      "evidence_coverage": 1,
+      "research_sources": 7,
+      "diagram_type": "flowchart",
+      "primary_axis": "decisions",
+      "renderer": {
+        "id": "justsend-flowchart-v1",
+        "version": "1"
+      },
+      "edge_node_intersections": 0,
+      "branch_endpoint_violations": 0,
+      "final": "posts/api-v2-consumer-audit/en/final.md",
+      "diagram": "posts/api-v2-consumer-audit/en/diagrams/d001.svg"
+    },
+    {
+      "slug": "evidence-first-blog-pipeline",
+      "result": "PASS",
+      "characters": 9470,
+      "corpus_depth_ratio": 0.7733768885259289,
+      "evidence_coverage": 1,
+      "research_sources": 7,
+      "diagram_type": "data-flow",
+      "primary_axis": "data-movement",
+      "renderer": {
+        "id": "justsend-data-flow-v1",
+        "version": "1"
+      },
+      "edge_node_intersections": 0,
+      "branch_endpoint_violations": 0,
+      "final": "posts/evidence-first-blog-pipeline/en/final.md",
+      "diagram": "posts/evidence-first-blog-pipeline/en/diagrams/d001.svg"
+    }
+  ],
+  "bilingual_diagram_review": {
+    "html": "diagram-review-bilingual.html",
+    "screenshot": "diagram-review-bilingual.webp",
+    "count": 16,
+    "pairs": 8,
+    "self_check": "PASS",
+    "geometry_findings": 0,
+    "xml": "PASS",
+    "branch_endpoint_violations": 0,
+    "edge_node_intersections": 0
+  }
 }

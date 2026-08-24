@@ -1,0 +1,98 @@
+{
+  "document_type": "engineering-story",
+  "audience_outcome": "The reader can trace each decision to source Evidence and explain the primary semantic axis and remaining boundary.",
+  "language": "en",
+  "sections": [
+    {
+      "section_id": "S01",
+      "title": "Separate ownership of meaning from ownership of bytes",
+      "purpose": "Separate ownership of meaning from ownership of bytes",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E104"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S02",
+      "title": "Move the bytes through four explicit stages",
+      "purpose": "Move the bytes through four explicit stages",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E104"
+      ],
+      "visual_candidate": true,
+      "visual_reason": "The selected diagram expresses this section’s primary semantic axis more accurately than prose alone."
+    },
+    {
+      "section_id": "S03",
+      "title": "Use the attachment as the only durable store",
+      "purpose": "Use the attachment as the only durable store",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S04",
+      "title": "Let the list and detail share one sink",
+      "purpose": "Let the list and detail share one sink",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S05",
+      "title": "Keep completion content separate from progress history",
+      "purpose": "Keep completion content separate from progress history",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E104"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S06",
+      "title": "Tie orphan cleanup to intent state",
+      "purpose": "Tie orphan cleanup to intent state",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E106"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S07",
+      "title": "Verify bytes and surfaces on the installed app",
+      "purpose": "Verify bytes and surfaces on the installed app",
+      "evidence_ids": [
+        "JS-E106"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S08",
+      "title": "Repeating data flow is correct when the primary axis repeats",
+      "purpose": "Repeating data flow is correct when the primary axis repeats",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E104",
+        "JS-E105",
+        "JS-E106",
+        "JS-E108"
+      ],
+      "visual_candidate": true,
+      "visual_reason": "The selected diagram expresses this section’s primary semantic axis more accurately than prose alone."
+    }
+  ]
+}

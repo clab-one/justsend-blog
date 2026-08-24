@@ -1,0 +1,138 @@
+{
+  "topic": "Reading a Permission Review Rejection as a State Machine",
+  "generated_at": "2026-08-24T01:15:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "A552BAB0-E7AF-4F89-98AD-384A5DF5E104",
+      "locator": "justsend:A552BAB0-E7AF-4F89-98AD-384A5DF5E104",
+      "title": "IOSPROD-215 반려 대응",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "5.1.1(iv) 반려 뒤 요청 API를 전수 조사했고 첫 실행의 커스텀 안내가 실제 시스템 프롬프트와 분리된 위반 지점임을 기록했다.",
+      "claim_keys": [
+        "review-cause-v42",
+        "permission-inventory-v42"
+      ],
+      "content_hash": "6e5255b2d57abe9bc2dc60487fcf52b9760fd19af306f366e0a211a28f991b45",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:SetupScreen:v42",
+      "locator": "mac-prod/.port/new/app/JustSend/Sources/Setup/SetupScreen.swift:1-22,196-218",
+      "title": "SetupScreen 현재 계약",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "첫 실행과 설정 화면은 권한을 미리 묻지 않고 footer의 완료 동작만 제공하며 실제 권한은 기능 자리에서 iOS가 묻는다.",
+      "claim_keys": [
+        "request-timing-v42",
+        "setup-scope-v42"
+      ],
+      "content_hash": "a61d8e092ca5031eb5b6332d70e9c182c41912417c228cce34f40fb0f8691345",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:SetupPermission:v42",
+      "locator": "mac-prod/.port/new/app/JustSend/Sources/Setup/SetupPermission.swift:1-50",
+      "title": "SetupPermission 상태 모델",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "SetupPermission은 notDetermined, granted, blocked를 정규화하고 blocked에서 시스템 설정으로 가는 문을 제공한다.",
+      "claim_keys": [
+        "permission-states-v42",
+        "settings-recovery-v42"
+      ],
+      "content_hash": "f20339b331d616c8d69b4a841ba582ff5da1c4677d7dc25908b1d22a1708ce16",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "apple-uikit-privacy-v42",
+      "locator": "https://developer.apple.com/documentation/uikit/protecting-the-user-s-privacy",
+      "title": "Apple UIKit privacy",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "standard",
+      "excerpt": "Apple은 민감 데이터가 실제로 필요한 시점에 요청하고 purpose string과 거부 시 합리적인 fallback을 제공하라고 안내한다.",
+      "claim_keys": [
+        "request-timing-v42",
+        "settings-recovery-v42"
+      ],
+      "content_hash": "e64df4ca46218b451aa4efb2c4d0c21977bf38f70f3d980b4782d28f5ad1b8dc",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:IOSPROD-215-v42",
+      "locator": "justsend:A552BAB0-E7AF-4F89-98AD-384A5DF5E104#runtime",
+      "title": "권한 흐름 실기 관측",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "수정 뒤 첫 실행에서 권한 섹션 없이 완료하고 실제 기기 설치·실행까지 확인한 관측이 남아 있다.",
+      "claim_keys": [
+        "runtime-flow-v42",
+        "setup-scope-v42"
+      ],
+      "content_hash": "841b16d3a2a66921061e9e1c29c8a21258511b6b9c90236a9e183075e701c064",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:appstore-permission-preprompt:current",
+      "locator": "web/content/blog/appstore-permission-preprompt/ko.md",
+      "title": "현재 공개 권한 글",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "첫 실행 화면에 캘린더·마이크·카메라 토글을 둔 의도는 친절이었다. 사용자가 갑자기 시스템 프롬프트를 만나지 않도록 이유를 먼저 설명하고 싶었다. 그러나 App Store 5.1.1(iv) 심사는 그 화면을 설명서가 아니라 우회 가능한 관문으로 읽었다. 안내를 본 뒤에도 시스템 프롬프트로 항상 이어지지 않았고, 사용자는 권한 요청을 건너뛴 채 다음 화면으로 갈 수 있었다. 핵심은 “pre-prompt는 언제나 나쁘다”는 결론이 아니다. 앱이 만든 설명과 운영체제가 소유한 동의가 서로 다른 생명주기를 가지면, 설명이 실제 동의를 대신하는 것처럼 보일 수 있다는 점이다.\n기존 배포 글은 이 결론을 1478자 안에 요약했다. 같은 한국어 기술 글 corpus 중앙값 8203자의 60%에도 못 미쳤고, 어느 API를 확인했는지와 거부 뒤 복구가 왜 설정 앱이어야 하는지가 빠졌다. 반려 메일을 다시 풀어 쓰지 않고 작업 기록을 seed로 삼고 실제 화면·상태 모델·Apple 공식 계약·실기 관측을 한 흐름에 묶었다.\n## 먼저 네 가지를 분리했습니다",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "content_hash": "0aac4bde81bc7a3c63e0f0f636f61d7cd855575c8c6941c3abeac115c32a0f7d",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-007",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "justsend-blog:visual-contract:0.4.4",
+      "locator": "justsend-blog/src/pipeline/visual-contract.js@dc557f3:173-560",
+      "title": "justsend-blog 0.4.4 branch geometry contract",
+      "retrieved_at": "2026-08-24T01:15:00.000Z",
+      "selected": true,
+      "reason": "The English diagrams use the 0.4.4 branch routing and edge-node intersection contract.",
+      "artifact_kind": "code",
+      "excerpt": "Version 0.4.4 records node bounds and edge route points, fans branches through distinct attach points, and blocks endpoint or non-endpoint node intersections.",
+      "claim_keys": [
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "content_hash": "e80ea02fdd832aaa6f5348cf20bf8f71bbd906863bba0b7a296eff3bed9498a8",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

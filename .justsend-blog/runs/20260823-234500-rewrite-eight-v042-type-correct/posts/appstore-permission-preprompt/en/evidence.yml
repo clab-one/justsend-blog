@@ -1,0 +1,207 @@
+{
+  "topic": "Reading a Permission Review Rejection as a State Machine",
+  "generated_at": "2026-08-24T01:15:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "권한",
+      "심사",
+      "대응을",
+      "상태",
+      "머신으로",
+      "다시",
+      "읽기",
+      "설명·동의·복구의"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E101",
+      "type": "failure",
+      "statement": "반려 지점은 첫 실행 안내가 시스템 동의와 분리되어 사용자가 실제 권한 요청을 건너뛸 수 있던 흐름이었다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "review-cause-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "A552BAB0-E7AF-4F89-98AD-384A5DF5E104",
+          "locator": "justsend:A552BAB0-E7AF-4F89-98AD-384A5DF5E104",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E102",
+      "type": "decision",
+      "statement": "첫 실행에서 권한 UI를 제거하고 각 기능이 실제로 데이터를 필요로 할 때만 iOS 요청을 실행하도록 소유권을 돌렸다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "request-timing-v42",
+        "setup-scope-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "A552BAB0-E7AF-4F89-98AD-384A5DF5E104",
+          "locator": "justsend:A552BAB0-E7AF-4F89-98AD-384A5DF5E104",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:SetupScreen:v42",
+          "locator": "mac-prod/.port/new/app/JustSend/Sources/Setup/SetupScreen.swift:1-22,196-218",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "apple-uikit-privacy-v42",
+          "locator": "https://developer.apple.com/documentation/uikit/protecting-the-user-s-privacy",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E103",
+      "type": "fact",
+      "statement": "권한 model은 notDetermined, granted, blocked 세 상태를 구분한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "permission-states-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:SetupPermission:v42",
+          "locator": "mac-prod/.port/new/app/JustSend/Sources/Setup/SetupPermission.swift:1-50",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E104",
+      "type": "fact",
+      "statement": "blocked 상태에서는 앱이 재요청하는 대신 시스템 설정으로 이동하는 복구 문을 제공한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "settings-recovery-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:SetupPermission:v42",
+          "locator": "mac-prod/.port/new/app/JustSend/Sources/Setup/SetupPermission.swift:1-50",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "apple-uikit-privacy-v42",
+          "locator": "https://developer.apple.com/documentation/uikit/protecting-the-user-s-privacy",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E105",
+      "type": "measurement",
+      "statement": "앱이 직접 소유한 요청 경로는 마이크·카메라·캘린더·생체 인증 네 종류로 조사됐다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "permission-inventory-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "A552BAB0-E7AF-4F89-98AD-384A5DF5E104",
+          "locator": "justsend:A552BAB0-E7AF-4F89-98AD-384A5DF5E104",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E106",
+      "type": "result",
+      "statement": "수정 뒤 첫 실행 완료와 실제 기기 설치·실행에서 선행 권한 섹션이 사라진 흐름을 확인했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "runtime-flow-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:IOSPROD-215-v42",
+          "locator": "justsend:A552BAB0-E7AF-4F89-98AD-384A5DF5E104#runtime",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E107",
+      "type": "measurement",
+      "statement": "기존 공개 글은 Markdown 4736자로, 새 run은 같은 source를 다시 조사하되 기존 final과 Evidence artifact를 복사하지 않는다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:appstore-permission-preprompt:current",
+          "locator": "web/content/blog/appstore-permission-preprompt/ko.md",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E108",
+      "type": "fact",
+      "statement": "justsend-blog 0.4.4 routes state-machine and flowchart branches through distinct attach points and rejects edge paths that cross non-endpoint or endpoint node interiors.",
+      "occurred_at": "2026-08-24",
+      "claim_keys": [
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-007",
+          "provider": "repository",
+          "source_id": "justsend-blog:visual-contract:0.4.4",
+          "locator": "justsend-blog/src/pipeline/visual-contract.js@dc557f3:173-560",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}

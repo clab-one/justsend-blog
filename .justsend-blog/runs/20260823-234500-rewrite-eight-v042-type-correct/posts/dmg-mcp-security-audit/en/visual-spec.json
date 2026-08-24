@@ -1,0 +1,108 @@
+{
+  "diagram_id": "D001",
+  "covers_section_ids": [
+    "S01",
+    "S07"
+  ],
+  "purpose": "Security architecture showing untrusted MCP intents and content URLs crossing policy components and a trust boundary before protected resources.",
+  "semantic_pattern": "secure-paved-road",
+  "evidence_ids": [
+    "JS-E101",
+    "JS-E102",
+    "JS-E103",
+    "JS-E104",
+    "JS-E105",
+    "JS-E106"
+  ],
+  "nodes": [
+    {
+      "id": "untrusted",
+      "label": "Untrusted Inputs",
+      "role": "component",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E104"
+      ]
+    },
+    {
+      "id": "gates",
+      "label": "Intent · Host Gates",
+      "role": "component",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103",
+        "JS-E104",
+        "JS-E105"
+      ]
+    },
+    {
+      "id": "boundary",
+      "label": "Trust Boundary",
+      "role": "boundary",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102"
+      ]
+    },
+    {
+      "id": "records",
+      "label": "User Records",
+      "role": "component",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103"
+      ]
+    },
+    {
+      "id": "network",
+      "label": "Public Network",
+      "role": "external",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "untrusted",
+      "to": "gates",
+      "label": "untrusted",
+      "kind": "calls",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E104"
+      ]
+    },
+    {
+      "from": "gates",
+      "to": "records",
+      "label": "authorized",
+      "kind": "connects",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103"
+      ]
+    },
+    {
+      "from": "gates",
+      "to": "network",
+      "label": "public only",
+      "kind": "connects",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105"
+      ]
+    }
+  ],
+  "excluded": [
+    "Complete DNS rebinding defense",
+    "Bundle secrets"
+  ],
+  "formats": [
+    "html",
+    "svg",
+    "png"
+  ]
+}

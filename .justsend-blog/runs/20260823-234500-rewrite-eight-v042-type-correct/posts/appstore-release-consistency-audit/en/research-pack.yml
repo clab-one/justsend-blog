@@ -1,0 +1,138 @@
+{
+  "topic": "Turn App Store Resubmission into One Consistency Process",
+  "generated_at": "2026-08-24T01:15:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "73D9E71A-74AF-44BF-A4DA-C87E81F65456",
+      "locator": "justsend:73D9E71A-74AF-44BF-A4DA-C87E81F65456",
+      "title": "App Store 최종 검수 기록",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "제출 build, Review Notes, App Privacy, 구독과 심사자 입력을 한 제출 단위로 재검수하고 잘못된 harness 판정도 철회한 기록이다.",
+      "claim_keys": [
+        "submission-unit-v42",
+        "runtime-submit-v42"
+      ],
+      "content_hash": "767a880be39508e705b08e7e5460f5ff8dcee7945ebf9732b84c7695c6fbfbe4",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:purpose-strings:v42",
+      "locator": "mac-prod/project.yml:300-320",
+      "title": "권한 목적 문자열 설정",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "config",
+      "excerpt": "project.yml은 카메라·마이크·캘린더·생체 인증과 로컬 네트워크 purpose string을 배포 설정으로 관리한다.",
+      "claim_keys": [
+        "privacy-contract-v42",
+        "metadata-source-v42"
+      ],
+      "content_hash": "669557c59bd3afb71b1142529798ac68786bfcf4b0cafa9adb8ed00781889405",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "platform:share-report-test:v42",
+      "locator": "platform/backend/internal/api/share_report_test.go:90-170",
+      "title": "공개 공유 신고 test",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "test",
+      "excerpt": "공개 공유 신고 test는 report의 멱등성과 link retirement를 함께 검증해 정책을 서버 실행 계약으로 만든다.",
+      "claim_keys": [
+        "ugc-report-v42",
+        "server-contract-v42"
+      ],
+      "content_hash": "bdadb398cc92a92ca890579c0cdc7c00b88b33fa3ea2b2dba9158fca331d8b24",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "apple-review-guidelines-v42",
+      "locator": "https://developer.apple.com/app-store/review/guidelines/",
+      "title": "Apple App Review Guidelines",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "standard",
+      "excerpt": "Apple은 metadata와 privacy information이 실제 핵심 경험을 반영하도록 요구하고 사용자 생성 콘텐츠에 신고와 대응 mechanism을 요구한다.",
+      "claim_keys": [
+        "accurate-metadata-v42",
+        "ugc-report-v42"
+      ],
+      "content_hash": "8520e3923134ef424b38f97b1349ac64ee182df9aa41cdd11449d35f12be1b0a",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:build-178-v42",
+      "locator": "justsend:73D9E71A-74AF-44BF-A4DA-C87E81F65456#build-178",
+      "title": "빌드 178 제출 관측",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "입력 방식이 만든 거짓 crash를 분리한 뒤 build 178과 구독 두 종을 제출 상태에서 확인했다.",
+      "claim_keys": [
+        "runtime-submit-v42",
+        "harness-control-v42"
+      ],
+      "content_hash": "9bb7777d0e3e7ae28fc214d738589c1ce4708fab82ad02699564be37a0615244",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:appstore-release-consistency-audit:current",
+      "locator": "web/content/blog/appstore-release-consistency-audit/ko.md",
+      "title": "현재 공개 재제출 글",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "심사 반려를 고친 새 빌드가 준비되면 재제출 버튼을 누르기 쉽다. 그러나 심사관이 받는 제품은 바이너리 하나가 아니다. App Store Connect가 연결한 build, Notes for Review, 개인정보 공개, 권한 purpose string, 구독 상품, 서버 기능과 실제 입력 순서가 합쳐져 한 제품이 된다. 하나라도 다른 시점을 가리키면 “코드는 고쳤는데 심사관은 옛 화면을 재현하는” 상태가 생긴다.\n기존 배포 글은 이 판단을 1415자에 압축했다. corpus 깊이 기준에 못 미쳤고, App Store 규정과 서버 신고 계약, 검증 harness가 만든 거짓 실패를 구분한 과정이 빠졌다. 감사는 체크리스트 항목 수보다 각 표면의 정본과 관측 방법을 연결하는 데 초점을 맞췄다.\n## 재제출 단위를 먼저 정의했습니다",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "content_hash": "4bd51f07b0521aca3c968be68339822e2dcd4ee58e7ada92c47ca68b44a7e38f",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-007",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "justsend-blog:visual-contract:0.4.4",
+      "locator": "justsend-blog/src/pipeline/visual-contract.js@dc557f3:173-560",
+      "title": "justsend-blog 0.4.4 branch geometry contract",
+      "retrieved_at": "2026-08-24T01:15:00.000Z",
+      "selected": true,
+      "reason": "The English diagrams use the 0.4.4 branch routing and edge-node intersection contract.",
+      "artifact_kind": "code",
+      "excerpt": "Version 0.4.4 records node bounds and edge route points, fans branches through distinct attach points, and blocks endpoint or non-endpoint node intersections.",
+      "claim_keys": [
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "content_hash": "e80ea02fdd832aaa6f5348cf20bf8f71bbd906863bba0b7a296eff3bed9498a8",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

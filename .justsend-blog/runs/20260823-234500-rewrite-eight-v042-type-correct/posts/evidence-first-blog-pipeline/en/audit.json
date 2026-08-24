@@ -1,0 +1,151 @@
+{
+  "text": {
+    "unsupported_claims": [],
+    "numbers_changed": [],
+    "dates_changed": [],
+    "urls_changed": [],
+    "record_ids_changed": [],
+    "evidence_ids_changed": [],
+    "code_blocks_changed": [],
+    "inline_code_changed": [],
+    "file_paths_changed": [],
+    "proper_nouns_changed": [],
+    "quoted_strings_changed": [],
+    "claims_added": [],
+    "claims_removed": []
+  },
+  "diagrams": {
+    "unsupported_nodes": [],
+    "unsupported_edges": [],
+    "incorrect_labels": [],
+    "missing_provenance": [],
+    "incorrect_type_selection": [],
+    "renderer_contract_mismatch": [],
+    "type_invariant_violations": [],
+    "edge_node_intersections": [],
+    "branch_endpoint_violations": [],
+    "missing_required_visuals": [],
+    "misclassified_visual_candidates": [],
+    "unjustified_omissions": []
+  },
+  "quality": {
+    "profile": "production",
+    "metrics": {
+      "characters": 9470,
+      "h2_sections": 8,
+      "h3_sections": 2,
+      "tables": 4,
+      "code_blocks": 1,
+      "blockquotes": 0,
+      "images": 1,
+      "direct_evidence_used": 8,
+      "used_evidence_ids": [
+        "JS-E101",
+        "JS-E107",
+        "JS-E102",
+        "JS-E103",
+        "JS-E104",
+        "JS-E105",
+        "JS-E106",
+        "JS-E108"
+      ],
+      "evidence_coverage": 1,
+      "unused_high_value_evidence": [],
+      "repeated_paragraph_ratio": 0,
+      "artifact_blocks": 6,
+      "total_sources": 7,
+      "justsend_sources": 1,
+      "repository_sources": 3,
+      "official_sources": 1,
+      "web_sources": 0,
+      "runtime_sources": 1,
+      "corpus_sources": 1,
+      "source_kinds": [
+        "work-record",
+        "repository-source",
+        "official-doc",
+        "runtime-observation",
+        "existing-corpus"
+      ],
+      "claim_keys": [
+        "seed-limit-v42",
+        "worktree-isolation-v42",
+        "visual-type-v42",
+        "type-audit-v42",
+        "fidelity-gate-v42",
+        "pipeline-flow-v42",
+        "runtime-pipeline-v42",
+        "corpus-depth-v42",
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "evidence_claim_keys": [
+        "seed-limit-v42",
+        "pipeline-flow-v42",
+        "visual-type-v42",
+        "type-audit-v42",
+        "fidelity-gate-v42",
+        "worktree-isolation-v42",
+        "runtime-pipeline-v42",
+        "corpus-depth-v42",
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "unmapped_research_claim_keys": [],
+      "corpus_depth_ratio": 0.7733768885259289
+    },
+    "visual": {
+      "misclassified_visual_candidates": [],
+      "missing_required_visuals": [],
+      "unjustified_omissions": []
+    },
+    "blockers": [],
+    "exemptions": [],
+    "result": "PASS"
+  },
+  "humanization": {
+    "mode": "deterministic-fallback",
+    "route": "light",
+    "change_rate": 0,
+    "meaning_preserved": true,
+    "verdict": "PASS"
+  },
+  "result": "PASS",
+  "localization": {
+    "source_language": "ko",
+    "target_language": "en",
+    "source_final": "../final.md",
+    "source_sha256": "2af307611c15400b308422a314b65175cb6e050b6b53f4539ae6b82c80847868",
+    "target_sha256": "2f4588e37306ffd714c464aef75c830df1a1ddbe232b7e4a822083d951e9ad1d",
+    "evidence_ids": [
+      "JS-E101",
+      "JS-E102",
+      "JS-E103",
+      "JS-E104",
+      "JS-E105",
+      "JS-E106",
+      "JS-E107",
+      "JS-E108"
+    ],
+    "claims_added": [
+      "0.4.4 branch-routing and edge-geometry claim supported by RS-007 / JS-E108"
+    ],
+    "numbers_dates_urls_review": "PASS — Evidence-backed numbers, dates, URLs, and code examples manually compared with the fresh Korean source and localization source",
+    "diagram_type_expected": "data-flow",
+    "renderer_version": "0.4.4",
+    "status": "AUDITED",
+    "parent_evidence_ids": [
+      "JS-E101",
+      "JS-E102",
+      "JS-E103",
+      "JS-E104",
+      "JS-E105",
+      "JS-E106",
+      "JS-E107"
+    ],
+    "localization_evidence_ids": [
+      "JS-E108"
+    ],
+    "audit_result": "PASS"
+  }
+}

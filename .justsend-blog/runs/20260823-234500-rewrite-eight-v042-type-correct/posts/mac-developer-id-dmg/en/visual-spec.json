@@ -1,0 +1,113 @@
+{
+  "diagram_id": "D001",
+  "covers_section_ids": [
+    "S01"
+  ],
+  "purpose": "Deployment of a notarized App DMG and separate Helper ZIP from a signed release zone into two user Mac runtimes.",
+  "semantic_pattern": null,
+  "evidence_ids": [
+    "JS-E101",
+    "JS-E102",
+    "JS-E104",
+    "JS-E105",
+    "JS-E106"
+  ],
+  "nodes": [
+    {
+      "id": "release-zone",
+      "label": "Signed Release",
+      "role": "zone",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105"
+      ]
+    },
+    {
+      "id": "user-zone",
+      "label": "User Mac",
+      "role": "zone",
+      "evidence_ids": [
+        "JS-E106"
+      ]
+    },
+    {
+      "id": "app-dmg",
+      "label": "App DMG",
+      "role": "artifact",
+      "container_id": "release-zone",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E104"
+      ]
+    },
+    {
+      "id": "helper-zip",
+      "label": "Helper ZIP",
+      "role": "artifact",
+      "container_id": "release-zone",
+      "evidence_ids": [
+        "JS-E102"
+      ]
+    },
+    {
+      "id": "app-runtime",
+      "label": "JustSend App",
+      "role": "runtime",
+      "container_id": "user-zone",
+      "evidence_ids": [
+        "JS-E106"
+      ]
+    },
+    {
+      "id": "helper-runtime",
+      "label": "justsend-mcp",
+      "role": "runtime",
+      "container_id": "user-zone",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E106"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "app-dmg",
+      "to": "app-runtime",
+      "label": "install",
+      "kind": "deploys",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E106"
+      ]
+    },
+    {
+      "from": "helper-zip",
+      "to": "helper-runtime",
+      "label": "separate install",
+      "kind": "deploys",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E106"
+      ]
+    },
+    {
+      "from": "helper-runtime",
+      "to": "app-runtime",
+      "label": "App Group",
+      "kind": "connects",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E106"
+      ]
+    }
+  ],
+  "excluded": [
+    "OAuth message sequence",
+    "Sparkle internals"
+  ],
+  "formats": [
+    "html",
+    "svg",
+    "png"
+  ]
+}

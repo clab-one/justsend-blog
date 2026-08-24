@@ -1,0 +1,147 @@
+{
+  "text": {
+    "unsupported_claims": [],
+    "numbers_changed": [],
+    "dates_changed": [],
+    "urls_changed": [],
+    "record_ids_changed": [],
+    "evidence_ids_changed": [],
+    "code_blocks_changed": [],
+    "inline_code_changed": [],
+    "file_paths_changed": [],
+    "proper_nouns_changed": [],
+    "quoted_strings_changed": [],
+    "claims_added": [],
+    "claims_removed": []
+  },
+  "diagrams": {
+    "unsupported_nodes": [],
+    "unsupported_edges": [],
+    "incorrect_labels": [],
+    "missing_provenance": [],
+    "incorrect_type_selection": [],
+    "renderer_contract_mismatch": [],
+    "type_invariant_violations": [],
+    "edge_node_intersections": [],
+    "branch_endpoint_violations": [],
+    "missing_required_visuals": [],
+    "misclassified_visual_candidates": [],
+    "unjustified_omissions": []
+  },
+  "quality": {
+    "profile": "production",
+    "metrics": {
+      "characters": 9102,
+      "h2_sections": 9,
+      "h3_sections": 2,
+      "tables": 2,
+      "code_blocks": 2,
+      "blockquotes": 0,
+      "images": 1,
+      "direct_evidence_used": 8,
+      "used_evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E103",
+        "JS-E107",
+        "JS-E106",
+        "JS-E104",
+        "JS-E105",
+        "JS-E108"
+      ],
+      "evidence_coverage": 1,
+      "unused_high_value_evidence": [],
+      "repeated_paragraph_ratio": 0,
+      "artifact_blocks": 5,
+      "total_sources": 7,
+      "justsend_sources": 1,
+      "repository_sources": 3,
+      "official_sources": 1,
+      "web_sources": 0,
+      "runtime_sources": 1,
+      "corpus_sources": 1,
+      "source_kinds": [
+        "work-record",
+        "repository-source",
+        "official-doc",
+        "runtime-observation",
+        "existing-corpus"
+      ],
+      "claim_keys": [
+        "route-count-v42",
+        "final-disposition-v42",
+        "prior-disposition-v42",
+        "classification-v42",
+        "http-contract-v42",
+        "corpus-depth-v42",
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "evidence_claim_keys": [
+        "route-count-v42",
+        "http-contract-v42",
+        "classification-v42",
+        "prior-disposition-v42",
+        "final-disposition-v42",
+        "corpus-depth-v42",
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "unmapped_research_claim_keys": [],
+      "corpus_depth_ratio": 0.743323805634953
+    },
+    "visual": {
+      "misclassified_visual_candidates": [],
+      "missing_required_visuals": [],
+      "unjustified_omissions": []
+    },
+    "blockers": [],
+    "exemptions": [],
+    "result": "PASS"
+  },
+  "humanization": {
+    "mode": "deterministic-fallback",
+    "route": "light",
+    "change_rate": 0,
+    "meaning_preserved": true,
+    "verdict": "PASS"
+  },
+  "result": "PASS",
+  "localization": {
+    "source_language": "ko",
+    "target_language": "en",
+    "source_final": "../final.md",
+    "source_sha256": "90738dac8d20a4c31917ec94971e8b9cf272124d1ad23dc62b97f8d0ee34bdf6",
+    "target_sha256": "9aa5757eba5bb84afd3555deaaf4be8fae4055d5278bb2304a1603d62bebdbd7",
+    "evidence_ids": [
+      "JS-E101",
+      "JS-E102",
+      "JS-E103",
+      "JS-E104",
+      "JS-E105",
+      "JS-E106",
+      "JS-E107",
+      "JS-E108"
+    ],
+    "claims_added": [
+      "0.4.4 branch-routing and edge-geometry claim supported by RS-007 / JS-E108"
+    ],
+    "numbers_dates_urls_review": "PASS — Evidence-backed numbers, dates, URLs, and code examples manually compared with the fresh Korean source and localization source",
+    "diagram_type_expected": "flowchart",
+    "renderer_version": "0.4.4",
+    "status": "AUDITED",
+    "parent_evidence_ids": [
+      "JS-E101",
+      "JS-E102",
+      "JS-E103",
+      "JS-E104",
+      "JS-E105",
+      "JS-E106",
+      "JS-E107"
+    ],
+    "localization_evidence_ids": [
+      "JS-E108"
+    ],
+    "audit_result": "PASS"
+  }
+}

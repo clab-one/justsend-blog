@@ -1,0 +1,88 @@
+{
+  "document_type": "incident-review",
+  "audience_outcome": "The reader can trace each decision to source Evidence and explain the primary semantic axis and remaining boundary.",
+  "language": "en",
+  "sections": [
+    {
+      "section_id": "S01",
+      "title": "Begin with a public-implementation threat model",
+      "purpose": "Begin with a public-implementation threat model",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E104"
+      ],
+      "visual_candidate": true,
+      "visual_reason": "The selected diagram expresses this section’s primary semantic axis more accurately than prose alone."
+    },
+    {
+      "section_id": "S02",
+      "title": "Treat the sidecar as a write interface",
+      "purpose": "Treat the sidecar as a write interface",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S03",
+      "title": "Treat content URLs as network authority",
+      "purpose": "Treat content URLs as network authority",
+      "evidence_ids": [
+        "JS-E104"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S04",
+      "title": "Prefer the most dangerous valid address interpretation",
+      "purpose": "Prefer the most dangerous valid address interpretation",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S05",
+      "title": "Apply the same authority principle to both gates",
+      "purpose": "Apply the same authority principle to both gates",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E104"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S06",
+      "title": "Rebuild the artifact after fixing the source",
+      "purpose": "Rebuild the artifact after fixing the source",
+      "evidence_ids": [
+        "JS-E106"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S07",
+      "title": "Audit new inputs as architecture changes",
+      "purpose": "Audit new inputs as architecture changes",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E103",
+        "JS-E104",
+        "JS-E106",
+        "JS-E108"
+      ],
+      "visual_candidate": true,
+      "visual_reason": "The selected diagram expresses this section’s primary semantic axis more accurately than prose alone."
+    }
+  ]
+}

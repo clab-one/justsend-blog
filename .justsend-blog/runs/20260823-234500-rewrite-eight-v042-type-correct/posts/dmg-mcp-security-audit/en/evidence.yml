@@ -1,0 +1,208 @@
+{
+  "topic": "Two Trust Boundaries between a Public DMG and MCP Writes",
+  "generated_at": "2026-08-24T01:15:00.000Z",
+  "scope": {
+    "date_from": "2026-08-01",
+    "date_to": "2026-08-23",
+    "query_terms": [
+      "공개",
+      "DMG와",
+      "MCP를",
+      "안전하게",
+      "잇는",
+      "두",
+      "신뢰",
+      "경계"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "JS-E101",
+      "type": "decision",
+      "statement": "감사는 공격자가 DMG와 MCP protocol을 모두 분석할 수 있다는 공개 구현 threat model에서 시작했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "threat-model-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "EFE6757E-D426-4EB2-BAAE-6C8BB08928FF",
+          "locator": "justsend:EFE6757E-D426-4EB2-BAAE-6C8BB08928FF",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "mcp-security-v42",
+          "locator": "https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E102",
+      "type": "failure",
+      "statement": "인가 없는 intent row는 앱의 정상 delete path를 통해 사용자 기록을 실제로 변경할 수 있었다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "intent-gate-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-001",
+          "provider": "justsend",
+          "source_id": "EFE6757E-D426-4EB2-BAAE-6C8BB08928FF",
+          "locator": "justsend:EFE6757E-D426-4EB2-BAAE-6C8BB08928FF",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:AgentIntentTrustTests:v42",
+          "locator": "mac-prod/MacTests/AgentIntentTrustTests.swift:150-220",
+          "attachment_ids": []
+        },
+        {
+          "research_source_id": "RS-004",
+          "provider": "official-docs",
+          "source_id": "mcp-security-v42",
+          "locator": "https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "corroborated",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E103",
+      "type": "fact",
+      "statement": "executor는 staging root 밖 path와 외부 symlink를 읽거나 삭제하지 않고 item 생성도 거절한다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "staged-path-v42",
+        "intent-gate-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-002",
+          "provider": "repository",
+          "source_id": "mac-prod:AgentIntentTrustTests:v42",
+          "locator": "mac-prod/MacTests/AgentIntentTrustTests.swift:150-220",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E104",
+      "type": "decision",
+      "statement": "content URL은 host policy를 지나며 가능한 IP 해석 중 하나라도 private·loopback이면 차단된다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "host-gate-v42",
+        "parser-divergence-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:ContentFetchHostPolicy:11b36db:v42",
+          "locator": "git:mac-prod:11b36db:patches/0066-contentfetchhostpolicy.patch",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E105",
+      "type": "failure",
+      "statement": "0177.0.0.1은 Network와 inet_aton의 해석이 달라 한 parser만 믿으면 loopback 우회가 생긴다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "parser-divergence-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-003",
+          "provider": "repository",
+          "source_id": "mac-prod:ContentFetchHostPolicy:11b36db:v42",
+          "locator": "git:mac-prod:11b36db:patches/0066-contentfetchhostpolicy.patch",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E106",
+      "type": "result",
+      "statement": "두 policy test가 통과한 build를 새 DMG로 만들고 동일 threat model로 재감사했다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "runtime-security-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-005",
+          "provider": "runtime",
+          "source_id": "runtime:security-178-v42",
+          "locator": "justsend:EFE6757E-D426-4EB2-BAAE-6C8BB08928FF#reaudit",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E107",
+      "type": "measurement",
+      "statement": "기존 공개 글은 Markdown 6115자로, 새 run은 같은 source를 다시 조사하되 기존 final과 Evidence artifact를 복사하지 않는다.",
+      "occurred_at": "2026-08-23",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-006",
+          "provider": "corpus",
+          "source_id": "web:dmg-mcp-security-audit:current",
+          "locator": "web/content/blog/dmg-mcp-security-audit/ko.md",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "JS-E108",
+      "type": "fact",
+      "statement": "justsend-blog 0.4.4 routes state-machine and flowchart branches through distinct attach points and rejects edge paths that cross non-endpoint or endpoint node interiors.",
+      "occurred_at": "2026-08-24",
+      "claim_keys": [
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "sources": [
+        {
+          "research_source_id": "RS-007",
+          "provider": "repository",
+          "source_id": "justsend-blog:visual-contract:0.4.4",
+          "locator": "justsend-blog/src/pipeline/visual-contract.js@dc557f3:173-560",
+          "attachment_ids": []
+        }
+      ],
+      "confidence": "direct",
+      "sensitivity": "public-safe"
+    }
+  ],
+  "inferences": [],
+  "conflicts": [],
+  "unknowns": [],
+  "duplicates": []
+}

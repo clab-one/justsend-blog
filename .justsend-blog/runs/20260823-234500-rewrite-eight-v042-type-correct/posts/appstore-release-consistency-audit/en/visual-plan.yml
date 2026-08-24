@@ -1,0 +1,140 @@
+{
+  "visuals": [
+    {
+      "diagram_id": "D001",
+      "section_id": "S01",
+      "covers_section_ids": [
+        "S01"
+      ],
+      "purpose": "An ordered App Store resubmission process from submitted build through metadata, server contracts, and the final gate.",
+      "type": "process",
+      "selection": {
+        "type": "process",
+        "primary_axis": "stages",
+        "rationale": "순차 절차, 단계별 작업, 단계형 파이프라인 신호를 기준으로 stages 축을 주된 읽기 경로로 선택했다.",
+        "signals": [
+          "순차 절차",
+          "단계별 작업",
+          "단계형 파이프라인"
+        ],
+        "considered": [
+          {
+            "type": "process",
+            "score": 21,
+            "rejected_because": null
+          },
+          {
+            "type": "deployment",
+            "score": 6,
+            "rejected_because": "stages 축이 deployment 축보다 독자의 핵심 질문을 직접 설명한다."
+          },
+          {
+            "type": "state-machine",
+            "score": 3,
+            "rejected_because": "stages 축이 states 축보다 독자의 핵심 질문을 직접 설명한다."
+          }
+        ],
+        "confidence": "high",
+        "semantic_pattern": "stage-framework"
+      },
+      "renderer": {
+        "id": "justsend-process-v1",
+        "version": "1"
+      },
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E103",
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ],
+      "nodes": [
+        {
+          "id": "build",
+          "label": "Submitted Build",
+          "role": "stage",
+          "evidence_ids": [
+            "JS-E101",
+            "JS-E106"
+          ]
+        },
+        {
+          "id": "metadata",
+          "label": "Metadata · Privacy",
+          "role": "stage",
+          "evidence_ids": [
+            "JS-E102",
+            "JS-E103"
+          ]
+        },
+        {
+          "id": "server",
+          "label": "Server Contracts",
+          "role": "stage",
+          "evidence_ids": [
+            "JS-E104"
+          ]
+        },
+        {
+          "id": "gate",
+          "label": "Submission Gate",
+          "role": "stage",
+          "evidence_ids": [
+            "JS-E105",
+            "JS-E106"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "build",
+          "to": "metadata",
+          "label": "same release",
+          "kind": "next",
+          "evidence_ids": [
+            "JS-E101",
+            "JS-E103"
+          ]
+        },
+        {
+          "from": "metadata",
+          "to": "server",
+          "label": "runtime contract",
+          "kind": "next",
+          "evidence_ids": [
+            "JS-E103",
+            "JS-E104"
+          ]
+        },
+        {
+          "from": "server",
+          "to": "gate",
+          "label": "all aligned",
+          "kind": "next",
+          "evidence_ids": [
+            "JS-E105",
+            "JS-E106"
+          ]
+        }
+      ],
+      "excluded": [
+        "Apple approval outcome",
+        "Unverified quota numbers"
+      ],
+      "formats": [
+        "html",
+        "svg",
+        "png"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "section_id": "S01",
+      "decision": "render",
+      "diagram_id": "D001",
+      "reason": "순차 절차, 단계별 작업, 단계형 파이프라인 신호를 기준으로 stages 축을 주된 읽기 경로로 선택했다. 이 section의 주된 관계를 가장 직접적으로 설명한다."
+    }
+  ]
+}

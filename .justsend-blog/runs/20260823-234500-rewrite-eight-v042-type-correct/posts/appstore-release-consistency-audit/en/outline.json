@@ -1,0 +1,113 @@
+{
+  "document_type": "incident-review",
+  "audience_outcome": "The reader can trace each decision to source Evidence and explain the primary semantic axis and remaining boundary.",
+  "language": "en",
+  "sections": [
+    {
+      "section_id": "S01",
+      "title": "Define resubmission as four ordered stages",
+      "purpose": "Define resubmission as four ordered stages",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E103",
+        "JS-E105",
+        "JS-E106"
+      ],
+      "visual_candidate": true,
+      "visual_reason": "The selected diagram expresses this section’s primary semantic axis more accurately than prose alone."
+    },
+    {
+      "section_id": "S02",
+      "title": "Lock the actual submitted build",
+      "purpose": "Lock the actual submitted build",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E106"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S03",
+      "title": "Treat the verification harness as an experimental variable",
+      "purpose": "Treat the verification harness as an experimental variable",
+      "evidence_ids": [
+        "JS-E106"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S04",
+      "title": "Purpose strings live outside the feature call site",
+      "purpose": "Purpose strings live outside the feature call site",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S05",
+      "title": "Verify public-sharing policy as an executable contract",
+      "purpose": "Verify public-sharing policy as an executable contract",
+      "evidence_ids": [
+        "JS-E104"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S06",
+      "title": "Audit subscriptions across three surfaces",
+      "purpose": "Audit subscriptions across three surfaces",
+      "evidence_ids": [
+        "JS-E105",
+        "JS-E106"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S07",
+      "title": "Read App Privacy directly instead of inferring it",
+      "purpose": "Read App Privacy directly instead of inferring it",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E106"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S08",
+      "title": "Make every audit artifact reproducible",
+      "purpose": "Make every audit artifact reproducible",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S09",
+      "title": "Limit what the final gate proves",
+      "purpose": "Limit what the final gate proves",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E103",
+        "JS-E104",
+        "JS-E105",
+        "JS-E106",
+        "JS-E108"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    }
+  ]
+}

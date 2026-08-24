@@ -7,7 +7,7 @@
   },
   "created_at": "2026-08-23T23:45:00.000Z",
   "omp_version": "18.0.0",
-  "plugin_version": "0.4.3",
+  "plugin_version": "0.4.4",
   "upstreams": {},
   "justsend_server": "connected-session-mcp",
   "logical_capabilities": [
@@ -28,7 +28,15 @@
     "posts/dmg-mcp-security-audit/diagrams/d001.svg",
     "posts/agent-work-record-hero-image/diagrams/d001.svg",
     "posts/api-v2-consumer-audit/diagrams/d001.svg",
-    "posts/evidence-first-blog-pipeline/diagrams/d001.svg"
+    "posts/evidence-first-blog-pipeline/diagrams/d001.svg",
+    "posts/appstore-permission-preprompt/en/diagrams/d001.svg",
+    "posts/appstore-release-consistency-audit/en/diagrams/d001.svg",
+    "posts/mcp-work-record-architecture/en/diagrams/d001.svg",
+    "posts/mac-developer-id-dmg/en/diagrams/d001.svg",
+    "posts/dmg-mcp-security-audit/en/diagrams/d001.svg",
+    "posts/agent-work-record-hero-image/en/diagrams/d001.svg",
+    "posts/api-v2-consumer-audit/en/diagrams/d001.svg",
+    "posts/evidence-first-blog-pipeline/en/diagrams/d001.svg"
   ],
   "evidence_count": 56,
   "research_result": "PASS",
@@ -54,7 +62,7 @@
     "get_related_records",
     "get_attachments"
   ],
-  "reviewed_at": "2026-08-24T00:30:00.000Z",
+  "reviewed_at": "2026-08-24T02:15:00.000Z",
   "diagram_types": {
     "appstore-permission-preprompt": "state-machine",
     "appstore-release-consistency-audit": "process",
@@ -76,9 +84,73 @@
       "process",
       "state-machine"
     ],
-    "self_check": "8/8 PASS",
+    "self_check": "16/16 PASS",
     "geometry_findings": 0,
-    "xml": "8/8 PASS",
-    "browser_surface": "8/8 type=renderer=SVG metadata"
+    "xml": "16/16 PASS",
+    "browser_surface": "16/16 KO+EN type and renderer match; branch starts distinct",
+    "bilingual_html": "diagram-review-bilingual.html",
+    "bilingual_screenshot": "diagram-review-bilingual.webp"
+  },
+  "languages": [
+    "ko",
+    "en"
+  ],
+  "localizations": {
+    "appstore-permission-preprompt": {
+      "language": "en",
+      "final": "posts/appstore-permission-preprompt/en/final.md",
+      "audit": "posts/appstore-permission-preprompt/en/audit.json",
+      "diagram": "posts/appstore-permission-preprompt/en/diagrams/d001.svg",
+      "status": "PASS"
+    },
+    "appstore-release-consistency-audit": {
+      "language": "en",
+      "final": "posts/appstore-release-consistency-audit/en/final.md",
+      "audit": "posts/appstore-release-consistency-audit/en/audit.json",
+      "diagram": "posts/appstore-release-consistency-audit/en/diagrams/d001.svg",
+      "status": "PASS"
+    },
+    "mcp-work-record-architecture": {
+      "language": "en",
+      "final": "posts/mcp-work-record-architecture/en/final.md",
+      "audit": "posts/mcp-work-record-architecture/en/audit.json",
+      "diagram": "posts/mcp-work-record-architecture/en/diagrams/d001.svg",
+      "status": "PASS"
+    },
+    "mac-developer-id-dmg": {
+      "language": "en",
+      "final": "posts/mac-developer-id-dmg/en/final.md",
+      "audit": "posts/mac-developer-id-dmg/en/audit.json",
+      "diagram": "posts/mac-developer-id-dmg/en/diagrams/d001.svg",
+      "status": "PASS"
+    },
+    "dmg-mcp-security-audit": {
+      "language": "en",
+      "final": "posts/dmg-mcp-security-audit/en/final.md",
+      "audit": "posts/dmg-mcp-security-audit/en/audit.json",
+      "diagram": "posts/dmg-mcp-security-audit/en/diagrams/d001.svg",
+      "status": "PASS"
+    },
+    "agent-work-record-hero-image": {
+      "language": "en",
+      "final": "posts/agent-work-record-hero-image/en/final.md",
+      "audit": "posts/agent-work-record-hero-image/en/audit.json",
+      "diagram": "posts/agent-work-record-hero-image/en/diagrams/d001.svg",
+      "status": "PASS"
+    },
+    "api-v2-consumer-audit": {
+      "language": "en",
+      "final": "posts/api-v2-consumer-audit/en/final.md",
+      "audit": "posts/api-v2-consumer-audit/en/audit.json",
+      "diagram": "posts/api-v2-consumer-audit/en/diagrams/d001.svg",
+      "status": "PASS"
+    },
+    "evidence-first-blog-pipeline": {
+      "language": "en",
+      "final": "posts/evidence-first-blog-pipeline/en/final.md",
+      "audit": "posts/evidence-first-blog-pipeline/en/audit.json",
+      "diagram": "posts/evidence-first-blog-pipeline/en/diagrams/d001.svg",
+      "status": "PASS"
+    }
   }
 }

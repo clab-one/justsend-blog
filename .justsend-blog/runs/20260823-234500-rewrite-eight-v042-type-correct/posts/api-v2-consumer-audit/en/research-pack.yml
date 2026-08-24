@@ -1,0 +1,138 @@
+{
+  "topic": "Why 22 Unused APIs Became Keep, Hold, or Recheck—not Delete",
+  "generated_at": "2026-08-24T01:15:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB",
+      "locator": "justsend:FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB",
+      "title": "api-v2 소비자 감사",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "route 88개를 consumer와 traffic에 대조해 66 사용·22 관측 미사용으로 분류한 뒤 삭제 권고를 0건으로 철회했다.",
+      "claim_keys": [
+        "route-count-v42",
+        "final-disposition-v42"
+      ],
+      "content_hash": "23cd8b18eb279ad94d71e15ca030d5bb354741f25d32aa1cf38c50c55e97a316",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "platform:backend-surface-audit:v42",
+      "locator": "docs/platform/backend-surface-audit.md:1-160",
+      "title": "기존 처분표",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "document",
+      "excerpt": "문서는 sync/state·state/docs·feed/catalog·공유 관리를 보류, profile·avatar를 유지로 이미 결정했다.",
+      "claim_keys": [
+        "prior-disposition-v42",
+        "classification-v42"
+      ],
+      "content_hash": "0c3af955eed8aa2bbc00ffbb6590d01e11753b9dc003ad5256232e2832499cd4",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "platform:register-routes:v42",
+      "locator": "platform/backend/internal/api/register.go:225-270",
+      "title": "실행 route 등록",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "실제 router는 method와 path 조합을 등록하므로 endpoint inventory의 실행 정본을 제공한다.",
+      "claim_keys": [
+        "route-count-v42",
+        "http-contract-v42"
+      ],
+      "content_hash": "c40bd3d9c248b4e784874398c94b4639e02e8d7c587ac25fafe69878caf89883",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "rfc9110-v42",
+      "locator": "https://www.rfc-editor.org/rfc/rfc9110",
+      "title": "RFC 9110 HTTP Semantics",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "standard",
+      "excerpt": "RFC 9110은 method semantics와 target resource를 함께 정의하므로 같은 path의 다른 method는 별도 contract다.",
+      "claim_keys": [
+        "http-contract-v42",
+        "route-count-v42"
+      ],
+      "content_hash": "8f14f5613ce7790526bb5169c48a6f8a9a10a87efb7d1ab1e8a3ae50ecad14c0",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:api-audit-v42",
+      "locator": "justsend:FC53D2FB-2C39-4436-B61C-08FE9FF6A4EB#result",
+      "title": "API audit 최종 관측",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "최종 상태는 유지 11, 보류 8, 재확인 3이며 삭제 권고는 0건으로 정정됐다.",
+      "claim_keys": [
+        "classification-v42",
+        "final-disposition-v42"
+      ],
+      "content_hash": "cbe0b379947cf887a148c6e16345043f978ad88cfd57557dcc1b60ae0ff5abed",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:api-v2-consumer-audit:current",
+      "locator": "web/content/blog/api-v2-consumer-audit/ko.md",
+      "title": "현재 공개 API 감사 글",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "백엔드의 등록 route를 세어 보니 method와 path 조합 88개였다. mobile app, Mac app, share web, console, 외부 webhook과 실트래픽을 대조하자 66개는 사용 근거가 있었고 22개는 관측 기간에 호출되지 않았다. 처음에는 그중 6개를 고아로 분류해 삭제를 권고했다. 결론은 틀렸다. 기존 처분 문서가 이미 선반영·유지·의도적 제거를 구분했고, 새 감사가 그 결정을 읽지 않았다.\n기존 글은 이 반전을 1371자에 요약했다. corpus 깊이 기준에 못 미쳤고 route inventory가 왜 OpenAPI가 아니라 실행 등록 코드에서 출발했는지, “트래픽 0”이 왜 삭제 proof가 아닌지, prior decision을 어떤 순서로 합쳐야 하는지가 빠졌다.\n## route inventory는 실행 코드에서 만들었습니다",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "content_hash": "0abbf6f6c22486a07cd090c336abb3847567702f013091984bab7bad7e37c420",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-007",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "justsend-blog:visual-contract:0.4.4",
+      "locator": "justsend-blog/src/pipeline/visual-contract.js@dc557f3:173-560",
+      "title": "justsend-blog 0.4.4 branch geometry contract",
+      "retrieved_at": "2026-08-24T01:15:00.000Z",
+      "selected": true,
+      "reason": "The English diagrams use the 0.4.4 branch routing and edge-node intersection contract.",
+      "artifact_kind": "code",
+      "excerpt": "Version 0.4.4 records node bounds and edge route points, fans branches through distinct attach points, and blocks endpoint or non-endpoint node intersections.",
+      "claim_keys": [
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "content_hash": "e80ea02fdd832aaa6f5348cf20bf8f71bbd906863bba0b7a296eff3bed9498a8",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

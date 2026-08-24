@@ -1,0 +1,89 @@
+{
+  "document_type": "architecture-decision",
+  "audience_outcome": "The reader can trace each decision to source Evidence and explain the primary semantic axis and remaining boundary.",
+  "language": "en",
+  "sections": [
+    {
+      "section_id": "S01",
+      "title": "Ask where each artifact runs before comparing channels",
+      "purpose": "Ask where each artifact runs before comparing channels",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102"
+      ],
+      "visual_candidate": true,
+      "visual_reason": "The selected diagram expresses this section’s primary semantic axis more accurately than prose alone."
+    },
+    {
+      "section_id": "S02",
+      "title": "Keep the app and helper as separate notarization units",
+      "purpose": "Keep the app and helper as separate notarization units",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E106"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S03",
+      "title": "Move Apple sign-in to a supported credential path",
+      "purpose": "Move Apple sign-in to a supported credential path",
+      "evidence_ids": [
+        "JS-E103"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S04",
+      "title": "Turn packaging into an executable release contract",
+      "purpose": "Turn packaging into an executable release contract",
+      "evidence_ids": [
+        "JS-E104"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S05",
+      "title": "Distinguish notarization from product runtime",
+      "purpose": "Distinguish notarization from product runtime",
+      "evidence_ids": [
+        "JS-E105",
+        "JS-E106"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S06",
+      "title": "Give rollback the same artifact boundaries",
+      "purpose": "Give rollback the same artifact boundaries",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    },
+    {
+      "section_id": "S07",
+      "title": "Record the operational cost by zone",
+      "purpose": "Record the operational cost by zone",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E103",
+        "JS-E104",
+        "JS-E106",
+        "JS-E108"
+      ],
+      "visual_candidate": false,
+      "visual_reason": "Prose, tables, and code communicate this section more precisely."
+    }
+  ]
+}

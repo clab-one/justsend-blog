@@ -1,0 +1,139 @@
+{
+  "topic": "The Data Flow from a JustSend Seed to Research, Evidence, and Review",
+  "generated_at": "2026-08-24T01:15:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+      "locator": "justsend:248CB389-B6D1-401D-AAF8-8D8D6401C2AE",
+      "title": "justsend-blog 초기 구현",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "Research·Evidence·Writing·Visual·Humanize·Audit과 별도 worktree를 연결한 초기 plugin 구현 기록이다.",
+      "claim_keys": [
+        "seed-limit-v42",
+        "worktree-isolation-v42"
+      ],
+      "content_hash": "b61d7e7fadb1fc3f3142fa0adfd51006b1de442efe6c680b7fe933cc87594f4e",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "justsend-blog:visual-contract:v43",
+      "locator": "justsend-blog/src/pipeline/visual-contract.js:1-180",
+      "title": "0.4.3 diagram type contract",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "visual contract는 section·purpose·Evidence 신호를 점수화해 최적 type과 primary axis를 선택하고 type-specific renderer metadata를 요구한다.",
+      "claim_keys": [
+        "visual-type-v42",
+        "type-audit-v42"
+      ],
+      "content_hash": "213abc296a019a47e6e2831afab1a5f8f36b9b8c0ea2596d39783cc4715f8467",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "justsend-blog:audit:v42",
+      "locator": "justsend-blog/src/pipeline/audit.js:82-130",
+      "title": "Fidelity audit wiring",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "audit는 claim·quality와 함께 incorrect type selection, renderer mismatch, type invariant violation을 publish blocker로 합친다.",
+      "claim_keys": [
+        "type-audit-v42",
+        "fidelity-gate-v42"
+      ],
+      "content_hash": "25cd4a616bfaf9cebbffd9a37c13b48d68fe6fc7bd1cdcc660445a0113baff0a",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "git-worktree-v42",
+      "locator": "https://git-scm.com/docs/git-worktree",
+      "title": "Git worktree documentation",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "standard",
+      "excerpt": "git worktree는 한 repository에 여러 working tree를 연결해 generated run과 사용자의 기존 working tree를 분리한다.",
+      "claim_keys": [
+        "worktree-isolation-v42",
+        "pipeline-flow-v42"
+      ],
+      "content_hash": "51290be765b1a2f50eda315a503e7a2b73318f76fbd738034c42ec8e138c7dfb",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:justsend-blog-043-tests",
+      "locator": "justsend-blog@aea2d4a:npm-test",
+      "title": "0.4.3 test 관측",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "31개 unit·integration·E2E test와 package validation이 통과했고 8개 production topic routing fixture가 포함됐다.",
+      "claim_keys": [
+        "visual-type-v42",
+        "runtime-pipeline-v42",
+        "fidelity-gate-v42"
+      ],
+      "content_hash": "43db723692af8a743bfa72394ffb0f5bfd59dc79f55755e8bb93f6dec0bcf4c6",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:evidence-first-blog-pipeline:current",
+      "locator": "web/content/blog/evidence-first-blog-pipeline/ko.md",
+      "title": "현재 공개 Evidence pipeline 글",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "작업 기록에는 결정과 실패와 검증 시간이 남는다. 그래서 좋은 기술 글의 재료처럼 보인다. 그러나 기록만 요약하면 풍부한 글이 되지 않았다. 사건의 시간축은 있지만 실제 code, test, config, 공식 platform contract와 runtime observation이 빠졌다. 결과는 사실을 틀리지는 않지만 독자가 원인과 trade-off를 재구성할 수 없는 얕은 글이었다.\n기존 pipeline 글도 1804자였다. 같은 한국어 corpus 중앙값 8203자의 60%에 못 미쳤다. “Evidence Pack을 만든다”는 단계는 설명했지만 Evidence가 어디서 오는지, JustSend 기록 밖의 source를 어떻게 확보하는지, 사용한 claim만 quality gate에 세는지가 없었다. 문장 스타일보다 research 단계의 부재가 문제였다.\n## SoloMD가 풍부한 글을 만드는 위치부터 다시 봤습니다",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "content_hash": "257d0f6b3319dfd51bea96767c83afa8d8df988fcb669af48ed99e44435dcc35",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-007",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "justsend-blog:visual-contract:0.4.4",
+      "locator": "justsend-blog/src/pipeline/visual-contract.js@dc557f3:173-560",
+      "title": "justsend-blog 0.4.4 branch geometry contract",
+      "retrieved_at": "2026-08-24T01:15:00.000Z",
+      "selected": true,
+      "reason": "The English diagrams use the 0.4.4 branch routing and edge-node intersection contract.",
+      "artifact_kind": "code",
+      "excerpt": "Version 0.4.4 records node bounds and edge route points, fans branches through distinct attach points, and blocks endpoint or non-endpoint node intersections.",
+      "claim_keys": [
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "content_hash": "e80ea02fdd832aaa6f5348cf20bf8f71bbd906863bba0b7a296eff3bed9498a8",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

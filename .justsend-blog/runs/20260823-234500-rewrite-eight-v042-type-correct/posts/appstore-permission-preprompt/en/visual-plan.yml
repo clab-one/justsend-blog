@@ -1,0 +1,137 @@
+{
+  "visuals": [
+    {
+      "diagram_id": "D001",
+      "section_id": "S02",
+      "covers_section_ids": [
+        "S02"
+      ],
+      "purpose": "A state machine showing notDetermined branching to granted or blocked, followed by Settings recovery.",
+      "type": "state-machine",
+      "selection": {
+        "type": "state-machine",
+        "primary_axis": "states",
+        "rationale": "상태 전이, 명시적 상태 값, 상태 수명 신호를 기준으로 states 축을 주된 읽기 경로로 선택했다.",
+        "signals": [
+          "상태 전이",
+          "명시적 상태 값",
+          "상태 수명"
+        ],
+        "considered": [
+          {
+            "type": "state-machine",
+            "score": 25,
+            "rejected_because": null
+          },
+          {
+            "type": "deployment",
+            "score": 0,
+            "rejected_because": "states 축이 deployment 축보다 독자의 핵심 질문을 직접 설명한다."
+          },
+          {
+            "type": "flowchart",
+            "score": 0,
+            "rejected_because": "states 축이 decisions 축보다 독자의 핵심 질문을 직접 설명한다."
+          }
+        ],
+        "confidence": "high",
+        "semantic_pattern": null
+      },
+      "renderer": {
+        "id": "justsend-state-machine-v1",
+        "version": "1"
+      },
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103",
+        "JS-E104",
+        "JS-E106"
+      ],
+      "nodes": [
+        {
+          "id": "not-determined",
+          "label": "notDetermined",
+          "role": "state",
+          "evidence_ids": [
+            "JS-E103"
+          ]
+        },
+        {
+          "id": "granted",
+          "label": "granted",
+          "role": "state",
+          "evidence_ids": [
+            "JS-E103"
+          ]
+        },
+        {
+          "id": "blocked",
+          "label": "blocked",
+          "role": "state",
+          "evidence_ids": [
+            "JS-E103",
+            "JS-E104"
+          ]
+        },
+        {
+          "id": "settings",
+          "label": "Settings recovery",
+          "role": "state",
+          "evidence_ids": [
+            "JS-E104",
+            "JS-E106"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "not-determined",
+          "to": "granted",
+          "label": "allow",
+          "kind": "transition",
+          "evidence_ids": [
+            "JS-E102",
+            "JS-E103"
+          ]
+        },
+        {
+          "from": "not-determined",
+          "to": "blocked",
+          "label": "deny",
+          "kind": "transition",
+          "evidence_ids": [
+            "JS-E103",
+            "JS-E104"
+          ]
+        },
+        {
+          "from": "blocked",
+          "to": "settings",
+          "label": "open Settings",
+          "kind": "transition",
+          "evidence_ids": [
+            "JS-E104",
+            "JS-E106"
+          ]
+        }
+      ],
+      "excluded": [
+        "First-run custom pre-prompt",
+        "Permission acceptance metrics"
+      ],
+      "formats": [
+        "html",
+        "svg",
+        "png"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "section_id": "S02",
+      "decision": "render",
+      "diagram_id": "D001",
+      "reason": "상태 전이, 명시적 상태 값, 상태 수명 신호를 기준으로 states 축을 주된 읽기 경로로 선택했다. 이 section의 주된 관계를 가장 직접적으로 설명한다."
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "topic": "Two Trust Boundaries between a Public DMG and MCP Writes",
+  "generated_at": "2026-08-24T01:15:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "EFE6757E-D426-4EB2-BAAE-6C8BB08928FF",
+      "locator": "justsend:EFE6757E-D426-4EB2-BAAE-6C8BB08928FF",
+      "title": "DMG와 MCP 보안 검수",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "공개 구현 위협 모델에서 intent queue 인가와 content URL SSRF를 찾아 수정·재포장·재감사한 기록이다.",
+      "claim_keys": [
+        "threat-model-v42",
+        "runtime-security-v42"
+      ],
+      "content_hash": "abc69165f490af373d858e3e8ff0ad00e3619cf18897eed986402ac1254baf8e",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:AgentIntentTrustTests:v42",
+      "locator": "mac-prod/MacTests/AgentIntentTrustTests.swift:150-220",
+      "title": "Intent trust test",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "test",
+      "excerpt": "staging root 밖 path와 외부 symlink가 읽히거나 삭제되지 않고 기록도 만들지 못하는지 executor 경계에서 검사한다.",
+      "claim_keys": [
+        "intent-gate-v42",
+        "staged-path-v42"
+      ],
+      "content_hash": "e4734ef7592e6e365d3b754b79672deeb8d77901d3951de2850e4df4cb0a9450",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:ContentFetchHostPolicy:11b36db:v42",
+      "locator": "git:mac-prod:11b36db:patches/0066-contentfetchhostpolicy.patch",
+      "title": "ContentFetchHostPolicy source",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "policy는 내용이 정한 URL의 모든 IP 해석을 모아 loopback·private가 하나라도 있으면 거절하고 다섯 fetch 경로에 적용한다.",
+      "claim_keys": [
+        "host-gate-v42",
+        "parser-divergence-v42"
+      ],
+      "content_hash": "f997a2bdf7c130b7a8bec895f294d7a4b509b44176d60147c772b5906a6befb1",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "mcp-security-v42",
+      "locator": "https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices",
+      "title": "MCP security best practices",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "standard",
+      "excerpt": "MCP security guidance는 protocol possession을 authority로 확대하지 않고 confused-deputy와 token boundary를 명시하라고 요구한다.",
+      "claim_keys": [
+        "threat-model-v42",
+        "intent-gate-v42"
+      ],
+      "content_hash": "59ce09cb55cd0cfc40e025a9764e25a6bd513f9989ec7057d274e43116114b77",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:security-178-v42",
+      "locator": "justsend:EFE6757E-D426-4EB2-BAAE-6C8BB08928FF#reaudit",
+      "title": "보안 test와 DMG 재감사",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "IntentTrust와 HostPolicy test를 통과한 build를 새 DMG로 공증해 같은 위협 모델로 재감사했다.",
+      "claim_keys": [
+        "runtime-security-v42",
+        "host-gate-v42"
+      ],
+      "content_hash": "dbaf572ea346fe10ebae46d582d30ba73f9f6469d9f824eb61cd7a89f5c5c3e2",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:dmg-mcp-security-audit:current",
+      "locator": "web/content/blog/dmg-mcp-security-audit/ko.md",
+      "title": "현재 공개 보안 감사 글",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "공개 DMG는 누구나 내려받아 mount할 수 있다. Mach-O, framework, resource, plist, entitlement, 문자열과 MCP protocol을 모두 분석할 수 있다. 그래서 감사 기준을 “공격자가 구현을 모른다”에 두지 않았다. 내부 구조와 파일 위치와 tool schema를 전부 알아도 사용자 데이터·계정·쓰기 권한이 보호돼야 한다.\n기존 글은 이 위협 모델을 1423자에 요약했지만 의도 큐가 왜 원격 쓰기 경계인지, `0177.0.0.1`이 왜 parser discrepancy를 만드는지, 수정 뒤 산출물을 왜 다시 구워야 하는지가 빠졌다. corpus 깊이를 채우기 위해 설명을 늘린 것이 아니라 발견→원인→수정→검증의 source artifact를 복원했다.\n## 공개 구현 위협 모델을 먼저 고정했습니다",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "content_hash": "a363391732a45f694991a6102fd49b7b7a396ca7bdd7235068f754caacca5969",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-007",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "justsend-blog:visual-contract:0.4.4",
+      "locator": "justsend-blog/src/pipeline/visual-contract.js@dc557f3:173-560",
+      "title": "justsend-blog 0.4.4 branch geometry contract",
+      "retrieved_at": "2026-08-24T01:15:00.000Z",
+      "selected": true,
+      "reason": "The English diagrams use the 0.4.4 branch routing and edge-node intersection contract.",
+      "artifact_kind": "code",
+      "excerpt": "Version 0.4.4 records node bounds and edge route points, fans branches through distinct attach points, and blocks endpoint or non-endpoint node intersections.",
+      "claim_keys": [
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "content_hash": "e80ea02fdd832aaa6f5348cf20bf8f71bbd906863bba0b7a296eff3bed9498a8",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

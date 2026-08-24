@@ -1,0 +1,94 @@
+{
+  "diagram_id": "D001",
+  "covers_section_ids": [
+    "S01"
+  ],
+  "purpose": "An ordered App Store resubmission process from submitted build through metadata, server contracts, and the final gate.",
+  "semantic_pattern": "stage-framework",
+  "evidence_ids": [
+    "JS-E101",
+    "JS-E102",
+    "JS-E103",
+    "JS-E104",
+    "JS-E105",
+    "JS-E106"
+  ],
+  "nodes": [
+    {
+      "id": "build",
+      "label": "Submitted Build",
+      "role": "stage",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E106"
+      ]
+    },
+    {
+      "id": "metadata",
+      "label": "Metadata · Privacy",
+      "role": "stage",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103"
+      ]
+    },
+    {
+      "id": "server",
+      "label": "Server Contracts",
+      "role": "stage",
+      "evidence_ids": [
+        "JS-E104"
+      ]
+    },
+    {
+      "id": "gate",
+      "label": "Submission Gate",
+      "role": "stage",
+      "evidence_ids": [
+        "JS-E105",
+        "JS-E106"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "build",
+      "to": "metadata",
+      "label": "same release",
+      "kind": "next",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E103"
+      ]
+    },
+    {
+      "from": "metadata",
+      "to": "server",
+      "label": "runtime contract",
+      "kind": "next",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104"
+      ]
+    },
+    {
+      "from": "server",
+      "to": "gate",
+      "label": "all aligned",
+      "kind": "next",
+      "evidence_ids": [
+        "JS-E105",
+        "JS-E106"
+      ]
+    }
+  ],
+  "excluded": [
+    "Apple approval outcome",
+    "Unverified quota numbers"
+  ],
+  "formats": [
+    "html",
+    "svg",
+    "png"
+  ]
+}

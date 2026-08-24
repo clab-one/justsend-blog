@@ -1,0 +1,114 @@
+{
+  "diagram_id": "D001",
+  "covers_section_ids": [
+    "S02"
+  ],
+  "purpose": "A flowchart classifying registered APIs into keep, hold, or recheck from source, traffic, and prior-decision evidence.",
+  "semantic_pattern": null,
+  "evidence_ids": [
+    "JS-E101",
+    "JS-E102",
+    "JS-E103",
+    "JS-E104",
+    "JS-E105",
+    "JS-E106"
+  ],
+  "nodes": [
+    {
+      "id": "routes",
+      "label": "88 Method + Path",
+      "role": "source",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E106"
+      ]
+    },
+    {
+      "id": "decision",
+      "label": "Evidence and disposition?",
+      "role": "decision",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103",
+        "JS-E104"
+      ]
+    },
+    {
+      "id": "keep",
+      "label": "Keep 11",
+      "role": "outcome",
+      "evidence_ids": [
+        "JS-E105"
+      ]
+    },
+    {
+      "id": "hold",
+      "label": "Hold 8",
+      "role": "outcome",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105"
+      ]
+    },
+    {
+      "id": "recheck",
+      "label": "Recheck 3",
+      "role": "outcome",
+      "evidence_ids": [
+        "JS-E105"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "routes",
+      "to": "decision",
+      "label": "source · traffic · docs",
+      "kind": "next",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E104"
+      ]
+    },
+    {
+      "from": "decision",
+      "to": "keep",
+      "label": "active",
+      "kind": "branch",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105"
+      ]
+    },
+    {
+      "from": "decision",
+      "to": "hold",
+      "label": "server-first",
+      "kind": "branch",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105"
+      ]
+    },
+    {
+      "from": "decision",
+      "to": "recheck",
+      "label": "unknown",
+      "kind": "branch",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E105"
+      ]
+    }
+  ],
+  "excluded": [
+    "Delete recommendation outcome",
+    "All 88 route rows"
+  ],
+  "formats": [
+    "html",
+    "svg",
+    "png"
+  ]
+}

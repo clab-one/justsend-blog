@@ -1,0 +1,114 @@
+{
+  "diagram_id": "D001",
+  "covers_section_ids": [
+    "S02",
+    "S08"
+  ],
+  "purpose": "Data flow from a JustSend seed through Research Pack transformation, Evidence storage, Writing, and Fidelity Audit review.",
+  "semantic_pattern": "unstructured-to-structured",
+  "evidence_ids": [
+    "JS-E101",
+    "JS-E102",
+    "JS-E103",
+    "JS-E104",
+    "JS-E105",
+    "JS-E106"
+  ],
+  "nodes": [
+    {
+      "id": "seed",
+      "label": "JustSend Seed",
+      "role": "source",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102"
+      ]
+    },
+    {
+      "id": "research",
+      "label": "Research Pack",
+      "role": "transform",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103"
+      ]
+    },
+    {
+      "id": "evidence",
+      "label": "Evidence Pack",
+      "role": "store",
+      "evidence_ids": [
+        "JS-E102"
+      ]
+    },
+    {
+      "id": "writing",
+      "label": "Draft · Diagram",
+      "role": "transform",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104"
+      ]
+    },
+    {
+      "id": "review",
+      "label": "Audit · Review",
+      "role": "sink",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "seed",
+      "to": "research",
+      "label": "source expansion",
+      "kind": "flow",
+      "evidence_ids": [
+        "JS-E102"
+      ]
+    },
+    {
+      "from": "research",
+      "to": "evidence",
+      "label": "claim mapping",
+      "kind": "flow",
+      "evidence_ids": [
+        "JS-E102"
+      ]
+    },
+    {
+      "from": "evidence",
+      "to": "writing",
+      "label": "provenance",
+      "kind": "flow",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104"
+      ]
+    },
+    {
+      "from": "writing",
+      "to": "review",
+      "label": "Fidelity gate",
+      "kind": "flow",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ]
+    }
+  ],
+  "excluded": [
+    "JustSend-only summary",
+    "Automatic publication"
+  ],
+  "formats": [
+    "html",
+    "svg",
+    "png"
+  ]
+}

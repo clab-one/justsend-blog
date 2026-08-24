@@ -1,0 +1,91 @@
+{
+  "diagram_id": "D001",
+  "covers_section_ids": [
+    "S02"
+  ],
+  "purpose": "A state machine showing notDetermined branching to granted or blocked, followed by Settings recovery.",
+  "semantic_pattern": null,
+  "evidence_ids": [
+    "JS-E102",
+    "JS-E103",
+    "JS-E104",
+    "JS-E106"
+  ],
+  "nodes": [
+    {
+      "id": "not-determined",
+      "label": "notDetermined",
+      "role": "state",
+      "evidence_ids": [
+        "JS-E103"
+      ]
+    },
+    {
+      "id": "granted",
+      "label": "granted",
+      "role": "state",
+      "evidence_ids": [
+        "JS-E103"
+      ]
+    },
+    {
+      "id": "blocked",
+      "label": "blocked",
+      "role": "state",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104"
+      ]
+    },
+    {
+      "id": "settings",
+      "label": "Settings recovery",
+      "role": "state",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E106"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "not-determined",
+      "to": "granted",
+      "label": "allow",
+      "kind": "transition",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E103"
+      ]
+    },
+    {
+      "from": "not-determined",
+      "to": "blocked",
+      "label": "deny",
+      "kind": "transition",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104"
+      ]
+    },
+    {
+      "from": "blocked",
+      "to": "settings",
+      "label": "open Settings",
+      "kind": "transition",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E106"
+      ]
+    }
+  ],
+  "excluded": [
+    "First-run custom pre-prompt",
+    "Permission acceptance metrics"
+  ],
+  "formats": [
+    "html",
+    "svg",
+    "png"
+  ]
+}

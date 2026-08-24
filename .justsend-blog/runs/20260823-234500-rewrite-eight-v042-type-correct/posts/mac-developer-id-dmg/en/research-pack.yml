@@ -1,0 +1,139 @@
+{
+  "topic": "Where Direct Distribution Actually Runs: App DMG and Helper ZIP",
+  "generated_at": "2026-08-24T01:15:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+      "locator": "justsend:8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50",
+      "title": "MACPROD-12 직접 배포",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "TestFlight 자격과 helper 실행 자격 충돌, Developer ID 전환, 웹 OAuth와 공증 DMG 결과를 기록했다.",
+      "claim_keys": [
+        "channel-conflict-v42",
+        "runtime-dmg-v42"
+      ],
+      "content_hash": "556126d5772ae97d71fa9ec852b2621158ef8aaa009f978dc7a81aa87c3ea8df",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:direct-distribution-plan:v42",
+      "locator": "mac-prod/PLAN-DIRECT-DISTRIBUTION.md:1-80,180-270",
+      "title": "직접 배포 현재 정본",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "document",
+      "excerpt": "현재 정본은 앱을 공증 DMG로, helper를 번들 밖 universal ZIP으로 각각 배포하고 사용자 Mac에서 별도 runtime으로 실행하는 구조다.",
+      "claim_keys": [
+        "separate-artifacts-v42",
+        "deployment-zones-v42",
+        "oauth-boundary-v42"
+      ],
+      "content_hash": "cd3f02bc20a7ab57dec0187ca2cea3d663ec645074fdcc0667c55ea66295686c",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:package-dmg:v42",
+      "locator": "mac-prod/scripts/package-dmg.sh:1-180",
+      "title": "DMG package pipeline",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "package script는 app 공증·staple·identity 확인 뒤 DMG 생성·공증·staple·checksum을 순서대로 수행한다.",
+      "claim_keys": [
+        "package-pipeline-v42",
+        "notarization-v42"
+      ],
+      "content_hash": "4f652c3529d89c4f96e52e9cc86d3eb51ad21093eae82b184d1200bf2c047fcf",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "apple-notarization-v42",
+      "locator": "https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution",
+      "title": "Apple notarization",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "standard",
+      "excerpt": "Apple notarization은 malware와 code-signing 문제를 자동 검사하고 성공 ticket을 software에 staple할 수 있게 한다.",
+      "claim_keys": [
+        "notarization-v42",
+        "deployment-zones-v42"
+      ],
+      "content_hash": "52529a09b68709b10065be829e1c7ef7d2647e5cce184ca6dd64853f8b6b4e2e",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:MACPROD-12-v42",
+      "locator": "justsend:8CB91A4B-A9FD-46BE-9EA5-AF4BD9126E50#dmg-runtime",
+      "title": "DMG와 helper 실기 관측",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "DMG의 Gatekeeper·mount·install·app launch와 별도 helper의 initialize 응답을 확인했다.",
+      "claim_keys": [
+        "runtime-dmg-v42",
+        "separate-artifacts-v42"
+      ],
+      "content_hash": "e60b7fa3073045c419b78cd26fcbea5f8a76ab392a8719fdaa1a4d0d95d5f3f2",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:mac-developer-id-dmg:current",
+      "locator": "web/content/blog/mac-developer-id-dmg/ko.md",
+      "title": "현재 공개 직접 배포 글",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "Mac 앱의 MCP 기능은 별도 실행 파일을 필요로 했다. 초기 판단은 helper를 앱 번들에 넣은 채 App Store와 직접 배포를 모두 만족시키는 것이었다. 실제 서명과 업로드를 해 보니 TestFlight 자격과 helper 실행 자격이 충돌했다. 신원 key가 없으면 container가 서지 않았고, 필요한 자격을 넣으면 bare executable이 provisioning profile을 담을 수 없어 업로드 계약에서 막혔다.\n먼저 사실관계를 바로잡는다. 기존 1343자 글은 “helper를 앱에 포함한 공증 DMG”를 최종 결정처럼 썼다. 현재 정본은 다르다. 앱은 공증 DMG로 배포하고, helper는 번들 밖 `/usr/local/bin/justsend-mcp`에 설치하는 별도 universal ZIP으로 배포한다. 시간축을 지우고 옛 결론을 현재형으로 쓰면 배포 문서가 다시 틀린다.\n## 채널 선택 기준을 기능보다 먼저 세웠습니다",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "content_hash": "852be0739e308c5b630251c7ac1c288b54201b3fe1208a81148b78d618fb1419",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-007",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "justsend-blog:visual-contract:0.4.4",
+      "locator": "justsend-blog/src/pipeline/visual-contract.js@dc557f3:173-560",
+      "title": "justsend-blog 0.4.4 branch geometry contract",
+      "retrieved_at": "2026-08-24T01:15:00.000Z",
+      "selected": true,
+      "reason": "The English diagrams use the 0.4.4 branch routing and edge-node intersection contract.",
+      "artifact_kind": "code",
+      "excerpt": "Version 0.4.4 records node bounds and edge route points, fans branches through distinct attach points, and blocks endpoint or non-endpoint node intersections.",
+      "claim_keys": [
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "content_hash": "e80ea02fdd832aaa6f5348cf20bf8f71bbd906863bba0b7a296eff3bed9498a8",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

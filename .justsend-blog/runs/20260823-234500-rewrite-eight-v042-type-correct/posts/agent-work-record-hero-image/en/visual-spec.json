@@ -1,0 +1,96 @@
+{
+  "diagram_id": "D001",
+  "covers_section_ids": [
+    "S02",
+    "S08"
+  ],
+  "purpose": "Data flow from image_path through staging and attachment storage to list and detail presentation.",
+  "semantic_pattern": "unstructured-to-structured",
+  "evidence_ids": [
+    "JS-E101",
+    "JS-E102",
+    "JS-E103",
+    "JS-E104",
+    "JS-E105",
+    "JS-E106"
+  ],
+  "nodes": [
+    {
+      "id": "image-path",
+      "label": "image_path",
+      "role": "source",
+      "evidence_ids": [
+        "JS-E101"
+      ]
+    },
+    {
+      "id": "staging",
+      "label": "Staging",
+      "role": "transform",
+      "evidence_ids": [
+        "JS-E102"
+      ]
+    },
+    {
+      "id": "attachment",
+      "label": "Attachment",
+      "role": "store",
+      "evidence_ids": [
+        "JS-E102",
+        "JS-E104"
+      ]
+    },
+    {
+      "id": "surfaces",
+      "label": "List · Detail",
+      "role": "sink",
+      "evidence_ids": [
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "image-path",
+      "to": "staging",
+      "label": "validate · copy",
+      "kind": "flow",
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102"
+      ]
+    },
+    {
+      "from": "staging",
+      "to": "attachment",
+      "label": "intent apply",
+      "kind": "flow",
+      "evidence_ids": [
+        "JS-E102"
+      ]
+    },
+    {
+      "from": "attachment",
+      "to": "surfaces",
+      "label": "one source",
+      "kind": "flow",
+      "evidence_ids": [
+        "JS-E103",
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ]
+    }
+  ],
+  "excluded": [
+    "Inline jsattach duplication",
+    "Cross-device prefetch"
+  ],
+  "formats": [
+    "html",
+    "svg",
+    "png"
+  ]
+}

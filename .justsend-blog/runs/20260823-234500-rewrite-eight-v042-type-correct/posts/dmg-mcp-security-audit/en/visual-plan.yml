@@ -1,0 +1,160 @@
+{
+  "visuals": [
+    {
+      "diagram_id": "D001",
+      "section_id": "S01",
+      "covers_section_ids": [
+        "S01",
+        "S07"
+      ],
+      "purpose": "Security architecture showing untrusted MCP intents and content URLs crossing policy components and a trust boundary before protected resources.",
+      "type": "architecture",
+      "selection": {
+        "type": "architecture",
+        "primary_axis": "components",
+        "rationale": "컴포넌트 구조, 신뢰 경계, 컴포넌트 연결 신호를 기준으로 components 축을 주된 읽기 경로로 선택했다.",
+        "signals": [
+          "컴포넌트 구조",
+          "신뢰 경계",
+          "컴포넌트 연결"
+        ],
+        "considered": [
+          {
+            "type": "architecture",
+            "score": 27,
+            "rejected_because": null
+          },
+          {
+            "type": "deployment",
+            "score": 14,
+            "rejected_because": "components 축이 deployment 축보다 독자의 핵심 질문을 직접 설명한다."
+          },
+          {
+            "type": "state-machine",
+            "score": 0,
+            "rejected_because": "components 축이 states 축보다 독자의 핵심 질문을 직접 설명한다."
+          }
+        ],
+        "confidence": "high",
+        "semantic_pattern": "secure-paved-road"
+      },
+      "renderer": {
+        "id": "justsend-architecture-v1",
+        "version": "1"
+      },
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E103",
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ],
+      "nodes": [
+        {
+          "id": "untrusted",
+          "label": "Untrusted Inputs",
+          "role": "component",
+          "evidence_ids": [
+            "JS-E101",
+            "JS-E102",
+            "JS-E104"
+          ]
+        },
+        {
+          "id": "gates",
+          "label": "Intent · Host Gates",
+          "role": "component",
+          "evidence_ids": [
+            "JS-E102",
+            "JS-E103",
+            "JS-E104",
+            "JS-E105"
+          ]
+        },
+        {
+          "id": "boundary",
+          "label": "Trust Boundary",
+          "role": "boundary",
+          "evidence_ids": [
+            "JS-E101",
+            "JS-E102"
+          ]
+        },
+        {
+          "id": "records",
+          "label": "User Records",
+          "role": "component",
+          "evidence_ids": [
+            "JS-E102",
+            "JS-E103"
+          ]
+        },
+        {
+          "id": "network",
+          "label": "Public Network",
+          "role": "external",
+          "evidence_ids": [
+            "JS-E104",
+            "JS-E105"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "untrusted",
+          "to": "gates",
+          "label": "untrusted",
+          "kind": "calls",
+          "evidence_ids": [
+            "JS-E102",
+            "JS-E104"
+          ]
+        },
+        {
+          "from": "gates",
+          "to": "records",
+          "label": "authorized",
+          "kind": "connects",
+          "evidence_ids": [
+            "JS-E102",
+            "JS-E103"
+          ]
+        },
+        {
+          "from": "gates",
+          "to": "network",
+          "label": "public only",
+          "kind": "connects",
+          "evidence_ids": [
+            "JS-E104",
+            "JS-E105"
+          ]
+        }
+      ],
+      "excluded": [
+        "Complete DNS rebinding defense",
+        "Bundle secrets"
+      ],
+      "formats": [
+        "html",
+        "svg",
+        "png"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "section_id": "S01",
+      "decision": "render",
+      "diagram_id": "D001",
+      "reason": "컴포넌트 구조, 신뢰 경계, 컴포넌트 연결 신호를 기준으로 components 축을 주된 읽기 경로로 선택했다. 이 section의 주된 관계를 가장 직접적으로 설명한다."
+    },
+    {
+      "section_id": "S07",
+      "decision": "render",
+      "diagram_id": "D001",
+      "reason": "컴포넌트 구조, 신뢰 경계, 컴포넌트 연결 신호를 기준으로 components 축을 주된 읽기 경로로 선택했다. 이 section의 주된 관계를 가장 직접적으로 설명한다."
+    }
+  ]
+}

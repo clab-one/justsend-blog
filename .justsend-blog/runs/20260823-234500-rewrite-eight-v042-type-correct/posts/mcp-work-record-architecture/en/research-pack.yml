@@ -1,0 +1,138 @@
+{
+  "topic": "A Provisional–Live–Dead Contract for Asynchronous MCP Work Records",
+  "generated_at": "2026-08-24T01:15:00.000Z",
+  "sources": [
+    {
+      "id": "RS-001",
+      "kind": "work-record",
+      "provider": "justsend",
+      "source_id": "60A796EF-047B-41E0-B1C3-52427D96BBEB",
+      "locator": "justsend:60A796EF-047B-41E0-B1C3-52427D96BBEB",
+      "title": "MACPROD-19 MCP 재설계",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "record",
+      "excerpt": "기록 생성이 비동기인데 후속 note가 동기 생성처럼 행동해 67건이 queue에도 들어가지 못한 실패와 owner 복원 문제를 기록했다.",
+      "claim_keys": [
+        "note-loss-v42",
+        "owner-recovery-v42"
+      ],
+      "content_hash": "dd89a0eae4eaf239c6ec48405779dab0fdb9c989a26746cfd4a36f72b9d1194c",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-002",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:MCPToolDispatch.workStart:v42",
+      "locator": "mac-prod/Sources/AgentBridge/MCPToolDispatch.swift:891-1072",
+      "title": "workStart 선발급 ID",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "workStart는 executor 전에 item ID를 발급하고 openWork로 provisional anchor와 시작 intent를 세운다.",
+      "claim_keys": [
+        "issued-id-v42",
+        "anchor-state-v42"
+      ],
+      "content_hash": "33f99c9d44514e554e52cc663becc74c68525e0344a2ec94220783a69d85d01c",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-003",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "mac-prod:AgentSidecarStore.openWork:v42",
+      "locator": "mac-prod/Sources/AgentBridge/AgentBridge.swift:895-940",
+      "title": "openWork transaction",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "code",
+      "excerpt": "sidecar는 동일 idempotency key를 재사용하고 anchor와 intent를 한 transaction에 저장해 중간 유실 창을 닫는다.",
+      "claim_keys": [
+        "atomic-openwork-v42",
+        "retry-contract-v42"
+      ],
+      "content_hash": "81d12abc9ccd1b10d5de094499e45ee48713b73bffe4d9850035567d5a611132",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-004",
+      "kind": "official-doc",
+      "provider": "official-docs",
+      "source_id": "mcp-tools-v42",
+      "locator": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "title": "MCP Tools specification",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "api-contract",
+      "excerpt": "MCP tools는 tools/list의 inputSchema와 tools/call로 호출 계약을 노출하므로 result state와 identifier도 protocol contract다.",
+      "claim_keys": [
+        "tool-contract-v42",
+        "issued-id-v42"
+      ],
+      "content_hash": "ab99e96c26dc3a2eb8b34f6c951d96e2f8e1371b6c93ac504a5272234b4c262c",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-005",
+      "kind": "runtime-observation",
+      "provider": "runtime",
+      "source_id": "runtime:MACPROD-19-v42",
+      "locator": "justsend:60A796EF-047B-41E0-B1C3-52427D96BBEB#self-record",
+      "title": "로그인 전 queue 관측",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "runtime",
+      "excerpt": "로그인 전에 받은 note가 queue에 남고 account 복원 뒤 같은 anchor에 붙는 흐름을 실제 작업 기록으로 확인했다.",
+      "claim_keys": [
+        "owner-recovery-v42",
+        "runtime-anchor-v42"
+      ],
+      "content_hash": "c85e9b13e4882f5a44e11d6fbc72b413853a7a0504c7611980b72e4aa795a4e0",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-006",
+      "kind": "existing-corpus",
+      "provider": "corpus",
+      "source_id": "web:mcp-work-record-architecture:current",
+      "locator": "web/content/blog/mcp-work-record-architecture/ko.md",
+      "title": "현재 공개 MCP 글",
+      "retrieved_at": "2026-08-23T23:45:00.000Z",
+      "selected": true,
+      "reason": "0.4.3 새 run의 claim을 현재 source와 독립적으로 연결하기 위해 선택했다.",
+      "artifact_kind": "corpus",
+      "excerpt": "`work_start`가 성공을 돌려준 직후 `work_note`를 호출했는데 본문이 사라졌다. 실패는 네트워크 timeout도 중복 retry도 아니었다. helper는 시작 의도를 받았지만 실제 기록과 item ID는 앱의 비동기 집행기가 나중에 만들었다. 그 사이 도착한 노트는 연결할 anchor가 없어서 큐에 들어가지도 못했다. 한 조사에서 이런 유실이 67건 확인됐다.\n기존 글은 “비동기 앵커 위의 동기 계약”이라는 결론을 1320자에 담았지만 ID를 언제 발급하는지, provisional 상태를 어떻게 복구하는지, MCP ToolSpec이 어느 경계를 지키는지가 없었다. 여기서는 외부의 동기 도구 계약과 내부의 비동기 intent executor 사이를 데이터 수명으로 설명한다.\n## 문제는 queue가 아니라 ID 수명이었습니다",
+      "claim_keys": [
+        "corpus-depth-v42"
+      ],
+      "content_hash": "b53ecc94abe60568528cac87f7cc50053255487c9461dd4640c9c4142f497127",
+      "sensitivity": "public-safe"
+    },
+    {
+      "id": "RS-007",
+      "kind": "repository-source",
+      "provider": "repository",
+      "source_id": "justsend-blog:visual-contract:0.4.4",
+      "locator": "justsend-blog/src/pipeline/visual-contract.js@dc557f3:173-560",
+      "title": "justsend-blog 0.4.4 branch geometry contract",
+      "retrieved_at": "2026-08-24T01:15:00.000Z",
+      "selected": true,
+      "reason": "The English diagrams use the 0.4.4 branch routing and edge-node intersection contract.",
+      "artifact_kind": "code",
+      "excerpt": "Version 0.4.4 records node bounds and edge route points, fans branches through distinct attach points, and blocks endpoint or non-endpoint node intersections.",
+      "claim_keys": [
+        "edge-routing-v44",
+        "endpoint-geometry-v44"
+      ],
+      "content_hash": "e80ea02fdd832aaa6f5348cf20bf8f71bbd906863bba0b7a296eff3bed9498a8",
+      "sensitivity": "public-safe"
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "visuals": [
+    {
+      "diagram_id": "D001",
+      "section_id": "S02",
+      "covers_section_ids": [
+        "S02"
+      ],
+      "purpose": "A flowchart classifying registered APIs into keep, hold, or recheck from source, traffic, and prior-decision evidence.",
+      "type": "flowchart",
+      "selection": {
+        "type": "flowchart",
+        "primary_axis": "decisions",
+        "rationale": "의사결정 흐름 신호를 기준으로 decisions 축을 주된 읽기 경로로 선택했다.",
+        "signals": [
+          "의사결정 흐름"
+        ],
+        "considered": [
+          {
+            "type": "flowchart",
+            "score": 12,
+            "rejected_because": null
+          },
+          {
+            "type": "state-machine",
+            "score": 10,
+            "rejected_because": "decisions 축이 states 축보다 독자의 핵심 질문을 직접 설명한다."
+          },
+          {
+            "type": "deployment",
+            "score": 0,
+            "rejected_because": "decisions 축이 deployment 축보다 독자의 핵심 질문을 직접 설명한다."
+          }
+        ],
+        "confidence": "high",
+        "semantic_pattern": null
+      },
+      "renderer": {
+        "id": "justsend-flowchart-v1",
+        "version": "1"
+      },
+      "evidence_ids": [
+        "JS-E101",
+        "JS-E102",
+        "JS-E103",
+        "JS-E104",
+        "JS-E105",
+        "JS-E106"
+      ],
+      "nodes": [
+        {
+          "id": "routes",
+          "label": "88 Method + Path",
+          "role": "source",
+          "evidence_ids": [
+            "JS-E101",
+            "JS-E106"
+          ]
+        },
+        {
+          "id": "decision",
+          "label": "Evidence and disposition?",
+          "role": "decision",
+          "evidence_ids": [
+            "JS-E102",
+            "JS-E103",
+            "JS-E104"
+          ]
+        },
+        {
+          "id": "keep",
+          "label": "Keep 11",
+          "role": "outcome",
+          "evidence_ids": [
+            "JS-E105"
+          ]
+        },
+        {
+          "id": "hold",
+          "label": "Hold 8",
+          "role": "outcome",
+          "evidence_ids": [
+            "JS-E104",
+            "JS-E105"
+          ]
+        },
+        {
+          "id": "recheck",
+          "label": "Recheck 3",
+          "role": "outcome",
+          "evidence_ids": [
+            "JS-E105"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "routes",
+          "to": "decision",
+          "label": "source · traffic · docs",
+          "kind": "next",
+          "evidence_ids": [
+            "JS-E101",
+            "JS-E102",
+            "JS-E104"
+          ]
+        },
+        {
+          "from": "decision",
+          "to": "keep",
+          "label": "active",
+          "kind": "branch",
+          "evidence_ids": [
+            "JS-E104",
+            "JS-E105"
+          ]
+        },
+        {
+          "from": "decision",
+          "to": "hold",
+          "label": "server-first",
+          "kind": "branch",
+          "evidence_ids": [
+            "JS-E104",
+            "JS-E105"
+          ]
+        },
+        {
+          "from": "decision",
+          "to": "recheck",
+          "label": "unknown",
+          "kind": "branch",
+          "evidence_ids": [
+            "JS-E103",
+            "JS-E105"
+          ]
+        }
+      ],
+      "excluded": [
+        "Delete recommendation outcome",
+        "All 88 route rows"
+      ],
+      "formats": [
+        "html",
+        "svg",
+        "png"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "section_id": "S02",
+      "decision": "render",
+      "diagram_id": "D001",
+      "reason": "의사결정 흐름 신호를 기준으로 decisions 축을 주된 읽기 경로로 선택했다. 이 section의 주된 관계를 가장 직접적으로 설명한다."
+    }
+  ]
+}
