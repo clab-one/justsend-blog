@@ -176,23 +176,35 @@ function edgePath(from, to) {
   const x2 = to.x;
   const y2 = to.y + to.height / 2;
   const labelY = Math.min(from.y, to.y) - 12;
-  if (Math.abs(y1 - y2) < 1) return { d: `M ${x1} ${y1} H ${x2}`, labelX: (x1 + x2) / 2, labelY };
+  if (Math.abs(y1 - y2) < 1) return { d: `M ${x1} ${y1} H ${x2}`, points: [[x1, y1], [x2, y2]], labelX: (x1 + x2) / 2, labelY };
   const mid = Math.round((x1 + x2) / 8) * 4;
-  return { d: `M ${x1} ${y1} H ${mid} V ${y2} H ${x2}`, labelX: (x1 + mid) / 2, labelY };
+  return { d: `M ${x1} ${y1} H ${mid} V ${y2} H ${x2}`, points: [[x1, y1], [mid, y1], [mid, y2], [x2, y2]], labelX: (x1 + mid) / 2, labelY };
 }
 
-function edgeElement(edge, index, positions, { labelY } = {}) {
+function edgeElement(edge, index, positions, { labelY, route: routeOverride, avoidNodes = false, detourIndex = 0 } = {}) {
   const from = positions.get(edge.from);
   const to = positions.get(edge.to);
   if (!from || !to) return "";
-  const route = edgePath(from, to);
+  let route = routeOverride ?? edgePath(from, to);
+  if (!routeOverride && avoidNodes) {
+    const crosses = [...positions.entries()].some(([nodeId, box]) => {
+      if (nodeId === edge.from || nodeId === edge.to || box.width > 300 || box.width < 24) return false;
+      return route.points.slice(1).some((point, at) => segmentCrossesBox(route.points[at], point, box));
+    });
+    if (crosses) {
+      const fromX = from.x + from.width / 2; const fromY = from.y;
+      const toX = to.x + to.width / 2; const toY = to.y;
+      const laneY = Math.min(...[...positions.values()].map(box => box.y)) - 48 - detourIndex * 20;
+      route = { d: `M ${fromX} ${fromY} V ${laneY} H ${toX} V ${toY}`, points: [[fromX, fromY], [fromX, laneY], [toX, laneY], [toX, toY]], labelX: (fromX + toX) / 2, labelY: laneY - 12 };
+    }
+  }
   const width = Math.max(64, Math.min(160, edge.label.length * 11 + 24));
   const laneY = labelY ?? route.labelY;
-  return `<g data-edge-id="E${String(index + 1).padStart(3, "0")}" data-from="${escapeXml(edge.from)}" data-to="${escapeXml(edge.to)}" data-edge-kind="${escapeXml(edge.kind)}" data-evidence-ids="${escapeXml(edge.evidence_ids.join(","))}"><path d="${route.d}" class="edge" marker-end="url(#arrow)"/><rect x="${route.labelX - width / 2}" y="${laneY - 12}" width="${width}" height="14" rx="3" class="label-mask"/><text x="${route.labelX}" y="${laneY - 2}" class="edge-label">${escapeXml(edge.label)}</text></g>`;
+  return `<g data-edge-id="E${String(index + 1).padStart(3, "0")}" data-from="${escapeXml(edge.from)}" data-to="${escapeXml(edge.to)}" data-edge-kind="${escapeXml(edge.kind)}" data-evidence-ids="${escapeXml(edge.evidence_ids.join(","))}" data-route-points="${route.points.map(point => point.join(",")).join(";")}"><path d="${route.d}" class="edge" marker-end="url(#arrow)"/><rect x="${route.labelX - width / 2}" y="${laneY - 12}" width="${width}" height="14" rx="3" class="label-mask"/><text x="${route.labelX}" y="${laneY - 2}" class="edge-label">${escapeXml(edge.label)}</text></g>`;
 }
 
 function nodeGroup(node, box, shape, body, focal = false) {
-  return `<g data-node-id="${escapeXml(node.id)}" data-node-role="${escapeXml(node.role)}" data-shape="${shape}" data-evidence-ids="${escapeXml(node.evidence_ids.join(","))}"${node.container_id ? ` data-container-id="${escapeXml(node.container_id)}"` : ""}>${body}<text x="${box.x + box.width / 2}" y="${box.y + box.height / 2 + 4}" class="node-label">${escapeXml(node.label)}</text>${focal ? "" : ""}</g>`;
+  return `<g data-node-id="${escapeXml(node.id)}" data-node-role="${escapeXml(node.role)}" data-shape="${shape}" data-evidence-ids="${escapeXml(node.evidence_ids.join(","))}" data-bounds="${box.x},${box.y},${box.width},${box.height}"${node.container_id ? ` data-container-id="${escapeXml(node.container_id)}"` : ""}>${body}<text x="${box.x + box.width / 2}" y="${box.y + box.height / 2 + 4}" class="node-label">${escapeXml(node.label)}</text>${focal ? "" : ""}</g>`;
 }
 
 function renderDataFlow(diagram) {
@@ -223,8 +235,55 @@ function renderProcess(diagram) {
 }
 
 function renderStateMachine(diagram) {
-  const positions = horizontalLayout(diagram.nodes, { y: 244, width: 152 });
-  const edges = diagram.edges.map((edge, index) => edgeElement(edge, index, positions)).join("");
+  const outgoing = new Map();
+  for (const edge of diagram.edges) {
+    const list = outgoing.get(edge.from) ?? [];
+    list.push(edge);
+    outgoing.set(edge.from, list);
+  }
+  const branchSource = diagram.nodes.find(node => (outgoing.get(node.id)?.length ?? 0) > 1);
+  const positions = branchSource ? new Map() : horizontalLayout(diagram.nodes, { y: 244, width: 152 });
+  if (branchSource) {
+    positions.set(branchSource.id, { x: 80, y: 244, width: 152, height: 72 });
+    const branches = outgoing.get(branchSource.id);
+    const firstY = branches.length === 2 ? 140 : 100;
+    const stepY = branches.length === 2 ? 200 : 140;
+    branches.forEach((edge, index) => positions.set(edge.to, { x: 360, y: firstY + index * stepY, width: 152, height: 72 }));
+    let changed = true;
+    while (changed) {
+      changed = false;
+      for (const edge of diagram.edges) {
+        if (positions.has(edge.to) || !positions.has(edge.from)) continue;
+        const parent = positions.get(edge.from);
+        positions.set(edge.to, { x: parent.x + 320, y: parent.y, width: 152, height: 72 });
+        changed = true;
+      }
+    }
+    let fallback = 0;
+    for (const node of diagram.nodes) {
+      if (positions.has(node.id)) continue;
+      positions.set(node.id, { x: 680, y: 100 + fallback++ * 112, width: 152, height: 72 });
+    }
+  }
+  const edges = diagram.edges.map((edge, index) => {
+    const siblings = outgoing.get(edge.from) ?? [];
+    if (!branchSource || edge.from !== branchSource.id || siblings.length < 2) return edgeElement(edge, index, positions);
+    const siblingIndex = siblings.indexOf(edge);
+    const from = positions.get(edge.from);
+    const to = positions.get(edge.to);
+    const fromX = from.x + from.width;
+    const fromY = from.y + from.height * (siblingIndex + 1) / (siblings.length + 1);
+    const toX = to.x;
+    const toY = to.y + to.height / 2;
+    const laneX = fromX + 64 + siblingIndex * 24;
+    const route = {
+      d: `M ${fromX} ${fromY} H ${laneX} V ${toY} H ${toX}`,
+      points: [[fromX, fromY], [laneX, fromY], [laneX, toY], [toX, toY]],
+      labelX: (laneX + toX) / 2,
+      labelY: siblingIndex === 0 ? to.y - 12 : to.y + to.height + 24,
+    };
+    return edgeElement(edge, index, positions, { route });
+  }).join("");
   const nodes = diagram.nodes.map((node, index) => {
     const box = positions.get(node.id);
     const body = `<rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" rx="36" class="node${index === 1 ? " focal" : ""}"/>`;
@@ -248,7 +307,27 @@ function renderFlowchart(diagram) {
   const total = outcomes.length * outcomeWidth + Math.max(0, outcomes.length - 1) * gap;
   outcomes.forEach((node, index) => positions.set(node.id, { x: (960 - total) / 2 + index * (outcomeWidth + gap), y: outcomeY, width: outcomeWidth, height: 64 }));
   for (const node of diagram.nodes) if (!positions.has(node.id)) positions.set(node.id, { x: 408, y: 96, width: 144, height: 64 });
-  const edges = diagram.edges.map((edge, index) => edgeElement(edge, index, positions)).join("");
+  const nodeById = new Map(diagram.nodes.map(node => [node.id, node]));
+  const outgoing = new Map();
+  for (const edge of diagram.edges) { const list = outgoing.get(edge.from) ?? []; list.push(edge); outgoing.set(edge.from, list); }
+  const edges = diagram.edges.map((edge, index) => {
+    const from = positions.get(edge.from); const to = positions.get(edge.to);
+    const fromNode = nodeById.get(edge.from); const toNode = nodeById.get(edge.to);
+    if (fromNode?.role === "decision") {
+      const siblings = outgoing.get(edge.from) ?? [edge]; const branchIndex = siblings.indexOf(edge);
+      const fromX = from.x + from.width * (branchIndex + 1) / (siblings.length + 1); const fromY = from.y + from.height;
+      const toX = to.x + to.width / 2; const toY = to.y; const laneY = fromY + 48 + branchIndex * 24;
+      const route = { d: `M ${fromX} ${fromY} V ${laneY} H ${toX} V ${toY}`, points: [[fromX, fromY], [fromX, laneY], [toX, laneY], [toX, toY]], labelX: (fromX + toX) / 2, labelY: laneY - 12 };
+      return edgeElement(edge, index, positions, { route });
+    }
+    if (toNode?.role === "decision") {
+      const fromX = from.x + from.width / 2; const fromY = from.y + from.height;
+      const toX = to.x + to.width / 2; const toY = to.y;
+      const route = { d: `M ${fromX} ${fromY} V ${toY} H ${toX}`, points: [[fromX, fromY], [fromX, toY], [toX, toY]], labelX: fromX + 88, labelY: (fromY + toY) / 2 };
+      return edgeElement(edge, index, positions, { route });
+    }
+    return edgeElement(edge, index, positions, { avoidNodes: true, detourIndex: index });
+  }).join("");
   const nodes = diagram.nodes.map(node => {
     const box = positions.get(node.id);
     if (node.role === "decision") {
@@ -270,7 +349,7 @@ function renderDeployment(diagram) {
   const zoneMarkup = zones.map((zone, index) => {
     const box = { x: zoneStart + index * (zoneWidth + zoneGap), y: 116, width: zoneWidth, height: 344 };
     positions.set(zone.id, box);
-    return `<g data-node-id="${escapeXml(zone.id)}" data-node-role="zone" data-shape="zone" data-evidence-ids="${escapeXml(zone.evidence_ids.join(","))}"><rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" rx="10" class="zone"/><text x="${box.x + 16}" y="${box.y + 26}" class="zone-label">${escapeXml(zone.label)}</text></g>`;
+    return `<g data-node-id="${escapeXml(zone.id)}" data-node-role="zone" data-shape="zone" data-evidence-ids="${escapeXml(zone.evidence_ids.join(","))}" data-bounds="${box.x},${box.y},${box.width},${box.height}"><rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" rx="10" class="zone"/><text x="${box.x + 16}" y="${box.y + 26}" class="zone-label">${escapeXml(zone.label)}</text></g>`;
   }).join("");
   const zoneChildren = new Map(zones.map(zone => [zone.id, children.filter(node => node.container_id === zone.id)]));
   for (const zone of zones) {
@@ -278,7 +357,20 @@ function renderDeployment(diagram) {
     items.forEach((node, index) => positions.set(node.id, { x: box.x + 32, y: box.y + 60 + index * 96, width: box.width - 64, height: 64 }));
   }
   children.filter(node => !positions.has(node.id)).forEach((node, index) => positions.set(node.id, { x: 72 + index * 176, y: 468, width: 144, height: 56 }));
-  const edges = diagram.edges.map((edge, index) => edgeElement(edge, index, positions, { labelY: 60 + index * 22 })).join("");
+  const nodeById = new Map(diagram.nodes.map(node => [node.id, node]));
+  const edges = diagram.edges.map((edge, index) => {
+    const fromNode = nodeById.get(edge.from); const toNode = nodeById.get(edge.to);
+    if (fromNode?.container_id && fromNode.container_id === toNode?.container_id) {
+      const from = positions.get(edge.from); const to = positions.get(edge.to);
+      const movingUp = from.y > to.y;
+      const x = from.x + from.width / 2;
+      const fromY = movingUp ? from.y : from.y + from.height;
+      const toY = movingUp ? to.y + to.height : to.y;
+      const route = { d: `M ${x} ${fromY} V ${toY}`, points: [[x, fromY], [x, toY]], labelX: x + 96, labelY: (fromY + toY) / 2 };
+      return edgeElement(edge, index, positions, { route });
+    }
+    return edgeElement(edge, index, positions, { labelY: 60 + index * 22 });
+  }).join("");
   const childMarkup = children.map((node, index) => {
     const box = positions.get(node.id);
     return nodeGroup(node, box, node.role, `<rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" rx="8" class="node${index === children.length - 1 ? " focal" : ""}"/>`);
@@ -291,12 +383,12 @@ function renderArchitecture(diagram) {
   const components = diagram.nodes.filter(node => node.role !== "boundary");
   const positions = horizontalLayout(components, { y: 248, width: 144 });
   if (boundary) positions.set(boundary.id, { x: 472, y: 132, width: 16, height: 280 });
-  const edges = diagram.edges.map((edge, index) => edgeElement(edge, index, positions)).join("");
+  const edges = diagram.edges.map((edge, index) => edgeElement(edge, index, positions, { avoidNodes: true, detourIndex: index })).join("");
   const nodes = components.map((node, index) => {
     const box = positions.get(node.id);
     return nodeGroup(node, box, node.role, `<rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" rx="8" class="node${index === 1 ? " focal" : ""}"/>`);
   }).join("");
-  const boundaryMarkup = boundary ? `<g data-node-id="${escapeXml(boundary.id)}" data-node-role="boundary" data-shape="boundary" data-evidence-ids="${escapeXml(boundary.evidence_ids.join(","))}"><line x1="480" y1="132" x2="480" y2="412" class="boundary"/><text x="496" y="152" class="node-sub">${escapeXml(boundary.label)}</text></g>` : "";
+  const boundaryMarkup = boundary ? `<g data-node-id="${escapeXml(boundary.id)}" data-node-role="boundary" data-shape="boundary" data-evidence-ids="${escapeXml(boundary.evidence_ids.join(","))}" data-bounds="472,132,16,280"><line x1="480" y1="132" x2="480" y2="412" class="boundary"/><text x="496" y="152" class="node-sub">${escapeXml(boundary.label)}</text></g>` : "";
   return svgShell(diagram, edges + boundaryMarkup + nodes, "Components connect across an explicit trust or system boundary.");
 }
 
@@ -343,10 +435,75 @@ function referencedEvidence(diagram, pack) {
   return (pack?.evidence ?? []).filter(item => ids.has(item.id));
 }
 
+function renderedGeometry(svg) {
+  const nodes = new Map();
+  for (const match of String(svg).matchAll(/<g data-node-id="([^"]+)" data-node-role="([^"]+)"[^>]*data-bounds="([^"]+)"/g)) {
+    const [x, y, width, height] = match[3].split(",").map(Number);
+    nodes.set(match[1], { role: match[2], x, y, width, height });
+  }
+  const edges = [];
+  for (const match of String(svg).matchAll(/<g data-edge-id="([^"]+)" data-from="([^"]+)" data-to="([^"]+)"[^>]*data-route-points="([^"]+)"/g)) {
+    edges.push({ id: match[1], from: match[2], to: match[3], points: match[4].split(";").map(pair => pair.split(",").map(Number)) });
+  }
+  return { nodes, edges };
+}
+
+function segmentCrossesBox(left, right, box) {
+  const [x1, y1] = left;
+  const [x2, y2] = right;
+  const minX = Math.min(x1, x2); const maxX = Math.max(x1, x2);
+  const minY = Math.min(y1, y2); const maxY = Math.max(y1, y2);
+  const boxRight = box.x + box.width; const boxBottom = box.y + box.height;
+  if (y1 === y2) return y1 > box.y && y1 < boxBottom && Math.max(minX, box.x) < Math.min(maxX, boxRight);
+  if (x1 === x2) return x1 > box.x && x1 < boxRight && Math.max(minY, box.y) < Math.min(maxY, boxBottom);
+  return Math.max(minX, box.x) < Math.min(maxX, boxRight) && Math.max(minY, box.y) < Math.min(maxY, boxBottom);
+}
+
+function pointOnBoundary(point, box) {
+  if (!point || !box) return false;
+  const [x, y] = point; const right = box.x + box.width; const bottom = box.y + box.height;
+  const onVertical = (x === box.x || x === right) && y >= box.y && y <= bottom;
+  const onHorizontal = (y === box.y || y === bottom) && x >= box.x && x <= right;
+  return onVertical || onHorizontal;
+}
+
+function auditRenderedRoutes(svg) {
+  const geometry = renderedGeometry(svg);
+  const edge_node_intersections = [];
+  const branch_endpoint_violations = [];
+  for (const edge of geometry.edges) {
+    const sourceBox = geometry.nodes.get(edge.from); const targetBox = geometry.nodes.get(edge.to);
+    if (!pointOnBoundary(edge.points[0], sourceBox)) branch_endpoint_violations.push(`${edge.id}:${edge.from}:source-off-boundary`);
+    if (!pointOnBoundary(edge.points.at(-1), targetBox)) branch_endpoint_violations.push(`${edge.id}:${edge.to}:target-off-boundary`);
+    for (const [nodeId, box] of geometry.nodes) {
+      if (["zone", "boundary"].includes(box.role)) continue;
+      for (let index = 1; index < edge.points.length; index++) {
+        if (!segmentCrossesBox(edge.points[index - 1], edge.points[index], box)) continue;
+        edge_node_intersections.push(`${edge.id}:${edge.from}->${edge.to} crosses ${nodeId}`);
+        break;
+      }
+    }
+  }
+  const bySource = new Map();
+  for (const edge of geometry.edges) {
+    const siblings = bySource.get(edge.from) ?? [];
+    siblings.push(edge);
+    bySource.set(edge.from, siblings);
+  }
+  for (const [source, siblings] of bySource) {
+    if (siblings.length < 2) continue;
+    const starts = siblings.map(edge => edge.points[0]?.join(","));
+    if (new Set(starts).size !== starts.length) branch_endpoint_violations.push(`${source}:shared-branch-attach-point`);
+  }
+  return { edge_node_intersections, branch_endpoint_violations, geometry };
+}
+
 export function auditDiagramType(diagram, renderedSvg, { outline, evidencePack } = {}) {
   const incorrect_type_selection = [];
   const renderer_contract_mismatch = [];
   const type_invariant_violations = [];
+  const edge_node_intersections = [];
+  const branch_endpoint_violations = [];
   const selection = selectDiagramType({
     purpose: diagram.purpose,
     sections: coveredSections(diagram, outline),
@@ -381,10 +538,14 @@ export function auditDiagramType(diagram, renderedSvg, { outline, evidencePack }
     }
     for (const edge of diagram.edges ?? []) {
       if (!renderedSvg.includes(`data-from="${escapeXml(edge.from)}" data-to="${escapeXml(edge.to)}" data-edge-kind="${escapeXml(edge.kind)}"`)) type_invariant_violations.push(`${diagram.type}:rendered-edge-kind:${edge.from}->${edge.to}`);
+      if (!renderedSvg.includes(`data-from="${escapeXml(edge.from)}" data-to="${escapeXml(edge.to)}"`) || !renderedSvg.match(new RegExp(`data-from="${escapeXml(edge.from)}" data-to="${escapeXml(edge.to)}"[^>]*data-route-points="`))) type_invariant_violations.push(`${diagram.type}:rendered-route:${edge.from}->${edge.to}`);
     }
     const shapeRequirements = { "state-machine": "data-shape=\"state\"", "flowchart": "data-shape=\"decision\"", "deployment": "data-shape=\"zone\"" };
     const requiredShape = shapeRequirements[diagram.type];
     if (requiredShape && !renderedSvg.includes(requiredShape)) type_invariant_violations.push(`${diagram.type}:missing-rendered-shape`);
+    const routeAudit = auditRenderedRoutes(renderedSvg);
+    edge_node_intersections.push(...routeAudit.edge_node_intersections);
+    branch_endpoint_violations.push(...routeAudit.branch_endpoint_violations);
   }
-  return { incorrect_type_selection, renderer_contract_mismatch, type_invariant_violations, recommended: selection };
+  return { incorrect_type_selection, renderer_contract_mismatch, type_invariant_violations, edge_node_intersections, branch_endpoint_violations, recommended: selection };
 }

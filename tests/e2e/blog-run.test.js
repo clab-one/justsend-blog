@@ -62,6 +62,8 @@ test("mock records produce an audited publish candidate without merge or publish
   assert.deepEqual(audit.diagrams.incorrect_type_selection, []);
   assert.deepEqual(audit.diagrams.renderer_contract_mismatch, []);
   assert.deepEqual(audit.diagrams.type_invariant_violations, []);
+  assert.deepEqual(audit.diagrams.edge_node_intersections, []);
+  assert.deepEqual(audit.diagrams.branch_endpoint_violations, []);
   assert.deepEqual(audit.diagrams.missing_required_visuals, []);
   assert.deepEqual(audit.diagrams.misclassified_visual_candidates, []);
   assert.deepEqual(audit.diagrams.unjustified_omissions, []);

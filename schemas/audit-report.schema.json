@@ -20,7 +20,7 @@
     },
     "diagrams": {
       "type": "object",
-      "required": ["unsupported_nodes", "unsupported_edges", "incorrect_labels", "missing_provenance", "incorrect_type_selection", "renderer_contract_mismatch", "type_invariant_violations", "missing_required_visuals", "misclassified_visual_candidates", "unjustified_omissions"],
+      "required": ["unsupported_nodes", "unsupported_edges", "incorrect_labels", "missing_provenance", "incorrect_type_selection", "renderer_contract_mismatch", "type_invariant_violations", "edge_node_intersections", "branch_endpoint_violations", "missing_required_visuals", "misclassified_visual_candidates", "unjustified_omissions"],
       "properties": {
         "unsupported_nodes": {"type": "array"},
         "unsupported_edges": {"type": "array"},
@@ -29,6 +29,8 @@
         "incorrect_type_selection": {"type": "array"},
         "renderer_contract_mismatch": {"type": "array"},
         "type_invariant_violations": {"type": "array"},
+        "edge_node_intersections": {"type": "array"},
+        "branch_endpoint_violations": {"type": "array"},
         "missing_required_visuals": {"type": "array"},
         "misclassified_visual_candidates": {"type": "array"},
         "unjustified_omissions": {"type": "array"}

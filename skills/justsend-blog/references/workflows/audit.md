@@ -16,7 +16,7 @@ description: Evidence Pack, technical draft, humanized prose, visual plan과 dia
 7. visual plan의 node/edge와 rendered diagram ledger를 대조한다. Evidence 없는 node/edge, 방향·actor·label 불일치를 기록한다.
 8. covered section·purpose·Evidence에서 최적 diagram type을 다시 계산한다. selected type·primary axis·registered renderer·SVG root metadata·node role·edge kind·type-specific shape invariant가 모두 일치해야 한다. 같은 type 반복은 blocker가 아니며 의미와 맞지 않는 type 선택만 차단한다.
 9. humanization route, change rate, protected-token diff, meaning preservation을 기록한다.
-10. 다음 중 하나라도 있으면 PASS 금지: JustSend-only research, repository·official·runtime source 미달, claim과 연결되지 않은 source, unsupported claim/node/edge, changed number/date, missing provenance, incorrect type selection, renderer contract mismatch, type invariant violation, quality blocker, corpus depth 미달, unused high-value Evidence, source artifact 부족, 필요한 diagram 누락·오분류·omit, `meaning_preserved=false`, change rate ≥ 0.50.
+10. 다음 중 하나라도 있으면 PASS 금지: JustSend-only research, repository·official·runtime source 미달, claim과 연결되지 않은 source, unsupported claim/node/edge, changed number/date, missing provenance, incorrect type selection, renderer contract mismatch, type invariant violation, edge-node intersection, shared branch attach point, quality blocker, corpus depth 미달, unused high-value Evidence, source artifact 부족, 필요한 diagram 누락·오분류·omit, `meaning_preserved=false`, change rate ≥ 0.50.
 11. 고칠 수 있으면 Main이 source 조사·실패 이력·공식 문서·runtime·코드·검증·diagram을 보강하고 전체 audit를 다시 실행한다. 글자 수나 source 수만 채우는 무관한 padding은 추가 blocker다.
 
 `audit.json` result가 `PASS`일 때만 `final.md`와 `READY_FOR_REVIEW` 상태를 만든다. audit를 우회하거나 수동으로 result만 바꾸지 않는다.

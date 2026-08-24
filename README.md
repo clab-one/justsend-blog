@@ -16,7 +16,7 @@ JustSend 작업 기록을 seed로 삼아 repository·official docs·runtime sour
 - Markdown과 Git이 SSOT다. run은 별도 worktree와 branch에서 진행한다.
 - diagram node·edge와 최종 핵심 claim은 Evidence ID를 가진다.
 - `quality-contract.json`이 content depth, corpus parity, section 깊이, source artifact, direct Evidence 수·coverage, 사용하지 않은 high-value Evidence를 차단한다.
-- architecture·sequence·data flow·state transition·deployment·trust boundary section은 diagram이 필수다. `visual_candidate` 하향·omit·빈 plan뿐 아니라 section 의미와 맞지 않는 type 선택, 미등록 renderer, type invariant 누락도 audit가 차단한다. 여러 글에서 같은 type이 실제 최적이면 반복을 허용한다.
+- architecture·sequence·data flow·state transition·deployment·trust boundary section은 diagram이 필수다. `visual_candidate` 하향·omit·빈 plan뿐 아니라 section 의미와 맞지 않는 type 선택, 미등록 renderer, type invariant 누락, 비종점 node를 관통하는 edge, branch의 공유 attach point도 audit가 차단한다. 여러 글에서 같은 type이 실제 최적이면 반복을 허용한다.
 - 실제 OMP run은 기술 구조와 시각화가 확정된 뒤 im-not-ai route·references를 읽은 Main이 직접 윤문하고 `main-direct-im-not-ai-guided` mode를 기록한다.
 - 자동 fixture runner의 고정 치환은 `deterministic-fallback`으로 명시하며 im-not-ai monolith/finalizer 실행으로 보고하지 않는다.
 - text·diagram audit가 통과해도 결과는 `READY_FOR_REVIEW`다. 자동 merge·publish·JustSend write-back은 없다.
@@ -42,7 +42,7 @@ omp plugin list --json
 omp plugin doctor
 ```
 
-검증 결과: `justsend-blog@0.4.3` enabled, doctor `4 ok / 0 warnings / 0 errors`.
+검증 결과: `justsend-blog@0.4.4` enabled, doctor `4 ok / 0 warnings / 0 errors`.
 
 ## JustSend MCP 설정
 
@@ -148,7 +148,7 @@ node scripts/doctor.js
 
 마지막 검증 결과:
 
-- Unit: 28 pass, 0 fail
+- Unit: 29 pass, 0 fail
 - Integration: 2 pass, 0 fail
 - E2E: 1 pass, 0 fail
 - Agent policy: Scout 5, state-changing Scout 0, recursive spawn 0

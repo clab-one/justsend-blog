@@ -145,7 +145,7 @@ test("visual node and edge provenance passes only for known Evidence IDs", () =>
   assert.equal(diagram.type, "data-flow");
   assert.deepEqual(diagram.renderer, rendererForType("data-flow"));
   const report = auditVisual(diagram, pack, renderSvg(diagram), { outline });
-  for (const key of ["unsupported_nodes", "unsupported_edges", "incorrect_labels", "missing_provenance", "incorrect_type_selection", "renderer_contract_mismatch", "type_invariant_violations"]) {
+  for (const key of ["unsupported_nodes", "unsupported_edges", "incorrect_labels", "missing_provenance", "incorrect_type_selection", "renderer_contract_mismatch", "type_invariant_violations", "edge_node_intersections", "branch_endpoint_violations"]) {
     assert.deepEqual(report[key], [], `${key}: ${JSON.stringify(report[key])}`);
   }
   diagram.nodes[0].evidence_ids = ["JS-E999"];
@@ -213,8 +213,48 @@ test("eight production topics build and audit with their meaning-selected diagra
     assert.equal(plan.visuals[0].type, expected, name);
     const diagram = plan.visuals[0];
     const report = auditVisual(diagram, evidencePack, renderSvg(diagram), { outline });
-    for (const key of ["incorrect_type_selection", "renderer_contract_mismatch", "type_invariant_violations"]) assert.deepEqual(report[key], [], `${name}:${key}:${JSON.stringify(report[key])}`);
+    for (const key of ["incorrect_type_selection", "renderer_contract_mismatch", "type_invariant_violations", "edge_node_intersections", "branch_endpoint_violations"]) assert.deepEqual(report[key], [], `${name}:${key}:${JSON.stringify(report[key])}`);
   }
+});
+
+test("state-machine branch routes use distinct attach points and never cross sibling states", () => {
+  const purpose = "권한 notDetermined 상태가 granted 또는 blocked로 분기하고 Settings로 전이한다.";
+  const evidencePack = { evidence: [{ id: "JS-E001", statement: purpose, confidence: "direct" }] };
+  const outline = { sections: [{ section_id: "S01", title: "권한 상태 전이", purpose, visual_candidate: true }] };
+  const spec = {
+    diagram_id: "D001", covers_section_ids: ["S01"], purpose, evidence_ids: ["JS-E001"],
+    nodes: [
+      { id: "unknown", label: "notDetermined", role: "state", evidence_ids: ["JS-E001"] },
+      { id: "granted", label: "granted", role: "state", evidence_ids: ["JS-E001"] },
+      { id: "blocked", label: "blocked", role: "state", evidence_ids: ["JS-E001"] },
+      { id: "settings", label: "Settings", role: "state", evidence_ids: ["JS-E001"] },
+    ],
+    edges: [
+      { from: "unknown", to: "granted", label: "allow", kind: "transition", evidence_ids: ["JS-E001"] },
+      { from: "unknown", to: "blocked", label: "deny", kind: "transition", evidence_ids: ["JS-E001"] },
+      { from: "blocked", to: "settings", label: "recover", kind: "transition", evidence_ids: ["JS-E001"] },
+    ], excluded: [], formats: ["html", "svg", "png"],
+  };
+  const diagram = buildVisualPlan(evidencePack, outline, { specs: [spec] }).visuals[0];
+  const svg = renderSvg(diagram);
+  const report = auditVisual(diagram, evidencePack, svg, { outline });
+  assert.deepEqual(report.edge_node_intersections, []);
+  assert.deepEqual(report.branch_endpoint_violations, []);
+  const starts = [...svg.matchAll(/data-from="unknown"[^>]*data-route-points="([^;"]+)/g)].map(match => match[1]);
+  assert.equal(starts.length, 2);
+  assert.equal(new Set(starts).size, 2);
+
+  const oldGeneric = `<svg data-diagram-type="state-machine" data-primary-axis="states" data-renderer-id="justsend-state-machine-v1" data-renderer-version="1">
+    <g data-node-id="unknown" data-node-role="state" data-shape="state" data-evidence-ids="JS-E001" data-bounds="80,244,152,72"><text>notDetermined</text></g>
+    <g data-node-id="granted" data-node-role="state" data-shape="state" data-evidence-ids="JS-E001" data-bounds="296,244,152,72"><text>granted</text></g>
+    <g data-node-id="blocked" data-node-role="state" data-shape="state" data-evidence-ids="JS-E001" data-bounds="512,244,152,72"><text>blocked</text></g>
+    <g data-node-id="settings" data-node-role="state" data-shape="state" data-evidence-ids="JS-E001" data-bounds="728,244,152,72"><text>Settings</text></g>
+    <g data-edge-id="E001" data-from="unknown" data-to="granted" data-edge-kind="transition" data-evidence-ids="JS-E001" data-route-points="232,268;296,268"></g>
+    <g data-edge-id="E002" data-from="unknown" data-to="blocked" data-edge-kind="transition" data-evidence-ids="JS-E001" data-route-points="232,292;512,292"></g>
+    <g data-edge-id="E003" data-from="blocked" data-to="settings" data-edge-kind="transition" data-evidence-ids="JS-E001" data-route-points="664,280;728,280"></g>
+  </svg>`;
+  const failed = auditVisual(diagram, evidencePack, oldGeneric, { outline });
+  assert.ok(failed.edge_node_intersections.some(item => item.includes("E002:unknown->blocked crosses granted")));
 });
 
 test("visual audit rejects a generic custom SVG that bypasses the selected renderer contract", () => {
