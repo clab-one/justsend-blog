@@ -35,7 +35,9 @@ export function buildVisualPlan(pack, outline = { sections: [] }, { specs = [] }
           section_id: sectionId,
           decision: "omit",
           diagram_id: null,
-          reason: `최적 유형 ${selection.type}을 선택했지만 등록된 renderer가 없다. 차선 유형으로 바꾸지 말고 renderer를 준비해야 한다.`,
+          reason: selection.type
+            ? `최적 유형 ${selection.type}을 선택했지만 등록된 renderer가 없다. 차선 유형으로 바꾸지 말고 renderer를 준비해야 한다.`
+            : `${selection.rationale} 관계 Evidence를 보강하기 전에는 render하지 않는다.`,
         });
       }
       continue;

@@ -172,6 +172,45 @@ test("diagram type router selects the primary semantic axis and allows a genuine
   assert.equal(second.type, "data-flow");
 });
 
+test("Evidence meaning selects the type and unsupported meaning stays an audited omission", () => {
+  const cases = [
+    ["Named states change through guarded transitions.", "state-machine"],
+    ["A signed DMG artifact is placed in a runtime zone for deployment.", "deployment"],
+    ["Input moves through a transform and store before reaching output.", "data-flow"],
+  ];
+  for (const [statement, expected] of cases) {
+    const selection = selectDiagramType({
+      purpose: "Explain the relationship without a type hint.",
+      evidence: [{ id: "JS-E001", statement }],
+    });
+    assert.equal(selection.type, expected, statement);
+  }
+
+  const unsupported = selectDiagramType({
+    purpose: "운영 결과를 요약한다.",
+    evidence: [{ id: "JS-E001", statement: "결과가 기록되어 있다." }],
+  });
+  assert.equal(unsupported.type, null);
+  assert.equal(unsupported.primary_axis, null);
+  assert.equal(unsupported.confidence, "none");
+
+  const pack = packFor(fixture.records.slice(0, 3), { topic: "운영 결과", generatedAt: "2026-08-23T00:00:00Z" });
+  const outline = { sections: [{ section_id: "S01", title: "운영 결과", purpose: "운영 결과를 요약한다.", visual_candidate: true }] };
+  const plan = buildVisualPlan(pack, outline, { specs: [{
+    diagram_id: "D001", section_id: "S01", purpose: "운영 결과를 요약한다.",
+    evidence_ids: [], nodes: [], edges: [], excluded: [], formats: ["svg"],
+  }] });
+  assert.deepEqual(plan.visuals, []);
+  assert.equal(plan.decisions[0].decision, "omit");
+
+  const contract = defaultQualityContract({ profile: "fixture-and-test-only" });
+  Object.assign(contract.thresholds, { min_characters: 0, min_h2_sections: 0, min_direct_evidence: 0, min_evidence_coverage: 0 });
+  const report = buildQualityAudit({ markdown: "설명", evidencePack: pack, outline, visualPlan: plan, contract });
+  assert.equal(report.result, "FAIL");
+  assert.deepEqual(report.visual.missing_required_visuals, ["S01"]);
+  assert.deepEqual(report.visual.unjustified_omissions, ["S01"]);
+});
+
 test("eight production topics build and audit with their meaning-selected diagram type", () => {
   const cases = [
     ["permission", "권한 상태 전이: notDetermined에서 granted 또는 blocked로 이동하고 설정 복구한다.", "state-machine", [
@@ -243,6 +282,11 @@ test("state-machine branch routes use distinct attach points and never cross sib
   const starts = [...svg.matchAll(/data-from="unknown"[^>]*data-route-points="([^;"]+)/g)].map(match => match[1]);
   assert.equal(starts.length, 2);
   assert.equal(new Set(starts).size, 2);
+
+  const missingGuard = structuredClone(diagram);
+  missingGuard.edges[0].label = "";
+  const missingGuardReport = auditVisual(missingGuard, evidencePack, renderSvg(missingGuard), { outline });
+  assert.ok(missingGuardReport.type_invariant_violations.includes("state-machine:missing-trigger-or-guard:unknown->granted"));
 
   const oldGeneric = `<svg data-diagram-type="state-machine" data-primary-axis="states" data-renderer-id="justsend-state-machine-v1" data-renderer-version="1">
     <g data-node-id="unknown" data-node-role="state" data-shape="state" data-evidence-ids="JS-E001" data-bounds="80,244,152,72"><text>notDetermined</text></g>

@@ -3,7 +3,7 @@ const TYPE_RULES = [
     type: "state-machine",
     primary_axis: "states",
     patterns: [
-      [/state\s*(machine|transition)|상태\s*(머신|전이)/i, 12, "상태 전이"],
+      [/state\s*(machine|transition)|states?.{0,40}(transition|guard)|상태.{0,20}(머신|전이|가드|조건)/i, 12, "상태·전이·guard"],
       [/notdetermined|provisional|\blive\b|\bdead\b|granted|blocked/i, 10, "명시적 상태 값"],
       [/lifecycle|생명주기|상태|status/i, 3, "상태 수명"],
     ],
@@ -47,7 +47,7 @@ const TYPE_RULES = [
     primary_axis: "data-movement",
     patterns: [
       [/data\s*flow|데이터\s*(이동|흐름)/i, 12, "데이터 이동"],
-      [/source.*(transform|store|sink)|입력.*(변환|저장|출력)/i, 9, "입력-변환-출력"],
+      [/(source|input).*(transform|store).*(sink|output)|입력.*(변환|저장).*(출력|대상)/i, 9, "입력-변환-출력"],
       [/staging.*attachment|attachment.*(목록|상세)|read.*write|sync|동기화\s*흐름/i, 7, "저장·동기화 흐름"],
       [/research\s*pack.*evidence|source\s*expansion|claim\s*mapping/i, 7, "source에서 artifact로 변환"],
     ],
@@ -101,6 +101,7 @@ export const DIAGRAM_TYPES = TYPE_RULES.map(rule => rule.type);
 export const RENDERED_TYPES = new Set(["architecture", "data-flow", "deployment", "flowchart", "process", "state-machine"]);
 
 const AXIS_BY_TYPE = Object.fromEntries(TYPE_RULES.map(rule => [rule.type, rule.primary_axis]));
+const MIN_SEMANTIC_SCORE = 5;
 
 export function rendererForType(type) {
   if (!RENDERED_TYPES.has(type)) return null;
@@ -125,21 +126,33 @@ export function selectDiagramType(context = {}) {
     }
     return { type: rule.type, primary_axis: rule.primary_axis, score, signals };
   }).sort((left, right) => right.score - left.score || TYPE_RULES.findIndex(rule => rule.type === left.type) - TYPE_RULES.findIndex(rule => rule.type === right.type));
-  const selected = scored[0].score > 0 ? scored[0] : { type: "architecture", primary_axis: "components", score: 0, signals: ["명시 신호 없음"] };
+  const selected = scored[0].score >= MIN_SEMANTIC_SCORE ? scored[0] : null;
   const considered = scored.slice(0, 3).map(candidate => ({
     type: candidate.type,
     score: candidate.score,
-    rejected_because: candidate.type === selected.type
+    rejected_because: selected?.type === candidate.type
       ? null
-      : `${selected.primary_axis} 축이 ${candidate.primary_axis} 축보다 독자의 핵심 질문을 직접 설명한다.`,
+      : selected
+        ? `${selected.primary_axis} 축이 ${candidate.primary_axis} 축보다 독자의 핵심 질문을 직접 설명한다.`
+        : `관계 의미를 증명하는 Evidence 신호가 선택 기준 ${MIN_SEMANTIC_SCORE}점에 미달한다.`,
   }));
+  if (!selected) {
+    return {
+      type: null,
+      primary_axis: null,
+      rationale: "관계 의미를 증명하는 Evidence가 부족하다. generic diagram으로 대체하지 않고 생략한다.",
+      signals: [],
+      considered,
+      confidence: "none",
+    };
+  }
   return {
     type: selected.type,
     primary_axis: selected.primary_axis,
     rationale: `${selected.signals.join(", ")} 신호를 기준으로 ${selected.primary_axis} 축을 주된 읽기 경로로 선택했다.`,
     signals: selected.signals,
     considered,
-    confidence: selected.score >= 10 ? "high" : selected.score >= 5 ? "medium" : "low",
+    confidence: selected.score >= 10 ? "high" : "medium",
   };
 }
 
@@ -525,6 +538,11 @@ export function auditDiagramType(diagram, renderedSvg, { outline, evidencePack }
     const counts = roleCounts(diagram.nodes ?? []);
     for (const [role, minimum] of Object.entries(invariant.minRoleCounts)) if ((counts[role] ?? 0) < minimum) type_invariant_violations.push(`${diagram.type}:role:${role}<${minimum}`);
     for (const edge of diagram.edges ?? []) if (!invariant.edgeKinds.includes(edge.kind)) type_invariant_violations.push(`${diagram.type}:edge-kind:${edge.kind}`);
+    if (diagram.type === "state-machine") {
+      const transitions = (diagram.edges ?? []).filter(edge => edge.kind === "transition");
+      if (transitions.length === 0) type_invariant_violations.push("state-machine:missing-transition");
+      for (const edge of transitions) if (!String(edge.label ?? "").trim()) type_invariant_violations.push(`state-machine:missing-trigger-or-guard:${edge.from}->${edge.to}`);
+    }
     if (diagram.type === "data-flow" && !(diagram.nodes ?? []).some(node => ["transform", "store"].includes(node.role))) type_invariant_violations.push("data-flow:missing-transform-or-store");
     if (diagram.type === "deployment") {
       const zones = new Set((diagram.nodes ?? []).filter(node => node.role === "zone").map(node => node.id));
